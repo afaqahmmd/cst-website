@@ -485,38 +485,32 @@ const page = () => {
       </div>
 
       {/* our culture big grid */}
-      <div className="py-16">
+      {/* <div className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Grid Container */}
           <div className="grid grid-cols-2 md:grid-cols-9 lg:grid-cols-18 auto-rows-fr">
-            {/* 1st row */}
             <div className="lg:col-span-4 md:col-span-4 col-span-9 h-24 bg-red-300">Afaq Ahmed</div>
             <div className="lg:col-span-7 md:col-span-5 col-span-9 h-24 bg-green-300">Afaq Ahmed</div>
             <div className="lg:col-span-7 md:col-span-5 col-span-9 h-24 bg-yellow-300">Afaq Ahmed</div>
 
-            {/* 2nd row */}
             <div className="lg:col-span-5 h-24 md:col-span-4 col-span-9 bg-purple-300">Afaq Ahmed</div>
             <div className="lg:col-span-6 h-24 md:col-span-5 col-span-9 bg-gray-300">Afaq Ahmed</div>
             <div className="lg:col-span-7 h-24 md:col-span-4 col-span-9 bg-blue-300">Afaq Ahmed</div>
 
-            {/* 3rd row */}
             <div className="lg:col-span-6 h-24 md:col-span-5 col-span-9 bg-red-300">Afaq Ahmed</div>
             <div className="lg:col-span-6 h-24 md:col-span-5 col-span-9 bg-orange-300">Afaq Ahmed</div>
             <div className="lg:col-span-6 h-24 md:col-span-4 col-span-9 bg-gray-300">Afaq Ahmed</div>
 
-            {/* 4th row */}
             <div className="lg:col-span-6 h-24 md:col-span-4 col-span-9 bg-green-300">Afaq Ahmed</div>
             <div className="lg:col-span-6 h-24 md:col-span-5 col-span-9 bg-black">Afaq Ahmed</div>
             <div className="lg:col-span-6 h-24 md:col-span-5 col-span-9 bg-amber-300">Afaq Ahmed</div>
 
-            {/* 5th row */}
             <div className="lg:col-span-4 h-24 md:col-span-4 col-span-9 bg-red-300">Afaq Ahmed</div>
             <div className="lg:col-span-5 h-24 md:col-span-5 col-span-9 bg-orange-300">Afaq Ahmed</div>
             <div className="lg:col-span-4 h-24 md:col-span-4 col-span-9 bg-red-300">Afaq Ahmed</div>
             <div className="lg:col-span-5 h-24 md:col-span-9 col-span-9 bg-green-300">Afaq Ahmed</div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* our process */}
       <div className="w-full bg-[#FAFBFA]">
