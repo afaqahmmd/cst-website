@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
-import BlogHeaderImg from "@/assets/images/blogs/blog1.jpg";
-import BlogImg2 from "@/assets/images/blogs/blog5.jpg";
+import { useBlogBySlug } from "@/hooks/useBlogBySlug";
+import { useBlogStore } from "@/store/blogStore";
+import { useEffect, use } from "react";
 import Mob1 from "@/assets/images/services/mob1.png";
 import Mob2 from "@/assets/images/services/mob2.png";
 import Mob3 from "@/assets/images/services/mob3.png";
@@ -9,13 +12,94 @@ import InfoSection from "@/components/InfoSection/InfoSection";
 import StayInLoop from "@/components/StayInLoop/StayInLoop";
 import Footer from "@/components/Footer/Footer";
 
-// Updated interface for Next.js 15
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug } = await params;
+export default function BlogPostPage({ params }: BlogPostPageProps) {
+  const { slug } = use(params);
+  const { blog, isLoading, error, notFound } = useBlogBySlug(slug);
+  const { setCurrentBlog } = useBlogStore();
+
+  // Update the store when blog data changes
+  useEffect(() => {
+    if (blog) {
+      setCurrentBlog(blog);
+    }
+  }, [blog, setCurrentBlog]);
+
+  // Function to format date
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  // Function to format time
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  // Function to get author name from email
+  const getAuthorName = (email: string) => {
+    if (!email) return "Anonymous";
+    const name = email.split("@")[0];
+    return name
+      .replace(/[._]/g, " ")
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-teal-500"></div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">Error Loading Blog</h2>
+          <p className="text-gray-600">Please try again later.</p>
+          <p className="text-sm text-gray-500 mt-2">{error.message}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Not found state
+  if (notFound) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-600 mb-4">Blog Not Found</h2>
+          <p className="text-gray-500">The blog post you're looking for doesn't exist.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If no blog data, show loading
+  if (!blog) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-teal-500"></div>
+      </div>
+    );
+  }
 
   const featuredProjects = [
     {
@@ -168,163 +252,40 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Header */}
         <header className="mb-8">
           <div className="flex items-center gap-2 text-sm text-blue-600 mb-2">
-            <span>Design</span>
-            <span>UX Research</span>
+            {blog.tags.map((tag: { id: number; name: string }, index: number) => (
+              <span key={tag.id}>{tag.name}</span>
+            ))}
           </div>
           <div className="text-sm text-gray-500 mb-4">
-            19 March 2023 · 3:32 PM
+            {formatDate(blog.created_at)} · {formatTime(blog.created_at)}
           </div>
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            Design Thinking in Real Products: What Most Teams Miss
+            {blog.title}
           </h1>
           <p className="text-xl text-gray-600 leading-relaxed">
-            How skipping the empathy and iteration phase can silently kill your
-            product experience.
+            {blog.summary || blog.meta_description || "Click to read more about this blog post."}
           </p>
         </header>
 
         {/* Hero Image */}
         <div className="mb-12">
           <Image
-            src={BlogHeaderImg.src}
-            alt="Modern office workspace with white desks and colorful chairs"
+            src={blog.images?.[0] || "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=200&fit=crop"}
+            alt={blog.title}
             width={600}
             height={400}
-            className=" rounded-lg object-cover w-full h-[800px]"
+            className="rounded-lg object-cover w-full h-[800px]"
             priority
+            onError={(e) => {
+              e.currentTarget.src = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=200&fit=crop";
+            }}
           />
         </div>
 
         {/* Article Content */}
         <article className="prose prose-lg max-w-none font-roboto">
           <div className="text-gray-700 leading-relaxed mb-8 space-y-6">
-            <p>
-              A crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...A
-              crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...A
-              crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...A
-              crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...{" "}
-            </p>
-
-            <p>
-              A crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...A
-              crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...A
-              crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...A
-              crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...{" "}
-            </p>
-          </div>
-
-          <div className="max-w-7xl mx-auto space-y-12">
-            <p>
-              They run one workshop, sketch a few screens, and feel they’ve
-              ‘done the thinking.’ <br /> But real Design Thinking isn’t a
-              sprint — it’s a loop.
-            </p>
-
-            {/* Section 1 */}
-            <section className="mb-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                1. Empathy is Not User Research Lite
-              </h2>
-
-              <div className="text-gray-700 leading-relaxed space-y-4 mb-6">
-                <p>
-                  Most teams skip the empathy phase or treat it like checkbox
-                  research. Design Thinking starts with understanding the user –
-                  deeply. Not just what they say, but what they feel, struggle
-                  with, and don't say.
-                </p>
-              </div>
-
-              <blockquote className="sm:ml-8 md:ml-12 ml-0 border-l-4 border-[#FFAB40] pl-6 py-4 mb-8 bg-gray-50">
-                <p className="text-gray-600 italic mb-2 text-[24px]">
-                  "Pro tip: Shadowing users, listening to support tickets, and
-                  reviewing behavioral data often reveals more than interviews"
-                </p>
-              </blockquote>
-              <footer className="sm:ml-16 ml-0 text-sm text-gray-500 font-medium">
-                — Pedro Domingos
-              </footer>
-            </section>
-
-            {/* Section 2 */}
-            <section className="mb-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                2. Ideation is Not Just Brainstorming
-              </h2>
-
-              <div className="text-gray-700 leading-relaxed space-y-4 mb-6">
-                <p>
-                  Many confuse brainstorming with true ideation. Design Thinking
-                  encourages wild ideas, edge cases, and lean-first approaches.
-                  But it's strategic, we often hear:
-                </p>
-              </div>
-
-              <blockquote className="sm:ml-8 md:ml-12 ml-0 border-l-4 border-yellow-400 pl-6 py-4 bg-yellow-50">
-                <p className="text-gray-600 italic text-[24px] mb-2">
-                  "Let's stick to MVP"
-                </p>
-                <p className="text-gray-600 italic text-[24px]">
-                  "This is not in scope"
-                </p>
-              </blockquote>
-            </section>
-
-            <p className="text-[#666666] text-md">
-              Ideation isn’t about what’s feasible — it’s about exploring what’s
-              meaningful.
-            </p>
-
-            <p className="text-[#666666] text-md">
-              A crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...A
-              crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...A
-              crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...A
-              crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...
-            </p>
-
-            <div className="mb-12 flex justify-center">
-              <Image
-                src={BlogImg2.src}
-                alt="Modern office workspace with white desks and colorful chairs"
-                width={600}
-                height={200}
-                className=" rounded-lg object-cover max-w-7xl w-[90%] h-[300px] md:w-[80%] md:h-[400px]"
-                priority
-              />
-            </div>
-
-            <p className="text-[#666666] text-md">
-              A crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...A
-              crash course on why wireframes aren’t enough — and how to embed
-              user empathy into scalable product design.A crash course on why
-              wireframes aren’t enough — and how to embed user empathy into...
-            </p>
+            <div dangerouslySetInnerHTML={{ __html: blog.content }} />
           </div>
         </article>
 
@@ -487,8 +448,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       </div>
       <div className="w-full bg-amber-700">
         <InfoSection
-          title="Let’s Build Something That Matters"
-          subText="Have a project or an idea? Let’s turn it into a digital experience people will remember."
+          title="Let's Build Something That Matters"
+          subText="Have a project or an idea? Let's turn it into a digital experience people will remember."
         />
       </div>
       <StayInLoop />

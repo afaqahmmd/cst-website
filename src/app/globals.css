@@ -43,6 +43,7 @@
   /* font family */
    --font-roboto: var(--font-roboto);
    --font-poppins:var(--font-poppins);
+    --font-yantramanav: var(--font-yantramanav);
 }
 
 :root {
@@ -130,8 +131,10 @@
   .font-poppins {
     font-family: var(--font-poppins), sans-serif;
   }
+  .font-yantramanav {
+    font-family: var(--font-yantramanav), sans-serif;
+  }
 }
-
 
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */

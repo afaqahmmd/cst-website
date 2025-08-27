@@ -1,17 +1,13 @@
-export interface Blog {
+export interface Service {
   id: number;
   title: string;
   slug: string;
-  content: string;
+  description: string;
   images: string[];
-  published: boolean;
+  is_active: boolean;
   created_at: string;
   updated_at: string;
-  tags: {
-    id: number;
-    name: string;
-  }[];
-  summary: string | null;
+  author_name: string;
   author_email: string;
   meta_title: string | null;
   meta_description: string | null;
@@ -19,12 +15,12 @@ export interface Blog {
   canonical_url: string;
 }
 
-export interface BlogApiResponse {
+export interface ServicesApiResponse {
   message: string;
-  data: Blog;
+  data: Service[];
 }
 
-export interface BlogsApiResponse {
+export interface ServiceApiResponse {
   message: string;
-  data: Blog[];
-}
+  data: Service;
+} 
