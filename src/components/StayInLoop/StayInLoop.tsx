@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import StayAlign from "@/assets/images/stayalign.png";
+import StayAlign from "@/assets/images/StayAlign.png";
 import Image from "next/image";
 
 const StayInLoop = ({
@@ -13,7 +13,7 @@ const StayInLoop = ({
   buttonText?: string;
 }) => {
   return (
-    <div className="p-12 w-full h-fit">
+    <div className="md:p-12 p-4 w-full h-fit">
       <div className="min-h-[400px] grid md:grid-cols-2 grid-cols-1 items-center justify-center w-full rounded-[50px] bg-[#EEFFF3]">
         <div className="col-span-1 text-start font-roboto flex flex-col items-start space-y-6 md:pl-24 pl-12 md:pt-0 pt-12">
           <h2 className="font-bold sm:text-[40px] text-[32px] md:text-[56px] mb-2 text-[#0F172A]">

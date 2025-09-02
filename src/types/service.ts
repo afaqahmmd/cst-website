@@ -3,6 +3,8 @@ export interface Service {
   title: string;
   slug: string;
   description: string;
+  icon: string;
+  features: string[];
   images: string[];
   is_active: boolean;
   created_at: string;

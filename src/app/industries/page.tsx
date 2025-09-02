@@ -31,6 +31,7 @@ import Footer from "@/components/Footer/Footer";
 import Client1 from "@/assets/images/industries/client1.jpg";
 import Client2 from "@/assets/images/industries/client2.jpg";
 import Apostrophe from "@/components/svgs/icons/Apostrophe";
+import Link from "next/link";
 
 interface Tab {
   id: string;
@@ -423,13 +424,15 @@ const page = () => {
                   </div>
                 </div>
                 {/* CTA Button */}
-                <button className="bg-white text-[#579DFF] px-6 py-3 rounded-[3px] font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center gap-2 group">
-                  Explore More
-                  <ArrowRight
-                    color="#579DFF"
-                    className="w-4 h-4 group-hover:translate-x-1 transition-transform"
-                  />
-                </button>
+                <Link href={`/industries/industry`}>
+                  <button className="bg-white text-[#579DFF] px-6 py-3 rounded-[3px] font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center gap-2 group">
+                    <p>Explore More</p>
+                    <ArrowRight
+                      color="#579DFF"
+                      className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                    />
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

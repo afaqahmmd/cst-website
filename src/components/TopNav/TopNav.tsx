@@ -78,6 +78,9 @@ export default function TopNav() {
             <Link href="/contact" className="hover:text-slate-900">
               Contact
             </Link>
+            <Link href="/projects" className="hover:text-slate-900">
+              Projects
+            </Link>
           </nav>
         </div>
 
@@ -129,6 +132,9 @@ export default function TopNav() {
             </Link>
             <Link href="/contact" onClick={() => setMobileOpen(false)}>
               Contact
+            </Link>
+            <Link href="/projects" onClick={() => setMobileOpen(false)}>
+              Projects
             </Link>
             <Button className="bg-[#20C5BA] rounded-[3px] h-10 hover:bg-teal-600 text-white">
               <Phone className="mr-2 h-4 w-4" aria-hidden="true" />

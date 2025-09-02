@@ -19,6 +19,7 @@ import {
   Infinity,
   ChevronRight,
   ArrowRight,
+  Check,
 } from "lucide-react";
 import Image from "next/image";
 import DesignTeamImg from "@/assets/images/services/design-team.png";
@@ -37,11 +38,29 @@ import RelatedPost from "@/assets/images/services/related-post.jpg";
 import InfoSection from "@/components/InfoSection/InfoSection";
 import StayInLoop from "@/components/StayInLoop/StayInLoop";
 import Footer from "@/components/Footer/Footer";
+import ResearchDriven from "@/assets/images/services/research-driven.webp";
+import ResearchFocused from "@/assets/images/services/research-focused.webp";
+import UserCentered from "@/assets/images/services/user-centered.webp";
+import ProvedTrackRecord from "@/assets/images/services/proved-track-record.webp";
+import CrossIndustryExpertise from "@/assets/images/services/cross-industry-experience.webp";
+import EndToEndService from "@/assets/images/services/end-to-end.webp";
+import AgileMethodology from "@/assets/images/services/agile-methodology.webp";
+import LatestDesignTrends from "@/assets/images/services/latest-design-trends.webp";
+import PostLaunchSupport from "@/assets/images/services/post-launch-support.webp";
+import ResearchAndStrategy from "@/assets/images/services/research-and-strategy.webp";
+import DesignAndPrototyping from "@/assets/images/services/design-and-prototyping.png";
+import TestingAndOptimization from "@/assets/images/services/testing-and-optimization.webp";
+import DevelopmentSupport from "@/assets/images/services/design-and-prototyping.png";
+import Globe from "@/components/svgs/icons/Globe";
+import Saas from "@/components/svgs/icons/Saas";
+import Mobile from "@/components/svgs/icons/Mobile";
+import Enterprise from "@/components/svgs/icons/Enterprise";
+import Rocket from "@/components/svgs/icons/Rocket";
 
 const page = () => {
   const features = [
     {
-      icon: CheckCircle,
+      icon: ProvedTrackRecord,
       title: "Proven Track Record",
       description:
         "Over 200 successful projects with measurable improvements in user engagement and conversion rates.",
@@ -49,7 +68,7 @@ const page = () => {
       bgColor: "bg-green-50",
     },
     {
-      icon: Triangle,
+      icon: CrossIndustryExpertise,
       title: "Cross-Industry Expertise",
       description:
         "Experience across fintech, healthcare, e-commerce, SaaS, and emerging technologies.",
@@ -57,7 +76,7 @@ const page = () => {
       bgColor: "bg-red-50",
     },
     {
-      icon: RefreshCw,
+      icon: EndToEndService,
       title: "End-to-End Service",
       description:
         "From initial research to final implementation, we handle every aspect of the design process.",
@@ -65,7 +84,7 @@ const page = () => {
       bgColor: "bg-orange-50",
     },
     {
-      icon: Target,
+      icon: AgileMethodology,
       title: "Agile Methodology",
       description:
         "Fast iterations, continuous feedback, and flexible approach to meet changing requirements.",
@@ -73,7 +92,7 @@ const page = () => {
       bgColor: "bg-red-50",
     },
     {
-      icon: BarChart3,
+      icon: LatestDesignTrends,
       title: "Latest Design Trends",
       description:
         "Stay ahead with cutting-edge design patterns, accessibility standards, & emerging technologies.",
@@ -81,7 +100,7 @@ const page = () => {
       bgColor: "bg-blue-50",
     },
     {
-      icon: Settings,
+      icon: PostLaunchSupport,
       title: "Post-Launch Support",
       description:
         "Ongoing optimization and support to ensure your design continues to perform at its best.",
@@ -92,11 +111,10 @@ const page = () => {
 
   const services = [
     {
-      icon: Search,
+      icon: ResearchAndStrategy,
       title: "Research & Strategy",
-      bgColor: "bg-green-50",
-      iconBg: "bg-green-100",
-      iconColor: "text-green-700",
+      featureBg: "bg-[#87C42C]",
+      cardBg: "bg-[#F2FDE1]",
       features: [
         "User Research",
         "Competitive Analysis",
@@ -106,11 +124,10 @@ const page = () => {
       ],
     },
     {
-      icon: Palette,
+      icon: DesignAndPrototyping,
       title: "Design & Prototyping",
-      bgColor: "bg-orange-50",
-      iconBg: "bg-orange-100",
-      iconColor: "text-orange-700",
+      featureBg: "bg-[#FFAB40]",
+      cardBg: "bg-[#FFF4CE]",
       features: [
         "Wireframing",
         "Visual Design",
@@ -120,11 +137,10 @@ const page = () => {
       ],
     },
     {
-      icon: TestTube,
+      icon: TestingAndOptimization,
       title: "Testing & Optimization",
-      bgColor: "bg-red-50",
-      iconBg: "bg-red-100",
-      iconColor: "text-red-700",
+      featureBg: "bg-[#FF6B57]",
+      cardBg: "bg-[#FFE0E0]",
       features: [
         "Usability Testing",
         "A/B Testing",
@@ -134,11 +150,10 @@ const page = () => {
       ],
     },
     {
-      icon: Code,
+      icon: DevelopmentSupport,
       title: "Development Support",
-      bgColor: "bg-blue-50",
-      iconBg: "bg-blue-100",
-      iconColor: "text-blue-700",
+      featureBg: "bg-[#579DFF]",
+      cardBg: "bg-[#DBEFFF]",
       features: [
         "Design Handoff",
         "Frontend Collaboration",
@@ -474,6 +489,49 @@ const page = () => {
     },
   ];
 
+  const businesses = [
+    {
+      id: 1,
+      title: "Startups",
+      description: "Launch with confidence",
+      icon: Rocket,
+      iconColor: "bg-[#579DFF]",
+      iconSize: { w: 28, h: 32 },
+    },
+    {
+      id: 2,
+      title: "Enterprises",
+      description: "Scale with precision",
+      icon: Enterprise,
+      iconColor: "bg-[#FCBA65]",
+      iconSize: { w: 36, h: 36 },
+    },
+    {
+      id: 3,
+      title: "Saas Products",
+      description: "Optimize user experience",
+      icon: Saas,
+      iconColor: "bg-[#8D72D0]",
+      iconSize: { w: 34, h: 30 },
+    },
+    {
+      id: 4,
+      title: "Mobile Apps",
+      description: "Engage on-the-go users",
+      icon: Mobile,
+      iconColor: "bg-[#A7D266]",
+      iconSize: { w: 20, h: 34 },
+    },
+    {
+      id: 5,
+      title: "Web Platforms",
+      description: "Convert visitors to customers",
+      icon: Globe,
+      iconColor: "bg-[#FF725F]",
+      iconSize: { w: 35, h: 35 },
+    },
+  ];
+
   const renderStars = (rating: number) => {
     return Array(5)
       .fill(0)
@@ -491,19 +549,19 @@ const page = () => {
       ));
   };
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col font-roboto">
       {/* hero section */}
       <div className="bg-gray-50 min-h-screen font-roboto">
         <div className="max-w-screen mx-auto lg:px-12 sm:px-6 px-4 md:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen py-12">
+          <div className="grid lg:grid-cols-2 gap-12  min-h-screen py-12">
             {/* Left Content */}
-            <div className="space-y-8">
+            <div className="space-y-12 mt-12">
               <div className="space-y-6">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 tracking-[-0.015em] leading-[55px]">
+                <h1 className="font-[800] text-[48px] leading-[55px] tracking-[-1.5%] text-[#33333] ">
                   Transform Your Ideas Into Stunning Digital Experiences
                 </h1>
 
-                <p className="text-lg text-gray-600 leading-relaxed max-w-lg">
+                <p className="font-[400] text-[24px] leading-[160%] text-[#666666]">
                   We craft intuitive, user-centered designs that not only look
                   beautiful but drive real business results. From wireframes to
                   pixel-perfect interfaces, we bring your vision to life.
@@ -518,13 +576,13 @@ const page = () => {
               <div className="flex flex-wrap gap-8 pt-8">
                 <div className="flex items-center gap-3">
                   <div className="w-6 h-6 bg-orange-400 rounded-full"></div>
-                  <span className="text-gray-700 font-semibold">
+                  <span className="font-[500] text-[20px] leading-[150%] text-[#101828]">
                     200+ Projects Delivered
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-6 h-6 bg-blue-400 rounded-full"></div>
-                  <span className="text-gray-700 font-semibold">
+                  <span className="font-[500] text-[20px] leading-[150%] text-[#101828]">
                     98% Client Satisfaction
                   </span>
                 </div>
@@ -532,11 +590,13 @@ const page = () => {
             </div>
 
             {/* Right Image */}
-            <div className="relative overflow-hidden rounded-2xl">
-              <img
+            <div className="relative overflow-hidden rounded-2xl aspect-[575/403]">
+              <Image
                 src={HeroImg.src}
                 alt="Designer working on wireframes and sketches"
-                className="w-full h-full object-cover aspect-[4/3]"
+                className="w-full h-full object-cover"
+                width={575}
+                height={403}
               />
             </div>
           </div>
@@ -564,8 +624,13 @@ const page = () => {
           <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
             {/* User-Centered Card */}
             <div className="text-center group">
-              <div className="bg-blue-100 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-200 transition-colors duration-200">
-                <Users className="w-8 h-8 text-blue-600" />
+              <div className="w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-200 transition-colors duration-200">
+                <Image
+                  src={UserCentered.src}
+                  alt="User-Centered"
+                  width={62}
+                  height={64}
+                />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 User-Centered
@@ -578,8 +643,13 @@ const page = () => {
 
             {/* Research-Driven Card */}
             <div className="text-center group">
-              <div className="bg-orange-100 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-200 transition-colors duration-200">
-                <Search className="w-8 h-8 text-orange-600" />
+              <div className=" w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-200 transition-colors duration-200">
+                <Image
+                  src={ResearchDriven.src}
+                  alt="Research-Focused"
+                  width={62}
+                  height={64}
+                />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 Research-Driven
@@ -591,8 +661,13 @@ const page = () => {
 
             {/* Results-Focused Card */}
             <div className="text-center group">
-              <div className="bg-purple-100 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-purple-200 transition-colors duration-200">
-                <TrendingUp className="w-8 h-8 text-purple-600" />
+              <div className=" w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-purple-200 transition-colors duration-200">
+                <Image
+                  src={ResearchFocused.src}
+                  alt="Research-Driven"
+                  width={62}
+                  height={64}
+                />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 Results-Focused
@@ -623,16 +698,20 @@ const page = () => {
           {/* Feature Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {features.map((feature, index) => {
-              const IconComponent = feature.icon;
               return (
                 <div
                   key={index}
                   className="flex flex-col items-center text-center bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 group"
                 >
                   <div
-                    className={`${feature.bgColor} w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200`}
+                    className={` w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200`}
                   >
-                    <IconComponent className={`w-8 h-8 ${feature.iconColor}`} />
+                    <Image
+                      src={feature.icon}
+                      alt={feature.title}
+                      width={62}
+                      height={64}
+                    />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">
                     {feature.title}
@@ -664,19 +743,19 @@ const page = () => {
           {/* Services Grid */}
           <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
             {services.map((service, index) => {
-              const IconComponent = service.icon;
               return (
                 <div
                   key={index}
-                  className={`${service.bgColor} rounded-2xl p-8 hover:shadow-lg transition-all duration-300 border border-gray-100`}
+                  className={`${service.cardBg} rounded-2xl p-8 hover:shadow-lg transition-all duration-300 border border-gray-100`}
                 >
                   {/* Header */}
                   <div className="flex items-center gap-4 mb-6">
-                    <div
-                      className={`${service.iconBg} w-12 h-12 rounded-xl flex items-center justify-center`}
-                    >
-                      <IconComponent
-                        className={`w-6 h-6 ${service.iconColor}`}
+                    <div className={`flex items-center justify-center`}>
+                      <Image
+                        src={service.icon}
+                        alt={service.title}
+                        width={62}
+                        height={64}
                       />
                     </div>
                     <h3 className="text-xl font-semibold text-gray-900">
@@ -691,17 +770,10 @@ const page = () => {
                         key={featureIndex}
                         className="flex items-center gap-3"
                       >
-                        <div
-                          className={`w-2 h-2 rounded-full ${
-                            service.bgColor.includes("green")
-                              ? "bg-[#F2FDE1]"
-                              : service.bgColor.includes("orange")
-                              ? "bg-[#FFF4CE]"
-                              : service.bgColor.includes("red")
-                              ? "bg-[#FFE0E0]"
-                              : "bg-[#DBEFFF]"
-                          }`}
-                        ></div>
+                        <Check
+                          size={20}
+                          className={`${service.featureBg} p-1 text-white  rounded-full`}
+                        />
                         <span className="text-gray-700 font-medium">
                           {feature}
                         </span>
@@ -715,9 +787,56 @@ const page = () => {
         </div>
       </div>
 
+      {/* perfect for every business */}
+      <div className="font-robot bg-[#FAFBFA] py-16 lg:py-24">
+        <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              Perfect for every Business
+            </h2>
+            <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Our UI/UX design service adapts to your specific industry needs
+              and business goals
+            </p>
+          </div>
+
+          {/* Business Cards */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5 w-full px-4">
+            {businesses.map((business) => {
+              const Icon = business.icon;
+              return (
+                <div
+                  key={business.id}
+                  className="flex flex-col items-center justify-center text-center rounded-xl shadow-md p-6 bg-white"
+                >
+                  <div
+                    className={`w-12 h-12 flex items-center justify-center rounded-lg ${business.iconColor}`}
+                  >
+                    <Icon
+                      className="text-white"
+                      style={{
+                        width: `${business.iconSize.w}px`,
+                        height: `${business.iconSize.h}px`,
+                      }}
+                    />
+                  </div>
+                  <h3 className="mt-4 text-lg font-semibold text-gray-900">
+                    {business.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-1">
+                    {business.description}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
       {/* our design process */}
       <div className="bg-white py-16 lg:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
@@ -737,20 +856,20 @@ const page = () => {
                 {processSteps.map((step, index) => (
                   <div
                     key={index}
-                    className="flex flex-col items-center relative flex-1"
+                    className="flex flex-col items-start relative flex-1"
                   >
                     {/* Number Circle */}
-                    <div className="bg-teal-500  border-4 border-white text-white w-20 h-20 rounded-full flex items-center justify-center text-xl font-semibold mb-6 relative z-10">
+                    <div className="text-[32px] font-[500] leading-[150%] bg-teal-500  border-4 border-white text-white w-30 h-30 rounded-full flex items-center justify-center text-xl  mb-6 relative z-10">
                       {step.number}
                     </div>
 
                     {/* Dotted Line - Show for all except last item */}
                     {index < processSteps.length - 1 && (
-                      <div className="absolute top-10 left-1/2 w-full h-0 border-t-2 border-dashed border-[#FFAB40] z-0 transform translate-x-8"></div>
+                      <div className="absolute top-[26%] left-0 w-full h-0 border-t-2 border-dashed border-[#FFAB40] z-0 transform translate-x-8"></div>
                     )}
 
                     {/* Content */}
-                    <div className="text-center max-w-xs">
+                    <div className="text-start max-w-xs md:ml-3">
                       <h3 className="text-xl font-semibold text-gray-900 mb-4">
                         {step.title}
                       </h3>
@@ -992,7 +1111,7 @@ const page = () => {
 
       {/* featured projects */}
       <div className="bg-white py-16 lg:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">

@@ -29,15 +29,8 @@ import {
   Settings,
   Mail,
   Scale,
-  HardHat,
-  Truck,
-  Landmark,
-  Heart,
-  ShoppingBag,
-  Building,
   Cloud,
   Check,
-  LaptopMinimal,
 } from "lucide-react";
 import PeakPixels from "@/assets/images/homepage/peak-pixels.png";
 import DecisionMakers from "@/assets/images/homepage/decision-makers.png";
@@ -49,11 +42,163 @@ import Footer from "@/components/Footer/Footer";
 import Bolt from "@/components/svgs/icons/Bolt";
 import Refresh from "@/components/svgs/icons/Refresh";
 import HeroSnakeSvg from "@/components/svgs/hero/HeroSnakeSvg";
+import StayInLoop from "@/components/StayInLoop/StayInLoop";
+import ServiceIcon1 from "@/assets/images/projects/serviceIcon1.webp";
+import ServiceIcon2 from "@/assets/images/projects/serviceIcon2.webp";
+import BuildIcon from "@/components/svgs/icons/BulidingBig";
+import LaptopIcon from "@/components/svgs/icons/LaptopBig";
+import ShoppingCartIcon from "@/components/svgs/icons/ShoppingCart";
+import BankIcon from "@/components/svgs/icons/BankIcon";
+import HeartIcon from "@/components/svgs/icons/HeartIcon";
+import LogisticsIcon from "@/components/svgs/icons/LogisticsIcon";
+import ConstructionIcon from "@/components/svgs/icons/Construction";
+import LegalIcon from "@/components/svgs/icons/LegalIcon";
 
 export default function Home() {
   const { data: servicesData, isLoading, error } = useServices();
   const { setServices } = useServiceStore();
-
+  const [isHomePageV2, setIsHomePageV2] = useState(false);
+  const mockServices = [
+    {
+      id: 1,
+      title: "UI/UX Design",
+      slug: "ui-ux-design",
+      icon: ServiceIcon1,
+      description:
+        "Empowering products with user-first design and modern aesthetics.",
+      features: [
+        "UX Research & Strategy",
+        "Wireframing & Information Architecture",
+        "Prototyping & User Testing",
+        "UX Audit & Heuristic Review",
+        "Microinteractions & Animation Design",
+      ],
+    },
+    {
+      id: 2,
+      title: "Website Development",
+      slug: "web-development",
+      icon: ServiceIcon2,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "Cross-Platform App Development (Flutter/React Native) ",
+        "Native iOS/Android Apps",
+        "App UI/UX Design",
+        "API Integration",
+        "App Store Optimization",
+      ],
+    },
+    {
+      id: 3,
+      title: "Mobile App Development",
+      slug: "mobile-app-development",
+      icon: ServiceIcon2,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "Cross-Platform App Development (Flutter/React Native) ",
+        "Native iOS/Android Apps",
+        "App UI/UX Design",
+        "API Integration",
+        "App Store Optimization",
+      ],
+    },
+    {
+      id: 4,
+      title: "E-commerce Solutions",
+      slug: "e-commerce-development",
+      icon: ServiceIcon2,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "Shopify/WooCommerce Development",
+        "Custom eCommerce Platforms",
+        "E-commerce API Integration",
+        "E-commerce App Store Optimization",
+        "E-commerce Performance Optimization",
+        "E-commerce SEO & Marketing",
+        "E-commerce Analytics & Reporting",
+        "E-commerce Performance Optimization",
+        "E-commerce Security & Compliance",
+        "E-commerce Performance Optimization",
+      ],
+    },
+    {
+      id: 5,
+      title: "Digital Marketing",
+      slug: "digital-marketing-services",
+      icon: ServiceIcon2,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "SEO & Content Marketing",
+        "Social Media Marketing",
+        "Email Marketing",
+        "Paid Advertising",
+        "Analytics & Reporting",
+      ],
+    },
+    {
+      id: 6,
+      title: "SEO & Content Strategy  ",
+      slug: "seo-content-strategy",
+      icon: ServiceIcon2,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "SEO Audit & Optimization",
+        "Content Strategy & Creation",
+        "Keyword Research & Analysis",
+        "Technical SEO Implementation",
+        "Content Marketing & Distribution",
+        "Analytics & Reporting",
+      ],
+    },
+    {
+      id: 7,
+      title: "Google Ads and Paid Campaigns",
+      slug: "google-ads-and-paid-campaigns",
+      icon: ServiceIcon2,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "Google Search and Display Ads",
+        "Youtube Video Ads",
+        "Google Display Network Ads",
+        "Google Shopping Ads",
+        "Google Ads Automation",
+      ],
+    },
+    {
+      id: 8,
+      title: "Branding and Identity Design",
+      slug: "branding-and-identity-design",
+      icon: ServiceIcon2,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "Brand Strategy & Positioning",
+        "Logo Design & Branding",
+        "Stationary Design",
+        "Brand Guidelines & Visual Identity",
+        "Branding & Identity Design",
+      ],
+    },
+    {
+      id: 9,
+      title: "Maintenance & Support",
+      slug: "maintenance-and-support",
+      icon: ServiceIcon2,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "Website & App Maintenance",
+        "Speed and Security Checks",
+        "CMS Content Updates",
+        "Database Maintenance & Updates",
+        "Security & Compliance",
+      ],
+    },
+  ];
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
   // Update the store when services data changes
   useEffect(() => {
     if (servicesData?.data) {
@@ -102,6 +247,7 @@ export default function Home() {
 
   // Use API data if available, otherwise use fallback
   // Show all services if no active ones, or if all are inactive
+
   const allServices = servicesData?.data || [];
   const activeServices = allServices.filter(
     (service: Service) => service.is_active
@@ -111,7 +257,7 @@ export default function Home() {
   const industries = [
     {
       title: "EdTech",
-      icon: <LaptopMinimal className="w-12 h-12 text-[#579DFF]" />,
+      icon: <LaptopIcon width={62} height={42} />,
       description:
         "Interactive, distraction-free learning tools that put students, educators, and outcomes at the center.",
       bgColor: "bg-gradient-to-br from-blue-400 to-blue-600",
@@ -119,7 +265,7 @@ export default function Home() {
     },
     {
       title: "Real Estate",
-      icon: <Building className="w-12 h-12 text-[#20C5BA]" />,
+      icon: <BuildIcon width={62} height={64} />,
       description:
         "Interactive agent networks. Search filters with smart algorithms designed to help users discover, explore, and decide with confidence.",
       bgColor: "bg-gradient-to-br from-teal-400 to-teal-600",
@@ -127,7 +273,7 @@ export default function Home() {
     },
     {
       title: "E-Commerce",
-      icon: <ShoppingBag className="w-12 h-12 text-[#8D72D0]" />,
+      icon: <ShoppingCartIcon width={70} height={62} />,
       description:
         "Optimize product catalogs and UI flows that boost conversion, retention, and brand loyalty.",
       bgColor: "bg-gradient-to-br from-purple-400 to-purple-600",
@@ -135,7 +281,7 @@ export default function Home() {
     },
     {
       title: "Fintech",
-      icon: <Landmark className="w-12 h-12 text-[#6CC1E7]" />,
+      icon: <BankIcon width={62} height={64} />,
       description:
         "Data-secure, fast-loading platforms with smart UX — built for user trust and financial clarity.",
       bgColor: "bg-gradient-to-br from-sky-400 to-sky-600",
@@ -143,7 +289,7 @@ export default function Home() {
     },
     {
       title: "HealthTech",
-      icon: <Heart className="w-12 h-12 text-[#FFAB40]" />,
+      icon: <HeartIcon width={62} height={64} />,
       description:
         "Secure, accessible, and human-first experiences — built for trust, compliance, and care.",
       bgColor: "bg-gradient-to-br from-orange-400 to-orange-600",
@@ -151,7 +297,7 @@ export default function Home() {
     },
     {
       title: "Logistics",
-      icon: <Truck className="w-12 h-12 text-[#FF6B57]" />,
+      icon: <LogisticsIcon width={62} height={64} />,
       description:
         "Streamlined dashboards, real-time tracking, and data-driven systems that move with your supply chain.",
       bgColor: "bg-gradient-to-br from-red-400 to-red-600",
@@ -159,7 +305,7 @@ export default function Home() {
     },
     {
       title: "Construction",
-      icon: <HardHat className="w-12 h-12 text-[#D266A7]" />,
+      icon: <ConstructionIcon width={62} height={64} />,
       description:
         "From on-site reporting to project management — streamlined workflows and built intuitive tools for the field and the office.",
       bgColor: "bg-gradient-to-br from-pink-400 to-pink-600",
@@ -167,7 +313,7 @@ export default function Home() {
     },
     {
       title: "LegalTech",
-      icon: <Scale className="w-12 h-12 text-[#A7D266]" />,
+      icon: <LegalIcon width={62} height={64} />,
       description:
         "Secure, compliant platforms with streamlined UX — empowering legal teams with automation and clarity.",
       bgColor: "bg-gradient-to-br from-lime-400 to-lime-600",
@@ -208,6 +354,24 @@ export default function Home() {
   const toggleFAQ = (index: number) => {
     setActiveIndex(activeIndex === index ? -1 : index);
   };
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    // Handle form submission logic here
+  };
+  const getCode = () => {
+    // Generate a simple verification code
+    const code = Math.floor(100000 + Math.random() * 900000);
+    alert(`Verification code sent: ${code}`);
+  };
 
   return (
     <main className="min-h-screen bg-white font-roboto">
@@ -245,7 +409,7 @@ export default function Home() {
                 Others Miss
               </h1>
 
-              <p className="mt-6 max-w-xl text-slate-600 md:text-lg">
+              <p className="font-roboto text-[24px] leading-[160%] font-[400] text-[#0F172A] my-12">
                 Smart design + strategy that unlocks the hidden gaps in your
                 funnel.
               </p>
@@ -285,37 +449,131 @@ export default function Home() {
               <HeroImgLeft />
             </div>
           </div>
-          {/*  RIGHT CONTENT */}
-          <div className="relative flex items-center justify-center w-full">
-            <div className="flex absolute top-12 left-[10%] items-center justify-center z-10">
-              <HeroIcons width={200} height={130} />
-            </div>
-            <div className="relative flex items-center justify-center w-full px-4 md:px-8 lg:px-12">
-              <div className="w-full max-w-4xl flex items-center justify-center">
-                <div className="w-full flex items-center justify-center">
-                  <HeroImg
-                    width={785}
-                    height={744}
-                    className="w-full h-auto object-contain"
-                    preserveAspectRatio="xMidYMid meet"
-                  />
+
+          {/* RIGHT CONTENT */}
+          {isHomePageV2 ? (
+            <div className="relative flex items-center justify-center w-full">
+              <div className="flex absolute top-12 left-[50%] items-center justify-center z-10">
+                <HeroIcons width={200} height={130} />
+              </div>
+              {/* Form Section */}
+              <div className="lg:col-span-3 p-8 lg:p-12 w-full ">
+                <div onSubmit={handleSubmit} className="space-y-6">
+                  {/* Name and Email Row */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder="Name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-6 border border-gray-200  focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-gray-200 py-6 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Phone Number with Country Code */}
+                  <div className="flex gap-0">
+                    <div className="flex items-center bg-gray-50 border border-gray-200  px-3 py-6">
+                      <span className="text-green-600 mr-2">🇵🇰</span>
+                      <span className="text-gray-600 text-sm">+92</span>
+                      <svg
+                        className="w-4 h-4 ml-2 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Phone Number"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="flex-1 px-4 py-6 border border-gray-200 rounded-r focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
+                    />
+                    <button
+                      type="button"
+                      onClick={getCode}
+                      className="px-6 py-6 bg-gray-800 text-white rounded-none hover:bg-gray-900 transition-colors duration-200 font-medium"
+                    >
+                      Get Code
+                    </button>
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <textarea
+                      name="message"
+                      placeholder="Message"
+                      rows={6}
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-6 border border-gray-200  focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200 resize-none"
+                    />
+                  </div>
+
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    className="w-full bg-teal-500 text-white py-4 rounded-sm hover:bg-teal-600 transition-colors duration-200 font-semibold text-lg"
+                  >
+                    Send
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="relative flex items-center justify-center w-full">
+              <div className="flex absolute top-12 left-[10%] items-center justify-center z-10">
+                <HeroIcons width={200} height={130} />
+              </div>
+              <div className="relative flex items-center justify-center w-full px-4 md:px-8 lg:px-12">
+                <div className="w-full max-w-4xl flex items-center justify-center">
+                  <div className="w-full flex items-center justify-center">
+                    <HeroImg
+                      width={785}
+                      height={744}
+                      className="w-full h-auto object-contain"
+                      preserveAspectRatio="xMidYMid meet"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
       {/* summary stats section */}
-      <div className="flex lg:flex-row flex-col relative pb-20 md:mt-18 md-12  w-full h-fit items-start ">
+      <div className="flex bg-[#F6F6F6] lg:flex-row flex-col relative pb-20 md:mt-18 md-12  w-full h-fit items-start ">
         {/* LEFT */}
-        <div className="h-full ">
-          <div className="relative">
+        <div className="h-full mt-12">
+          <div className="relative pointer-events-none">
             <Image
               src={ProjectWidget.src}
               alt="stats-img"
-              height={500}
-              width={400}
+              height={700}
+              width={500}
               className=" object-cover object-center"
             />
             <div className="h-12 w-12 rounded-full absolute top-[460px] left-[30px] z-10"></div>
@@ -324,14 +582,14 @@ export default function Home() {
 
         {/* RIGHT */}
         <div className="flex-1 p-8 pr-0 flex flex-col justify-start">
-          <div className="w-full pr-8">
+          <div className="w-full pr-8  md:mt-12 mt-6 md:ml-12">
             <p className="text-[20px] font-[400] text-[#FFAB40]">
               Summary Stats
             </p>
-            <h1 className="text-4xl font-bold mb-3 leading-tight">
+            <h1 className="font-roboto leading-[110%] text-[56px] font-[800] text-[#0F172A]">
               Living Stats Wall
             </h1>
-            <p className="text-[20px] font-[400] text-[#0F172A]">
+            <p className="text-[20px] font-[400] leading-[180%] text-[#0F172A]">
               We don't just say it — our stats show it
             </p>
 
@@ -361,8 +619,6 @@ export default function Home() {
                 </p>
               </div>
             </div>
-
-            {/* snake line */}
           </div>
           <div className="w-full flex  justify-end mt-12">
             <div className="w-full self-end ">
@@ -379,21 +635,93 @@ export default function Home() {
       {/* our services */}
       <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
           <div className="text-center mb-12">
             <p className="text-[20px] font-[500] text-[#FFAB40] mb-4">
               Our Services
             </p>
-            <h1 className="text-3xl font-roboto  sm:text-4xl lg:text-5xl font-bold text-[#0F172A] mb-4">
+            <h1 className="font-roboto leading-[60px] tracking-[-1.5%] text-[56px] font-[800] text-[#0F172A]">
               Powering Ideas with Design, Code & Growth
             </h1>
-            <p className="text-[20px text-[#0F172A] font-[500] max-w-4xl mx-auto">
+            <p className="text-[20px] text-[#0F172A] font-[500] leading-[33px] tracking-[-1.5%] my-6">
               From UX to full-stack and marketing - our services connect like a
               smart system to elevate your digital journey.
             </p>
           </div>
 
-          {/* Services Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {mockServices.map((service) => (
+              <Link
+                href={`/services/${service.slug}`}
+                key={service.id}
+                className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 cursor-pointer"
+              >
+                {/* Icon and Title */}
+                <div className="flex flex-col items-start gap-4 mb-4">
+                  <div className="flex items-center gap-4 flex-shrink-0 p-2 bg-gray-50 rounded-lg">
+                    <Image
+                      src={service.icon || ""}
+                      alt={service.title || ""}
+                      width={50}
+                      height={50}
+                    />
+                    <h3 className="relative inline-block text-xl font-semibold text-gray-900 mb-2">
+                      {/* Circle at start of title */}
+                      <span className="absolute left-0 h-4 w-4 rounded-full bg-[#20C5BA80] z-0"></span>
+                      {/* Line at center bottom */}
+                      <span className="absolute left-1/2 -bottom-1 -translate-x-1/2 h-1 w-8 bg-[#20C5BA80] z-0"></span>
+
+                      <span className="font-[700] font-roboto text-[24px]  text-[#2B2B2B] relative z-10">
+                        {service.title}
+                      </span>
+                    </h3>
+                  </div>
+
+                  <div className="flex-1 min-w-0 pl-3 border-b border-[#E2E8F0] pb-4">
+                    <p className="text-[#868282] text-[16px] leading-[22px] font-[400]">
+                      {service.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Features List */}
+                <div className="space-y-2">
+                  {service.features?.map(
+                    (feature: string, featureIndex: number) => (
+                      <div
+                        key={featureIndex}
+                        className="flex items-center gap-2"
+                      >
+                        <div className="flex-shrink-0 bg-teal-500 h-6 w-6 p-1 flex items-center justify-center rounded-full">
+                          <Check className="w-4 h-4 text-white" size={16} />
+                        </div>
+                        <span className="text-[14.8px] text-[#101828] font-[400] leading-[22px]">
+                          {feature}
+                        </span>
+                      </div>
+                    )
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+      {/* our services */}
+      {/* <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-[20px] font-[500] text-[#FFAB40] mb-4">
+              Our Services
+            </p>
+            <h1 className="font-roboto leading-[60px] tracking-[-1.5%] text-[56px] font-[800] text-[#0F172A]">
+              Powering Ideas with Design, Code & Growth
+            </h1>
+            <p className="text-[20px] text-[#0F172A] font-[500] leading-[33px] tracking-[-1.5%] my-6">
+              From UX to full-stack and marketing - our services connect like a
+              smart system to elevate your digital journey.
+            </p>
+          </div>
+
           <div className="flex flex-col gap-8">
             {isLoading ? (
               <div className="flex justify-center items-center py-12">
@@ -427,14 +755,11 @@ export default function Home() {
                     key={service.id}
                     className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 cursor-pointer"
                   >
-                    {/* Icon and Title */}
                     <div className="flex flex-col items-start gap-4 mb-4">
                       <div className="flex items-start gap-4 flex-shrink-0 p-2 bg-gray-50 rounded-lg">
                         {getServiceIcon(service.title)}
                         <h3 className="relative inline-block text-xl font-semibold text-gray-900 mb-2">
-                          {/* Circle at start of title */}
                           <span className="absolute left-0 h-4 w-4 rounded-full bg-[#20C5BA80] z-0"></span>
-                          {/* Line at center bottom */}
                           <span className="absolute left-1/2 -bottom-1 -translate-x-1/2 h-1 w-8 bg-[#20C5BA80] z-0"></span>
 
                           <span className="relative z-10">{service.title}</span>
@@ -448,7 +773,6 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* Features List */}
                     <div className="space-y-2">
                       {generateFeatures(service.description).map(
                         (feature: string, featureIndex: number) => (
@@ -472,7 +796,7 @@ export default function Home() {
             )}
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Target industries */}
       <div className="mt-16 text-center ">
@@ -505,20 +829,15 @@ export default function Home() {
                       <Bun />
                     </div>
                     <div className="bg-white min-h-[300px] rounded-3xl p-6 flex flex-col">
-                      {/* Icon Circle */}
-                      <div
-                        className={`rounded-full w-16 h-16 flex items-center justify-center mb-6 mx-auto`}
-                      >
-                        {industry.icon}
-                      </div>
-
                       {/* Title */}
                       <h3 className="text-xl font-bold text-gray-900 text-center mb-4">
                         {industry.title}
                       </h3>
+                      {/* Icon Circle */}
+                      <div className={`flex mx-auto `}>{industry.icon}</div>
 
                       {/* Description */}
-                      <p className="text-gray-600 text-sm leading-relaxed text-center flex-grow">
+                      <p className="mt-3 text-[#475569] text-[16px] leading-[24px] text-center flex-grow font-[400]">
                         {industry.description}
                       </p>
                     </div>
@@ -740,7 +1059,7 @@ export default function Home() {
       </section>
 
       {/* faqs section */}
-      <section className="bg-gray-50 py-16 px-6">
+      <section className="bg-white py-16 px-6">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
@@ -857,131 +1176,133 @@ export default function Home() {
         </div>
       </section>
 
-      {/* form container section */}
-
-      <div className="font-roboto bg-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-5">
-              {/* Form Section */}
-              <div className="lg:col-span-3 p-8 lg:p-12">
-                <div className="space-y-6">
-                  {/* uncomment this to handle submit <div onSubmit={handleSubmit} className="space-y-6"> */}
-                  {/* Name and Email Row */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <input
-                        type="text"
-                        name="name"
-                        placeholder="Name"
-                        // value={formData.name}
-                        // onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
-                      />
-                    </div>
-                    <div>
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        // value={formData.email}
-                        // onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Phone Number with Country Code */}
-                  <div className="flex gap-0">
-                    <div className="flex items-center bg-gray-50 border border-gray-200 rounded-l  px-3 py-3">
-                      <span className="text-green-600 mr-2">🇵🇰</span>
-                      <span className="text-gray-600 text-sm">+92</span>
-                      <svg
-                        className="w-4 h-4 ml-2 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
+      {isHomePageV2 ? (
+        <StayInLoop />
+      ) : (
+        <div className="font-roboto bg-[#F6F6F6] py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[90%] mx-auto">
+            <div className="overflow-hidden">
+              <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
+                {/* Form Section */}
+                <div className="col-span-1 p-8 lg:p-12 w-full ">
+                  <div onSubmit={handleSubmit} className="space-y-6">
+                    {/* Name and Email Row */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="Name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          className="w-full bg-white px-4 py-6 border border-gray-200  focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
                         />
-                      </svg>
+                      </div>
+                      <div>
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="Email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          className="w-full bg-white px-4 border border-gray-200 py-6 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
+                        />
+                      </div>
                     </div>
-                    <input
-                      type="tel"
-                      name="phone"
-                      placeholder="Phone Number"
-                      // value={formData.phone}
-                      // onChange={handleInputChange}
-                      className="flex-1 px-4 py-3 border border-gray-200 rounded-r focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
-                    />
+
+                    {/* Phone Number with Country Code */}
+                    <div className="flex gap-0">
+                      <div className="flex items-center bg-white bg-gray-50 border border-gray-200  px-3 py-6">
+                        <span className="text-green-600 mr-2">🇵🇰</span>
+                        <span className="text-gray-600 text-sm">+92</span>
+                        <svg
+                          className="w-4 h-4 ml-2 text-gray-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </div>
+                      <input
+                        type="tel"
+                        name="phone"
+                        placeholder="Phone Number"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        className="flex-1 bg-white px-4 py-6 border border-gray-200 rounded-r focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
+                      />
+                      <button
+                        type="button"
+                        onClick={getCode}
+                        className="px-6 py-6 bg-gray-800 text-white rounded-none hover:bg-gray-900 transition-colors duration-200 font-medium"
+                      >
+                        Get Code
+                      </button>
+                    </div>
+
+                    {/* Message */}
+                    <div>
+                      <textarea
+                        name="message"
+                        placeholder="Message"
+                        rows={12}
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        className="w-full bg-white px-4 py-6 border border-gray-200  focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200 resize-none"
+                      />
+                    </div>
+
+                    {/* Submit Button */}
                     <button
-                      type="button"
-                      className="px-6 py-3 bg-gray-800 text-white rounded-none hover:bg-gray-900 transition-colors duration-200 font-medium"
+                      type="submit"
+                      onClick={handleSubmit}
+                      className="w-full bg-teal-500 text-white py-4 rounded-sm hover:bg-teal-600 transition-colors duration-200 font-semibold text-lg"
                     >
-                      Get Code
+                      Send
                     </button>
                   </div>
-
-                  {/* Message */}
-                  <div>
-                    <textarea
-                      name="message"
-                      placeholder="Message"
-                      rows={6}
-                      // value={formData.message}
-                      // onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200 resize-none"
-                    />
-                  </div>
-
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    // onClick={handleSubmit}
-                    className="w-full bg-teal-500 text-white py-4 rounded-sm hover:bg-teal-600 transition-colors duration-200 font-semibold text-lg"
-                  >
-                    Send
-                  </button>
                 </div>
-              </div>
 
-              {/* Content Section */}
-              <div className="lg:col-span-2 p-8 lg:p-12  flex flex-col justify-center">
-                <div className="max-w-md">
-                  <div>
-                    {/* image  */}
-                    <Image
-                      src={VirtualAssistant}
-                      alt="image"
-                      width={500}
-                      height={500}
-                    />
-                  </div>
-                  <p className="text-[20px] font-[400] text-[#FFAB40]">
-                    Contact Us
-                  </p>
-                  <h1 className="text-4xl font-bold mb-6 leading-tight">
-                    Let's Build Something Brilliant Together
-                  </h1>
-
-                  <div className="space-y-4 leading-relaxed">
-                    <p>
-                      Got an idea? A project in mind? Or just want to see if
-                      we're the right fit? Drop us a message — we usually reply
-                      within a few hours. Whether it's design, code, strategy,
-                      or scaling — we're all ears (and keyboards).
+                {/* Content Section */}
+                <div className="col-span-1 p-8 lg:p-12 w-full  flex flex-col justify-center">
+                  <div className="w-full">
+                    <div className="w-full flex justify-center">
+                      {/* image  */}
+                      <Image
+                        src={VirtualAssistant}
+                        alt="image"
+                        width={500}
+                        height={500}
+                      />
+                    </div>
+                    <p className="text-[20px] font-[400] text-[#FFAB40]">
+                      Contact Us
                     </p>
+                    <h1 className="font-roboto leading-[110%] text-[56px] font-[800] text-[#0F172A] mb-6">
+                      Let's Build Something Brilliant Together
+                    </h1>
+
+                    <div className="leading-[180%] text-[20px] font-[400] text-[#0F172A]">
+                      <p>
+                        Got an idea? A project in mind? Or just want to see if
+                        we're the right fit? Drop us a message — we usually
+                        reply within a few hours. Whether it's design, code,
+                        strategy, or scaling — we're all ears (and keyboards).
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       <Footer />
     </main>
