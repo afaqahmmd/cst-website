@@ -2,7 +2,7 @@ import React from "react";
 import IndustryImg from "@/assets/images/industries/tabs-pic.png";
 import Image from "next/image";
 import { MoveRight } from "lucide-react";
-import W from "@/assets/images/industries/w.png";
+import W from "@/assets/images/industries/W.png";
 import settingIllustration from "@/assets/images/industries/settingsIllustration.png";
 import studentPlanner2 from "@/assets/images/industries/student-planner.png";
 import LMS from "@/assets/images/industries/LMS.png";

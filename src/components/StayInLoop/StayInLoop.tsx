@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import StayAlign from "@/assets/images/StayAlign.png";
+import StayAlign from "@/assets/images/stayalign.png";
 import Image from "next/image";
 
 const StayInLoop = ({
