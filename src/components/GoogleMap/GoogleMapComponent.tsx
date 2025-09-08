@@ -44,7 +44,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ address }) => {
     });
   }, [ address]);
 
-  return <div ref={mapRef} className="w-full h-[500px] rounded-lg" />;
+  return <div ref={mapRef} className="w-full h-[500px] " />;
 };
 
 export default GoogleMap;

@@ -2,7 +2,7 @@ import React from "react";
 import IndustryImg from "@/assets/images/industries/tabs-pic.png";
 import Image from "next/image";
 import { MoveRight } from "lucide-react";
-import W from "@/assets/images/industries/W.png";
+import W from "@/assets/images/industries/w.png";
 import settingIllustration from "@/assets/images/industries/settingsIllustration.png";
 import studentPlanner2 from "@/assets/images/industries/student-planner.png";
 import LMS from "@/assets/images/industries/LMS.png";
@@ -255,6 +255,21 @@ const page = () => {
     },
   ];
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleDateString("en-US", { month: "long" });
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  };
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${hours}:${minutes}`;
+  };
+
   return (
     <main className="bg-white w-full">
       {/* hero section */}
@@ -366,7 +381,8 @@ const page = () => {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto py-12 mt-12 bg-[#FAFBFA]">
+      {/* what sets us apart */}
+      <section className="max-w-7xl mx-auto py-12 mt-12 bg-white">
         <div className="w-full max-w-7xl mx-auto relative px-4">
           <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
             💡 What Sets Us Apart
@@ -408,7 +424,7 @@ const page = () => {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto py-12 mt-12 bg-[#FAFBFA]">
+      <section className="max-w-7xl mx-auto py-12 mt-12 bg-white">
         <div className="w-full max-w-7xl mx-auto relative px-4">
           <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
             🔒 We Build With Privacy & Compliance in Mind
@@ -419,8 +435,8 @@ const page = () => {
           </p>
           <div className="max-w-7xl mx-auto mt-12">
             {/* Grid Layout */}
-            <div className=" bg-[#8FD8184D] rounded-xl p-12">
-              <ul className="flex flex-col lg:px-12 md:px-8 px-4 gap-[10px] list-disc text-[#3C5612] font-[500] text-[22px] leading-[173%] tracking-[0%]">
+            <div className=" bg-[#8FD8184D] rounded-[16px] lg:h-[242px] h-auto py-6 flex items-center justify-start px-5">
+              <ul className="flex flex-col lg:px-12 md:px-8 px-4 gap-[10px] list-disc list-inside pl-2 text-[#3C5612] font-[500] text-[22px] leading-[173%] tracking-[0%]">
                 <li>FERPA — Student education record protection</li>
                 <li>COPPA — Children's Online Privacy Protection</li>
                 <li>
@@ -444,7 +460,7 @@ const page = () => {
             View All
           </button>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1920px] mx-auto">
           {featuredProjects.map((project, index) => (
             <div
               key={index}
@@ -486,8 +502,13 @@ const page = () => {
                 </div>
 
                 {/* Date & Time */}
-                <div className="text-sm text-gray-500 mb-4">
-                  {project.date} • {project.time}
+                <div className="text-sm text-gray-500 mb-4 font-roboto">
+                  <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                    {formatDate(project.date)}
+                  </span>{" "}
+                  <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                    {project.time}
+                  </span>
                 </div>
 
                 {/* Title */}
@@ -557,8 +578,13 @@ const page = () => {
                     </div>
 
                     {/* Date & Time */}
-                    <div className="text-sm text-gray-500 mb-4">
-                      {post.date} • {post.time}
+                    <div className="text-sm text-gray-500 mb-4 font-roboto">
+                      <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                        {formatDate(post.date)}
+                      </span>{" "}
+                      <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                        {post.time}
+                      </span>
                     </div>
 
                     {/* Title */}

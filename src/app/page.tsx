@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import HeroImg from "@/components/svgs/hero/heroRight";
+import ButtonComponent from "@/components/Button/Button";
 import HeroImgLeft from "@/components/svgs/hero/heroLeftBottom";
 import HeroIcons from "@/components/svgs/hero/heroIcons";
 import { useServices } from "@/hooks/useServices";
@@ -13,11 +13,10 @@ import { useEffect } from "react";
 import { Service } from "@/types/service";
 import Loop from "@/components/svgs/icons/Loop";
 import QA from "@/components/svgs/icons/QA";
-import VirtualAssistant from "@/assets/images/homepage/virtual-assistant.png";
+import VirtualAssistant from "@/assets/images/homepage/virtual-assistant.svg";
 import {
   ChartSpline,
   Code2,
-  PlayCircle,
   Puzzle,
   Rocket,
   ShieldCheck,
@@ -28,16 +27,14 @@ import {
   TrendingUp,
   Settings,
   Mail,
-  Scale,
   Cloud,
   Check,
 } from "lucide-react";
-import PeakPixels from "@/assets/images/homepage/peak-pixels.png";
+import PeakPixels from "@/assets/images/homepage/peak-pixels.svg";
 import DecisionMakers from "@/assets/images/homepage/decision-makers.png";
-import ProjectWidget from "@/assets/images/homepage/project-widget.png";
 import Bun from "@/components/svgs/icons/Bun";
 import GameController from "@/components/svgs/icons/GameController";
-import HappyClients from "@/assets/images/homepage/happy-clients.png";
+import HappyClients from "@/assets/images/homepage/happy-clients.svg";
 import Footer from "@/components/Footer/Footer";
 import Bolt from "@/components/svgs/icons/Bolt";
 import Refresh from "@/components/svgs/icons/Refresh";
@@ -53,7 +50,9 @@ import HeartIcon from "@/components/svgs/icons/HeartIcon";
 import LogisticsIcon from "@/components/svgs/icons/LogisticsIcon";
 import ConstructionIcon from "@/components/svgs/icons/Construction";
 import LegalIcon from "@/components/svgs/icons/LegalIcon";
-
+import HerosectionImg from "@/assets/images/homepage/herosection-cropped.svg";
+import PillContainer from "@/assets/images/homepage/pill-container.svg";
+import PhoneNumberInput from "@/components/PhoneNumberInput/PhoneNumberInput";
 export default function Home() {
   const { data: servicesData, isLoading, error } = useServices();
   const { setServices } = useServiceStore();
@@ -349,6 +348,206 @@ export default function Home() {
       answer:
         "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
     },
+    {
+      question: "How long does a typical project take?",
+      answer:
+        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
+    },
+    {
+      question: "Can I hire your team for just design or development only?",
+      answer:
+        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
+    },
+    {
+      question: "Do you offer SEO or digital marketing after launch?",
+      answer:
+        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
+    },
+    {
+      question: "Will I own the final design/code?",
+      answer:
+        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
+    },
+    {
+      question: "How long does a typical project take?",
+      answer:
+        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
+    },
+    {
+      question: "Can I hire your team for just design or development only?",
+      answer:
+        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
+    },
+    {
+      question: "Do you offer SEO or digital marketing after launch?",
+      answer:
+        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
+    },
+    {
+      question: "Will I own the final design/code?",
+      answer:
+        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
+    },
+    {
+      question: "How long does a typical project take?",
+      answer:
+        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
+    },
+    {
+      question: "Can I hire your team for just design or development only?",
+      answer:
+        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
+    },
+    {
+      question: "Do you offer SEO or digital marketing after launch?",
+      answer:
+        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
+    },
+    {
+      question: "Will I own the final design/code?",
+      answer:
+        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
+    },
+    {
+      question: "How long does a typical project take?",
+      answer:
+        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
+    },
+    {
+      question: "Can I hire your team for just design or development only?",
+      answer:
+        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
+    },
+    {
+      question: "Do you offer SEO or digital marketing after launch?",
+      answer:
+        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
+    },
+    {
+      question: "Will I own the final design/code?",
+      answer:
+        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
+    },
+    {
+      question: "How long does a typical project take?",
+      answer:
+        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
+    },
+    {
+      question: "Can I hire your team for just design or development only?",
+      answer:
+        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
+    },
+    {
+      question: "Do you offer SEO or digital marketing after launch?",
+      answer:
+        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
+    },
+    {
+      question: "Will I own the final design/code?",
+      answer:
+        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
+    },
+    {
+      question: "How long does a typical project take?",
+      answer:
+        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
+    },
+    {
+      question: "Can I hire your team for just design or development only?",
+      answer:
+        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
+    },
+    {
+      question: "Do you offer SEO or digital marketing after launch?",
+      answer:
+        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
+    },
+    {
+      question: "Will I own the final design/code?",
+      answer:
+        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
+    },
+    {
+      question: "How long does a typical project take?",
+      answer:
+        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
+    },
+    {
+      question: "Can I hire your team for just design or development only?",
+      answer:
+        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
+    },
+    {
+      question: "Do you offer SEO or digital marketing after launch?",
+      answer:
+        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
+    },
+    {
+      question: "Will I own the final design/code?",
+      answer:
+        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
+    },
+    {
+      question: "How long does a typical project take?",
+      answer:
+        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
+    },
+    {
+      question: "Can I hire your team for just design or development only?",
+      answer:
+        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
+    },
+    {
+      question: "Do you offer SEO or digital marketing after launch?",
+      answer:
+        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
+    },
+    {
+      question: "Will I own the final design/code?",
+      answer:
+        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
+    },
+    {
+      question: "How long does a typical project take?",
+      answer:
+        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
+    },
+    {
+      question: "Can I hire your team for just design or development only?",
+      answer:
+        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
+    },
+    {
+      question: "Do you offer SEO or digital marketing after launch?",
+      answer:
+        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
+    },
+    {
+      question: "Will I own the final design/code?",
+      answer:
+        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
+    },
+    {
+      question: "How long does a typical project take?",
+      answer:
+        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
+    },
+    {
+      question: "Can I hire your team for just design or development only?",
+      answer:
+        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
+    },
+    {
+      question: "Do you offer SEO or digital marketing after launch?",
+      answer:
+        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
+    },
+    {
+      question: "Will I own the final design/code?",
+      answer:
+        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
+    },
   ];
 
   const toggleFAQ = (index: number) => {
@@ -376,12 +575,12 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white font-roboto">
       {/* homepage hero section */}
-      <section className="min-h-screen flex w-full items-center relative overflow-hidden">
-        <div className="w-full min-h-screen grid grid-cols-1 self-center gap-10 py-10 md:py-16 lg:grid-cols-2 lg:gap-12">
+      <section className="flex w-full items-center justify-center relative overflow-hidden">
+        <div className="w-full grid grid-cols-1 self-center gap-10 py-10 md:py-16 md:pb-0 pb-12 lg:grid-cols-2 lg:gap-12">
           {/* LEFT CONTENT */}
           <div className="relative z-10 flex flex-col md:pt-18 justify-center gap-[20%]">
-            <div className="flex flex-col  pl-8 md:pl-24">
-              <h1 className="text-5xl font-bold tracking-tight font-roboto text-[#0F172A] sm:text-5xl md:text-[60px] lg:text-8xl">
+            <div className="flex flex-col px-8 md:px-18">
+              <h1 className="text-5xl font-bold tracking-tight font-roboto text-[#0F172A] sm:text-5xl md:text-[60px] lg:text-[72px]">
                 <span className="relative inline-block font-roboto">
                   <span className="relative z-10">Fixing</span>
                   {/* orange underline */}
@@ -409,27 +608,38 @@ export default function Home() {
                 Others Miss
               </h1>
 
-              <p className="font-roboto text-[24px] leading-[160%] font-[400] text-[#0F172A] my-12">
+              <p className="font-roboto text-[24px] leading-[160%] font-[400] text-[#0F172A] lg:my-12 my-8">
                 Smart design + strategy that unlocks the hidden gaps in your
                 funnel.
               </p>
 
-              <div className="mt-6 flex flex-wrap items-center gap-4">
-                <Button className="h-10 bg-teal-500 px-5 text-white hover:bg-teal-600">
-                  Get In Touch
-                </Button>
-                <Link
-                  href="#learn-more"
-                  className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900"
-                >
-                  <PlayCircle
-                    className="h-5 w-5 text-slate-500"
-                    aria-hidden="true"
-                  />
-                  Learn More
-                </Link>
-              </div>
+              {/* bottom navigation buttons */}
+              <div className="flex -mt-3 flex-col sm:flex-row gap-4 ">
+                <ButtonComponent name="Get In Touch" buttonHeight="55px" />
+                <div className="flex items-center gap-2">
+                  <button className="relative w-14 h-14 shadow-lg rounded-full bg-[#2B2B2B1A] flex items-center justify-center">
+                    {/* Left semi-circle border */}
+                    <span className="absolute inset-0 rounded-full border-4 border-black [clip-path:polygon(0_0,50%_0,50%_100%,0_100%)]"></span>
 
+                    {/* Button content */}
+                    <span className="z-10 text-black font-bold">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="black"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </span>
+                  </button>
+                  <p className="font-[600] capitalize text-[16px] hover:underline cursor-pointer">
+                    {" "}
+                    Learn More
+                  </p>
+                </div>
+              </div>
               {/* Trusted by */}
               <div className="flex gap-12 mt-10">
                 <p className="mb-3 text-xs uppercase tracking-wide text-slate-500 text-balance">
@@ -543,21 +753,9 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <div className="relative flex items-center justify-center w-full">
-              <div className="flex absolute top-12 left-[10%] items-center justify-center z-10">
-                <HeroIcons width={200} height={130} />
-              </div>
-              <div className="relative flex items-center justify-center w-full px-4 md:px-8 lg:px-12">
-                <div className="w-full max-w-4xl flex items-center justify-center">
-                  <div className="w-full flex items-center justify-center">
-                    <HeroImg
-                      width={785}
-                      height={744}
-                      className="w-full h-auto object-contain"
-                      preserveAspectRatio="xMidYMid meet"
-                    />
-                  </div>
-                </div>
+            <div className="relative flex w-full px-2">
+              <div className="relative w-full ">
+                <Image src={HerosectionImg} alt="Logo" className="" />
               </div>
             </div>
           )}
@@ -565,24 +763,20 @@ export default function Home() {
       </section>
 
       {/* summary stats section */}
-      <div className="flex bg-[#F6F6F6] lg:flex-row flex-col relative pb-20 md:mt-18 md-12  w-full h-fit items-start ">
-        {/* LEFT */}
-        <div className="h-full mt-12">
-          <div className="relative pointer-events-none">
+      <div className="flex bg-[#F6F6F6] lg:flex-row flex-col relative pb-0 w-full h-fit items-start justify-center ">
+        <div className="relative h-fit flex lg:-mb-32 mb-12 md:pt-20 pt-8">
+          <div className="relative ">
             <Image
-              src={ProjectWidget.src}
-              alt="stats-img"
-              height={700}
-              width={500}
-              className=" object-cover object-center"
+              src={PillContainer}
+              alt="Logo"
+              className="md:w-[700px] md:h-[900px] w-[500px] h-[800px]"
             />
-            <div className="h-12 w-12 rounded-full absolute top-[460px] left-[30px] z-10"></div>
           </div>
         </div>
 
         {/* RIGHT */}
-        <div className="flex-1 p-8 pr-0 flex flex-col justify-start">
-          <div className="w-full pr-8  md:mt-12 mt-6 md:ml-12">
+        <div className="p-8 pr-0 flex flex-col">
+          <div className="w-full md:mt-12 mt-6 pr-8">
             <p className="text-[20px] font-[400] text-[#FFAB40]">
               Summary Stats
             </p>
@@ -599,7 +793,7 @@ export default function Home() {
                 <p className="text-[24px] font-[700] text-[#0F172A]">
                   Avg. Load Time
                 </p>
-                <p className="text-[18px] font-[400] text-[#0F172A]">
+                <p className="max-w-2xl text-[18px] font-[400] text-[#0F172A]">
                   Our websites load in an average of just 1.4 seconds — faster
                   than 90% of the internet. Why does that matter? Because every
                   extra second your site takes to load can cost you conversions,
@@ -611,7 +805,7 @@ export default function Home() {
                 <p className="text-[24px] font-[700] text-[#0F172A]">
                   Client Retention
                 </p>
-                <p className="text-[18px] font-[400] text-[#0F172A]">
+                <p className="max-w-2xl text-[18px] font-[400] text-[#0F172A]">
                   With a client retention rate of over 92%, our partners don’t
                   just launch with us — they grow with us. From first project to
                   ongoing success, we focus on building long-term value through
@@ -620,7 +814,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="w-full flex  justify-end mt-12">
+          <div className="w-full flex justify-end mt-12">
             <div className="w-full self-end ">
               <HeroSnakeSvg
                 width="100%"
@@ -633,7 +827,7 @@ export default function Home() {
       </div>
 
       {/* our services */}
-      <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
+      {/* <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-[20px] font-[500] text-[#FFAB40] mb-4">
@@ -655,7 +849,6 @@ export default function Home() {
                 key={service.id}
                 className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 cursor-pointer"
               >
-                {/* Icon and Title */}
                 <div className="flex flex-col items-start gap-4 mb-4">
                   <div className="flex items-center gap-4 flex-shrink-0 p-2 bg-gray-50 rounded-lg">
                     <Image
@@ -665,9 +858,7 @@ export default function Home() {
                       height={50}
                     />
                     <h3 className="relative inline-block text-xl font-semibold text-gray-900 mb-2">
-                      {/* Circle at start of title */}
                       <span className="absolute left-0 h-4 w-4 rounded-full bg-[#20C5BA80] z-0"></span>
-                      {/* Line at center bottom */}
                       <span className="absolute left-1/2 -bottom-1 -translate-x-1/2 h-1 w-8 bg-[#20C5BA80] z-0"></span>
 
                       <span className="font-[700] font-roboto text-[24px]  text-[#2B2B2B] relative z-10">
@@ -683,7 +874,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Features List */}
                 <div className="space-y-2">
                   {service.features?.map(
                     (feature: string, featureIndex: number) => (
@@ -705,9 +895,11 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
+
+      {/* services from api */}
       {/* our services */}
-      {/* <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8 font-roboto">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-[20px] font-[500] text-[#FFAB40] mb-4">
@@ -755,8 +947,8 @@ export default function Home() {
                     key={service.id}
                     className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 cursor-pointer"
                   >
-                    <div className="flex flex-col items-start gap-4 mb-4">
-                      <div className="flex items-start gap-4 flex-shrink-0 p-2 bg-gray-50 rounded-lg">
+                    <div className="flex flex-col items-start gap-4 mb-4  border-b-1 border-[#D1D3D9] pb-4">
+                      <div className="flex items-start gap-4 flex-shrink-0 p-0 bg-white rounded-lg">
                         {getServiceIcon(service.title)}
                         <h3 className="relative inline-block text-xl font-semibold text-gray-900 mb-2">
                           <span className="absolute left-0 h-4 w-4 rounded-full bg-[#20C5BA80] z-0"></span>
@@ -767,13 +959,13 @@ export default function Home() {
                       </div>
 
                       <div className="flex-1 min-w-0">
-                        <p className="text-gray-600 text-sm leading-relaxed">
+                        <p className="text-[#868282] text-[16px] leading-[22px] font-[400]">
                           {service.description}
                         </p>
                       </div>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-2 mt-5">
                       {generateFeatures(service.description).map(
                         (feature: string, featureIndex: number) => (
                           <div
@@ -795,8 +987,29 @@ export default function Home() {
               </div>
             )}
           </div>
+
+          {/* bottom navigation buttons */}
+          <div className="flex mt-12 flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button
+              className={`bg-[#20C5BA] hover:bg-[#20C5BA]/80 h-[55px] px-[40px] py-[15px] capitalize rounded-[5px] text-[18px] font-[500] leading-[32px] font-roboto`}
+            >
+              View All
+            </Button>
+            <div className="flex items-center gap-2">
+              <button className="relative w-14 h-14 shadow-lg rounded-full bg-white flex items-center justify-center">
+                {/* Left semi-circle border */}
+                <span className="absolute inset-0 rounded-full border-4 border-black [clip-path:polygon(0_0,50%_0,50%_100%,0_100%)]"></span>
+
+                {/* Button content */}
+                <Mail />
+              </button>
+              <p className="font-[600] capitalize text-[16px] hover:underline cursor-pointer">
+                Get in touch
+              </p>
+            </div>
+          </div>
         </div>
-      </div> */}
+      </div>
 
       {/* Target industries */}
       <div className="mt-16 text-center ">
@@ -846,9 +1059,7 @@ export default function Home() {
               </div>
               {/* bottom navigation buttons */}
               <div className="flex mt-12 flex-col sm:flex-row gap-4 justify-center items-center">
-                <button className="bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 rounded-sm font-semibold transition-colors">
-                  Get In Touch
-                </button>
+                <ButtonComponent name="Get In Touch" buttonHeight="55px" />
                 <div className="flex items-center gap-2">
                   <button className="relative w-14 h-14 shadow-lg rounded-full bg-white flex items-center justify-center">
                     {/* Left semi-circle border */}
@@ -856,10 +1067,18 @@ export default function Home() {
 
                     {/* Button content */}
                     <span className="z-10 text-black font-bold">
-                      <Mail size={20} />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="black"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
                     </span>
                   </button>
-                  <p className="text-bold capitalize text-[16px] hover:underline cursor-pointer">
+                  <p className="font-[600] capitalize text-[16px] hover:underline cursor-pointer">
                     {" "}
                     Learn More
                   </p>
@@ -1063,19 +1282,19 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <p className="text-orange-400 text-sm font-semibold uppercase tracking-wide mb-4">
+            <p className="text-[#FFAB40] text-[20px] font-[500] leading-[110%] mb-4">
               FAQs
             </p>
-            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+            <h1 className="text-4xl lg:text-5xl font-bold text-[#0F172A] mb-6">
               Frequently Asked Questions
             </h1>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <p className="text-[#0F172A] text-[20px] font-[500] leading-[33px] tracking-[-1.5%] mx-auto">
               Got questions about CorTechSols? Explore helpful answers that make
               your blurry mind clear.
             </p>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-12">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-0">
             {/* Left Side - FAQ List */}
             <div className="lg:w-1/2 w-full flex gap-3 items-center">
               {/* Decorative Element */}
@@ -1084,7 +1303,7 @@ export default function Home() {
               </div>
 
               {/* FAQ Items with Scrollbar */}
-              <div className="space-y-4 max-h-80 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-orange-400 scrollbar-track-gray-200">
+              <div className="space-y-4 max-h-80 overflow-y-auto pr-2 scrollbar-custom">
                 {faqs.map((faq, index) => (
                   <div
                     key={index}
@@ -1184,7 +1403,7 @@ export default function Home() {
             <div className="overflow-hidden">
               <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
                 {/* Form Section */}
-                <div className="col-span-1 p-8 lg:p-12 w-full ">
+                <div className="col-span-1 p-8 lg:p-12 lg:pr-6">
                   <div onSubmit={handleSubmit} className="space-y-6">
                     {/* Name and Email Row */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1195,7 +1414,7 @@ export default function Home() {
                           placeholder="Name"
                           value={formData.name}
                           onChange={handleInputChange}
-                          className="w-full bg-white px-4 py-6 border border-gray-200  focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
+                          className="w-full px-4 py-3 border bg-white border-gray-200 max-h-[60px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
                         />
                       </div>
                       <div>
@@ -1205,42 +1424,18 @@ export default function Home() {
                           placeholder="Email"
                           value={formData.email}
                           onChange={handleInputChange}
-                          className="w-full bg-white px-4 border border-gray-200 py-6 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
+                          className="w-full px-4 py-3 border bg-white border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
                         />
                       </div>
                     </div>
 
                     {/* Phone Number with Country Code */}
-                    <div className="flex gap-0">
-                      <div className="flex items-center bg-white bg-gray-50 border border-gray-200  px-3 py-6">
-                        <span className="text-green-600 mr-2">🇵🇰</span>
-                        <span className="text-gray-600 text-sm">+92</span>
-                        <svg
-                          className="w-4 h-4 ml-2 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
-                      </div>
-                      <input
-                        type="tel"
-                        name="phone"
-                        placeholder="Phone Number"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        className="flex-1 bg-white px-4 py-6 border border-gray-200 rounded-r focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
-                      />
+                    <div className="flex gap-0 max-h-[60px] bg-white">
+                      <PhoneNumberInput />
                       <button
                         type="button"
                         onClick={getCode}
-                        className="px-6 py-6 bg-gray-800 text-white rounded-none hover:bg-gray-900 transition-colors duration-200 font-medium"
+                        className="px-6 py-3 min-w-[120px] bg-[#2B2B2B] text-white rounded-none hover:bg-gray-900 transition-colors duration-200 font-medium"
                       >
                         Get Code
                       </button>
@@ -1254,7 +1449,7 @@ export default function Home() {
                         rows={12}
                         value={formData.message}
                         onChange={handleInputChange}
-                        className="w-full bg-white px-4 py-6 border border-gray-200  focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200 resize-none"
+                        className="w-full px-4 py-3 border bg-white border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200 resize-none"
                       />
                     </div>
 
@@ -1262,7 +1457,7 @@ export default function Home() {
                     <button
                       type="submit"
                       onClick={handleSubmit}
-                      className="w-full bg-teal-500 text-white py-4 rounded-sm hover:bg-teal-600 transition-colors duration-200 font-semibold text-lg"
+                      className="w-full bg-teal-500 text-white py-4 rounded-[5px] hover:bg-teal-600 transition-colors duration-200 font-semibold text-lg"
                     >
                       Send
                     </button>
@@ -1281,10 +1476,10 @@ export default function Home() {
                         height={500}
                       />
                     </div>
-                    <p className="text-[20px] font-[400] text-[#FFAB40]">
+                    <p className="text-[20px] font-[500] text-[#FFAB40] leading-[110%]">
                       Contact Us
                     </p>
-                    <h1 className="font-roboto leading-[110%] text-[56px] font-[800] text-[#0F172A] mb-6">
+                    <h1 className="font-roboto leading-[110%] lg:text-[56px] text-[44px] font-[800] text-[#0F172A] mb-6">
                       Let's Build Something Brilliant Together
                     </h1>
 

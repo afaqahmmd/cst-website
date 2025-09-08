@@ -5,8 +5,8 @@ import Location from "@/components/svgs/icons/Location";
 import ArrowUpRight from "@/components/svgs/icons/ArrowUpRight";
 
 const InfoSection = ({
-  title="Let’s Build Something That Matters",
-  subText="Have a project or an idea? Let’s turn it into a digital experience people will remember.",
+  title="Let's Build Something That Matters",
+  subText="Have a project or an idea? Let's turn it into a digital experience people will remember.",
   buttonText="Get in Touch",
 }: {
   title?: string;
@@ -22,11 +22,11 @@ const InfoSection = ({
           <div className="w-8 h-0.5 transform rotate-90 bg-white mb-2" />
         </div>
         {/* heading */}
-        <div className="relative w-fit mb-2 flex items-center justify-center">
-          <p className="absolute uppercase mb-5 z-0 font-extrabold text-[50px] sm:text-[78px] md:text-[112px] text-transparent [-webkit-text-stroke:2px_#545050]">
+        <div className="relative w-fit mb-5 flex items-center justify-center">
+          <p className="absolute uppercase z-0 font-extrabold text-[112px] text-transparent [-webkit-text-stroke:2px_#545050]">
             Look
           </p>
-          <p className="relative font-roboto z-10 text-[24px] sm:text-[36px] md:text-[45px] text-white font-semibold uppercase">
+          <p className="relative md:leading-[52px] leading-[40px] font-roboto z-10 text-[24px] sm:text-[36px] md:text-[45px] text-white font-semibold uppercase">
             {title}
           </p>
         </div>
@@ -38,10 +38,10 @@ const InfoSection = ({
       {/* links and getintouch button  */}
       <div className="flex flex-col gap-12 mt-12 justify-between items-center">
         <div className="flex md:flex-row flex-col items-center justify-between gap-5">
-          <div className="flex items-center gap-3">
+          <a href="mailto:CortechsolsSuport@gmail.com" className="flex items-center gap-3 underline cursor-pointer">
             <Message />
             <p>CortechsolsSuport@gmail.com</p>
-          </div>
+          </a>
           <div className="flex items-center gap-3">
             <Phone />
             <p>+92 3XX-XXXXXXX</p>

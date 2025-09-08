@@ -94,151 +94,6 @@ const page = () => {
     "Maintain design kits, system templates, and plug-n-play components for faster launches",
   ];
 
-  const featuredProjects = [
-    {
-      title: "FinTech Mobile App",
-      description:
-        "Complete redesign of a mobile banking app focusing on simplified navigation and enhanced security features.",
-      image: Mob1,
-      category: "Financial Services",
-      categoryColor: "bg-blue-500",
-      bgGradient: "from-purple-400 to-purple-600",
-      tags: [
-        { name: "Designing", color: "text-blue-600" },
-        { name: "Web Development", color: "text-purple-600" },
-        { name: "Testing", color: "text-orange-600" },
-      ],
-      date: "13 March 2023",
-      time: "12:24 PM",
-    },
-    {
-      title: "E-Commerce Platform",
-      description:
-        "Redesigned checkout flow and product discovery for a major e-commerce platform serving millions of users.",
-      image: Mob2,
-      category: "Retail",
-      categoryColor: "bg-purple-500",
-      bgGradient: "from-orange-400 to-orange-600",
-      tags: [
-        { name: "Designing", color: "text-blue-600" },
-        { name: "Web Development", color: "text-purple-600" },
-        { name: "Testing", color: "text-orange-600" },
-      ],
-      date: "13 March 2023",
-      time: "12:24 PM",
-    },
-    {
-      title: "SaaS Dashboard",
-      description:
-        "Intuitive dashboard design for a complex project management tool, focusing on data visualization and workflow optimization.",
-      image: Mob3,
-      category: "SaaS",
-      categoryColor: "bg-green-500",
-      bgGradient: "from-blue-400 to-blue-600",
-      tags: [
-        { name: "Designing", color: "text-blue-600" },
-        { name: "Web Development", color: "text-purple-600" },
-        { name: "Testing", color: "text-orange-600" },
-      ],
-      date: "13 March 2023",
-      time: "12:24 PM",
-    },
-  ];
-
-  const relatedPosts = [
-    {
-      id: 1,
-      image: RelatedPost,
-      categories: [
-        { name: "Design", color: "text-blue-600" },
-        { name: "UX Research", color: "text-purple-600" },
-      ],
-      date: "13 March 2023",
-      time: "12:24 PM",
-      title: "Design Thinking in Real Products: What Most Teams Miss",
-      description:
-        "Travelling in sea has many advantages. Some of the advantages of transporting goods by sea include: you can ship large volumes at costs",
-    },
-    {
-      id: 2,
-      image: RelatedPost,
-      categories: [
-        { name: "Design", color: "text-blue-600" },
-        { name: "UX Research", color: "text-purple-600" },
-      ],
-      date: "13 March 2023",
-      time: "12:24 PM",
-      title: "Design Thinking in Real Products: What Most Teams Miss",
-      description:
-        "Travelling in sea has many advantages. Some of the advantages of transporting goods by sea include: you can ship large volumes at costs",
-    },
-    {
-      id: 3,
-      image: RelatedPost,
-      categories: [
-        { name: "Design", color: "text-blue-600" },
-        { name: "UX Research", color: "text-purple-600" },
-      ],
-      date: "13 March 2023",
-      time: "12:24 PM",
-      title: "Design Thinking in Real Products: What Most Teams Miss",
-      description:
-        "Travelling in sea has many advantages. Some of the advantages of transporting goods by sea include: you can ship large volumes at costs",
-    },
-    {
-      id: 4,
-      image: RelatedPost,
-      categories: [
-        { name: "Design", color: "text-blue-600" },
-        { name: "UX Research", color: "text-purple-600" },
-      ],
-      date: "13 March 2023",
-      time: "12:24 PM",
-      title: "Design Thinking in Real Products: What Most Teams Miss",
-      description:
-        "Travelling in sea has many advantages. Some of the advantages of transporting goods by sea include: you can ship large volumes at costs",
-    },
-    {
-      id: 5,
-      image: RelatedPost,
-      categories: [
-        { name: "Design", color: "text-blue-600" },
-        { name: "UX Research", color: "text-purple-600" },
-      ],
-      date: "13 March 2023",
-      time: "12:24 PM",
-      title: "Design Thinking in Real Products: What Most Teams Miss",
-      description:
-        "Travelling in sea has many advantages. Some of the advantages of transporting goods by sea include: you can ship large volumes at costs",
-    },
-    {
-      id: 6,
-      image: RelatedPost,
-      categories: [
-        { name: "Design", color: "text-blue-600" },
-        { name: "UX Research", color: "text-purple-600" },
-      ],
-      date: "13 March 2023",
-      time: "12:24 PM",
-      title: "Design Thinking in Real Products: What Most Teams Miss",
-      description:
-        "Travelling in sea has many advantages. Some of the advantages of transporting goods by sea include: you can ship large volumes at costs",
-    },
-    {
-      id: 7,
-      image: RelatedPost,
-      categories: [
-        { name: "Design", color: "text-blue-600" },
-        { name: "UX Research", color: "text-purple-600" },
-      ],
-      date: "13 March 2023",
-      time: "12:24 PM",
-      title: "Design Thinking in Real Products: What Most Teams Miss",
-      description:
-        "Travelling in sea has many advantages. Some of the advantages of transporting goods by sea include: you can ship large volumes at costs",
-    },
-  ];
-
   const timelineData = [
     {
       year: "2018",
@@ -457,6 +312,21 @@ const page = () => {
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
         </svg>
       ));
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleDateString("en-US", { month: "long" });
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  };
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${hours}:${minutes}`;
   };
 
   return (
@@ -689,10 +559,14 @@ const page = () => {
                   ))}
                 </div>
 
-                {/* Date & Time */}
-                <div className="text-sm text-gray-500 mb-4">
-                  {project.date} • {project.time}
-                </div>
+                <div className="text-sm text-gray-500 mb-4 font-roboto">
+                      <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                        {formatDate(project.date)}
+                      </span>{" "}
+                      <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                        {project.time}
+                      </span>
+                    </div>
 
                 {/* Title */}
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">

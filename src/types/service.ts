@@ -1,3 +1,18 @@
+export interface ServiceSection {
+  title: string;
+  description: string;
+  sub_sections: Array<{
+    title?: string;
+    description?: string;
+    name?: string;
+    summary?: string;
+    experience?: string;
+    designation?: string;
+    stars?: number;
+    comment?: string;
+  }>;
+}
+
 export interface Service {
   id: number;
   title: string;
@@ -15,6 +30,17 @@ export interface Service {
   meta_description: string | null;
   og_image: string;
   canonical_url: string;
+  sections?: {
+    hero_section?: ServiceSection;
+    about_section?: ServiceSection;
+    why_choose_us_section?: ServiceSection;
+    what_we_offer_section?: ServiceSection;
+    perfect_business_section?: ServiceSection;
+    design_section?: ServiceSection;
+    team_section?: ServiceSection;
+    tools_used_section?: ServiceSection;
+    client_feedback_section?: ServiceSection;
+  };
 }
 
 export interface ServicesApiResponse {

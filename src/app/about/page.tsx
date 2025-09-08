@@ -12,7 +12,6 @@ import {
   Layout,
   Palette,
   Code,
-  Rocket,
 } from "lucide-react";
 import Heart from "@/components/svgs/icons/Heart";
 import Lock from "@/components/svgs/icons/Lock";
@@ -47,6 +46,12 @@ import Meeting2 from "@/assets/images/about/meeting2.png";
 import Discussion from "@/assets/images/about/discussion.png";
 import HighFive from "@/assets/images/about/highfive.png";
 import Wireframes from "@/assets/images/about/wireframes.png";
+import DocSearch from "@/components/svgs/icons/DocSearch";
+import Puzzle from "@/components/svgs/icons/Puzzle";
+import DesignIdeas from "@/components/svgs/icons/DesignIdeas";
+import CodeIcon from "@/components/svgs/icons/Code";
+import Rocket2 from "@/components/svgs/icons/Rocket2";
+import Button from "@/components/Button/Button";
 
 const page = () => {
   const features = [
@@ -88,9 +93,28 @@ const page = () => {
     },
   ];
 
-  const partners1 = [GooglePay, SamsungPay, Maestro, Klarna, Shoppay];
-  const partners2 = [ApplePay, WesternUnion, Skrill, AmazonPay];
-  const partners3 = [Payoneer, Visa, Bitcoin, Bitpay, Gumroad];
+  const partners1 = [
+    { src: GooglePay, width: 123, height: 51 },
+    { src: SamsungPay, width: 176, height: 78 },
+    { src: Maestro, width: 96, height: 60 },
+    { src: Klarna, width: 185, height: 74 },
+    { src: Shoppay, width: 181, height: 44 },
+  ];
+
+  const partners2 = [
+    { src: ApplePay, width: 123, height: 51 },
+    { src: WesternUnion, width: 176, height: 40 },
+    { src: Skrill, width: 118, height: 40 },
+    { src: AmazonPay, width: 185, height: 74 },
+  ];
+
+  const partners3 = [
+    { src: Payoneer, width: 113, height: 75 },
+    { src: Visa, width: 105, height: 40 },
+    { src: Bitcoin, width: 104, height: 36 },
+    { src: Bitpay, width: 102, height: 60 },
+    { src: Gumroad, width: 106, height: 21 },
+  ];
 
   const teamMembers = [
     {
@@ -249,7 +273,7 @@ const page = () => {
       title: "Discover & Define",
       description:
         "Deep dive into your challenges, goals, and needs. Research-driven. No assumptions.",
-      icon: Search,
+      icon: DocSearch,
       position: "top-left",
     },
     {
@@ -257,7 +281,7 @@ const page = () => {
       title: "Strategize & Wireframe",
       description:
         "Create user flows, architectures, and layouts focused to solve problems, not just decorate them.",
-      icon: Layout,
+      icon: Puzzle,
       position: "top-center",
     },
     {
@@ -265,7 +289,7 @@ const page = () => {
       title: "Design & Prototype",
       description:
         "Visual storytelling through UI-based elements, and interactive prototypes.",
-      icon: Palette,
+      icon: DesignIdeas,
       position: "top-right",
     },
     {
@@ -273,7 +297,7 @@ const page = () => {
       title: "Develop & Test",
       description:
         "Agile, scalable, and clean code — followed by rigorous quality and QA testing.",
-      icon: Code,
+      icon: CodeIcon,
       position: "bottom-left",
     },
     {
@@ -281,7 +305,7 @@ const page = () => {
       title: "Deliver & Support",
       description:
         "Seamless handoff, documentation and post-launch support to keep your product growing.",
-      icon: Rocket,
+      icon: Rocket2,
       position: "bottom-right",
     },
   ];
@@ -301,7 +325,7 @@ const page = () => {
       <section className="w-full py-16 px-4 md:px-8 lg:px-20 font-roboto">
         {/* Title */}
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-5xl font-[800] leading-[56px] tracking-[-1.5%] text-[#0F172A] mb-4">
             Our Story
           </h2>
           <p className="text-gray-600 leading-relaxed">
@@ -354,8 +378,11 @@ const page = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">
-            <p className="text-[#FFAB40]">Our Values</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <p className="text-[#FFAB40] text-[20px] font-[500] mb-2">
+              Our Values
+            </p>
+
+            <h2 className="text-3xl md:text-5xl font-[800] text-[#0F172A] leading-[110%] mb-6">
               The Heart of CorTechSols
             </h2>
             <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
@@ -406,50 +433,54 @@ const page = () => {
         <div className=" mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12">
-            <p className="text-[#FFAB40]">Our Partners</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 ">
+            <p className="text-[#FFAB40] text-[20px] font-[500] mb-2">
+              Our Partners
+            </p>
+            <h2 className="text-3xl md:text-5xl font-[800] text-[#0F172A] leading-[110%] ">
               Trusted By
             </h2>
           </div>
 
           {/* Company Logo Grid */}
-          <div className="flex flex-wrap max-w-7xl self-center w-full rounded-[50px] justify-center bg-[#FDF1F5]">
-            {/* 1st row */}
-            <div className="flex w-full flex-wrap justify-between px-8 pt-12 pb-6 mb-4">
+          <div className="max-w-7xl w-full self-center rounded-[50px] bg-[#FDF1F5] p-8 px-4">
+            {/* 1st row: 5 columns on lg */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 mb-8 items-center justify-center">
               {partners1.map((partner, index) => (
                 <Image
                   key={index}
                   src={partner.src}
                   alt={"logo" + index}
-                  className="w-auto h-8"
-                  width={80}
-                  height={50}
+                  width={partner.width}
+                  height={partner.height}
+                  className="object-contain mx-auto"
                 />
               ))}
             </div>
-            {/* 2nd row */}
-            <div className="flex w-full flex-wrap justify-between px-8 pb-6 mb-4">
+
+            {/* 2nd row: 4 columns on lg */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 mb-8 items-center justify-center">
               {partners2.map((partner, index) => (
                 <Image
                   key={index}
                   src={partner.src}
                   alt={"logo" + index}
-                  className="w-auto h-8"
-                  width={80}
-                  height={50}
+                  width={partner.width}
+                  height={partner.height}
+                  className="object-contain mx-auto"
                 />
               ))}
             </div>
-            {/* 3rd row */}
-            <div className="flex w-full flex-wrap justify-between px-8 pb-12">
+
+            {/* 3rd row: 5 columns on lg */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-center">
               {partners3.map((partner, index) => (
                 <Image
                   key={index}
                   src={partner.src}
                   alt={"logo" + index}
-                  className="w-auto h-8"
-                  width={80}
-                  height={50}
+                  width={partner.width}
+                  height={partner.height}
+                  className="object-contain mx-auto"
                 />
               ))}
             </div>
@@ -462,8 +493,10 @@ const page = () => {
         <div className=" mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12">
-            <p className="text-[#FFAB40]">Decision Makers</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 ">
+            <p className="text-[#FFAB40] text-[20px] font-[500] mb-2">
+              Decision Makers
+            </p>
+            <h2 className="text-3xl md:text-5xl font-[800] text-[#0F172A] leading-[110%] ">
               Meet Our Team
             </h2>
           </div>
@@ -493,10 +526,19 @@ const page = () => {
       </div>
 
       {/* our culture big grid */}
-      <div className="py-16">
+      <div className="py-16 font-roboto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <p className="text-[#FFAB40] text-[20px] font-[500] mb-2">
+              Our Culture
+            </p>
+            <h2 className="text-3xl md:text-5xl font-[800] text-[#0F172A] leading-[110%] ">
+              Culture CorTechSols Follows
+            </h2>
+          </div>
           {/* Grid Container */}
-          <div className="grid grid-cols-2 md:grid-cols-9 lg:grid-cols-18 ">
+          <div className="grid grid-cols-2 md:grid-cols-9 lg:grid-cols-18 pt-4">
             {/* 1st row */}
             <div className="lg:col-span-4 text-white  font-roboto  md:col-span-4 col-span-9 bg-[#1D2128]">
               <div className="relative text-[80px] md:text-[120px]  p-4 flex flex-col gap-2">
@@ -703,6 +745,11 @@ const page = () => {
               />
             </div>
           </div>
+
+          {/* join us now button */}
+          <div className="my-12 flex justify-center">
+            <Button name="Join us now" buttonHeight="58px" />
+          </div>
         </div>
       </div>
 
@@ -710,7 +757,7 @@ const page = () => {
       <div className="w-full bg-[#FAFBFA]">
         <div className="max-w-6xl mx-auto px-6 py-16 ">
           <div className="text-center mb-16">
-            <p className="text-amber-500 font-medium text-sm tracking-wider mb-2">
+            <p className="text-[#FFAB40] font-[500] text-[20px] mb-2">
               Our Process
             </p>
             <h2 className="text-4xl font-bold text-gray-900">
@@ -721,16 +768,57 @@ const page = () => {
           <div className="relative">
             {/* Top Row Steps */}
             <div className="flex justify-between items-center mb-20">
-              {steps.slice(0, 3).map((step, index) => (
+              {steps.slice(0, 3).map((step) => (
                 <div
                   key={step.id}
                   className="flex flex-col items-center max-w-xs"
                 >
-                  <div className="relative">
-                    <div className="w-20 h-20 bg-teal-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
-                      <step.icon className="w-8 h-8 text-white" />
+                  <div className="w-[100px] h-[100px] relative rounded-tl-[25px] rounded-tr-[25px] rounded-br-[25px] overflow-hidden shadow-lg flex items-center justify-center">
+                    {/* Top-right triangle */}
+                    <div
+                      className="absolute top-0 left-0 w-full h-full"
+                      style={{
+                        clipPath: "polygon(100% 0, 100% 100%, 0 0)",
+                        background:
+                          "radial-gradient(circle at top right, #0d9488, #0f766e)",
+                      }}
+                    ></div>
+
+                    {/* Bottom-left triangle */}
+                    <div
+                      className="absolute top-0 left-0 w-full h-full"
+                      style={{
+                        clipPath: "polygon(0 100%, 100% 100%, 0 0)",
+                        background:
+                          "radial-gradient(circle at bottom left, #0f766e, #0d9488)",
+                      }}
+                    ></div>
+
+                    {/* Half diagonal line */}
+                    <div
+                      className="absolute"
+                      style={{
+                        width: "1px",
+                        height: "50%",
+                        top: "0",
+                        left: "0",
+                        backgroundColor: "white",
+                        transform: "rotate(45deg)",
+                        transformOrigin: "top left",
+                        opacity: 0.7,
+                      }}
+                    ></div>
+
+                    {/* Icon centered */}
+                    <div className="relative z-10">
+                      <step.icon
+                        className={`${
+                          step.id === 1 ? "w-[41px] h-[48px]" : " w-10 h-10"
+                        } text-white`}
+                      />
                     </div>
                   </div>
+
                   <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">
                     {step.title}
                   </h3>
@@ -748,11 +836,52 @@ const page = () => {
                   key={step.id}
                   className="flex flex-col items-center max-w-xs"
                 >
-                  <div className="relative">
-                    <div className="w-20 h-20 bg-teal-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
-                      <step.icon className="w-8 h-8 text-white" />
+                  <div className="w-[100px] h-[100px] relative rounded-tl-[25px] rounded-tr-[25px] rounded-br-[25px] overflow-hidden shadow-lg flex items-center justify-center mb-6">
+                    {/* Top-right triangle */}
+                    <div
+                      className="absolute top-0 left-0 w-full h-full"
+                      style={{
+                        clipPath: "polygon(100% 0, 100% 100%, 0 0)",
+                        background:
+                          "radial-gradient(circle at top right, #0d9488, #0f766e)",
+                      }}
+                    ></div>
+
+                    {/* Bottom-left triangle */}
+                    <div
+                      className="absolute top-0 left-0 w-full h-full"
+                      style={{
+                        clipPath: "polygon(0 100%, 100% 100%, 0 0)",
+                        background:
+                          "radial-gradient(circle at bottom left, #0f766e, #0d9488)",
+                      }}
+                    ></div>
+
+                    {/* Half diagonal line */}
+                    <div
+                      className="absolute"
+                      style={{
+                        width: "1px",
+                        height: "50%",
+                        top: "0",
+                        left: "0",
+                        backgroundColor: "white",
+                        transform: "rotate(45deg)",
+                        transformOrigin: "top left",
+                        opacity: 0.7,
+                      }}
+                    ></div>
+
+                    {/* Icon centered */}
+                    <div className="relative z-10">
+                      <step.icon
+                        className={`${
+                          step.id === 5 ? "w-[38px] h-[45px]" : " w-10 h-10"
+                        } text-white`}
+                      />
                     </div>
                   </div>
+
                   <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">
                     {step.title}
                   </h3>

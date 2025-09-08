@@ -3,13 +3,15 @@ import {
   Mail,
   Phone,
   MapPin,
-  Facebook,
-  Youtube,
-  Linkedin,
-  Twitter,
+
 } from "lucide-react";
 import DarkLogo from "@/assets/images/logo-dark.png";
 import Image from "next/image";
+import Facebook from "@/components/svgs/icons/fb";
+import Youtube from "@/components/svgs/icons/youtube";
+import Linkedin from "@/components/svgs/icons/linkedin";
+import Twitter from "@/components/svgs/icons/x";
+
 
 const Footer = () => {
   return (
@@ -17,7 +19,7 @@ const Footer = () => {
       {/* Radial gradient background layer */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div
-          className="absolute top-0 left-[-100px] w-[80%] min-h-[600px] rounded-full opacity-60
+          className="absolute md:top-[-100px] top-[-200px] md:left-[-100px]  md:w-[80%] w-full md:min-h-[600px] min-h-[800px] rounded-full opacity-60
       bg-[radial-gradient(circle,#20C5BA,transparent_70%)]"
         />
       </div>
@@ -30,9 +32,9 @@ const Footer = () => {
             <Image src={DarkLogo.src} alt="Logo" width={200} height={100} />
           </div>
           <div className="space-y-2 text-sm">
-            <p className="flex items-center gap-2">
+            <a href="mailto:CortechsolsSuport@gmail.com" className="flex items-center gap-2 underline cursor-pointer">
               <Mail size={16} /> CortechsolsSuport@gmail.com
-            </p>
+            </a>
             <p className="flex items-center gap-2">
               <Phone size={16} /> +92 3XX-XXXXXXX
             </p>
@@ -40,18 +42,18 @@ const Footer = () => {
               <MapPin size={16} /> Islamabad, Pakistan
             </p>
           </div>
-          <div className="flex space-x-4 mt-3">
-            <a href="#">
-              <Facebook className="h-5 w-5 hover:text-teal-400" />
+          <div className="flex space-x-[16px] mt-3">
+            <a href="#" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
+              <Facebook />
             </a>
-            <a href="#">
-              <Youtube className="h-5 w-5 hover:text-teal-400" />
+            <a href="#" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
+              <Youtube />
             </a>
-            <a href="#">
-              <Twitter className="h-5 w-5 hover:text-teal-400" />
+            <a href="#" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
+              <Twitter />
             </a>
-            <a href="#">
-              <Linkedin className="h-5 w-5 hover:text-teal-400" />
+            <a href="#" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
+              <Linkedin />
             </a>
           </div>
         </div>

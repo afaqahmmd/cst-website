@@ -314,12 +314,12 @@ const page = () => {
   return (
     <main className="min-h-screen relative bg-white font-roboto">
       {/* homepage hero section */}
-      <section className="flex w-full items-center relative overflow-hidden">
-        <div className="w-full min-h-[800px] grid grid-cols-1 items-start self-center gap-10 py-10 md:py-16 lg:grid-cols-2 lg:gap-12">
+      <section className="flex w-full max-w-[1920px] mx-auto items-center relative overflow-hidden">
+        <div className="w-full lg:min-h-[700px] grid grid-cols-1 items-start self-center gap-10 py-10 md:py-16 md:pb-0 pb-0 lg:grid-cols-2 lg:gap-12">
           {/* LEFT CONTENT */}
-          <div className="relative h-full z-10 flex flex-col pt-18 justify-start gap-[20%]">
-            <div className="flex flex-col pl-8 md:pl-24 ml-[50px]">
-              <h1 className="text-[34px] font-bold tracking-tight font-roboto text-[#0F172A] sm:text-[34px] md:text-[40px] lg:text-[54px]">
+          <div className="relative h-full z-10 flex flex-col lg:pt-18 pt-2  justify-start gap-[20%]">
+            <div className="flex flex-col sm:pl-8 pl-4 md:pl-20">
+              <h1 className="font-bold tracking-tight font-roboto text-[#0F172A] text-[34px] md:text-[40px] lg:text-[54px]">
                 Our Target Industries
               </h1>
 
@@ -341,28 +341,31 @@ const page = () => {
             </div>
           </div>
 
-          {/* EllipseDown (background) */}
-          <div className="absolute bottom-0 left-0 z-10">
-            <EllipseDown />
+          {/* EllipseUp (background) */}
+          <div className="absolute hidden md:block top-0 lg:right-[25%] -right-[50px] z-0">
+            <EllipseUp className="w-[250px] h-[250px] md:w-[400px] md:h-[400px]" />
           </div>
-          <div className="absolute top-6 right-[25%] z-0">
-            <EllipseUp />
+
+          {/* EllipseDown (background) */}
+          <div className="absolute hidden md:block bottom-0 md:-left-[50px] -left-[50px] z-0">
+            <EllipseDown className="w-[350px] h-[174px] md:w-[400px] md:h-[240px]" />
           </div>
         </div>
       </section>
 
       {/* tabs  container */}
-      <div className="relative flex flex-col items-center border-none md:max-w-[80%] max-w-7xl mx-auto pt-0 p-6 -mt-2 z-30 ">
+      <div className="relative flex flex-col items-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 -mt-2 z-30">
         {/* Tab Navigation */}
         <div className="relative w-full z-40 bg-white rounded-t-lg overflow-hidden shadow-sm border">
-          <div className="flex overflow-x-auto scrollbar-hide">
+          {/* Desktop Tabs */}
+          <div className="hidden sm:flex overflow-x-auto scrollbar-hide">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-shrink-0 flex border-none items-center gap-2 px-6 py-4 text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                className={`flex-shrink-0 flex items-center gap-2 px-6 py-4 text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                   activeTab === tab.id
-                    ? "bg-[#20C5BA] text-white "
+                    ? "bg-[#20C5BA] text-white"
                     : "text-gray-600 hover:text-gray-800 hover:bg-gray-100"
                 }`}
               >
@@ -372,60 +375,74 @@ const page = () => {
                     stroke={activeTab === tab.id ? "#ffffff" : "#2B2B2B"}
                   />
                 </span>
-                <p className="text-[22px] font-[500] p-0 m-0 mt-1">
-                  {tab.label}
-                </p>
+                <p className="text-lg font-medium m-0">{tab.label}</p>
               </button>
             ))}
           </div>
+
+          {/* Mobile Dropdown */}
+          <div className="sm:hidden p-2">
+            <select
+              value={activeTab}
+              onChange={(e) => setActiveTab(e.target.value)}
+              className="w-full border rounded-md px-3 py-2 text-gray-700 focus:ring-2 focus:ring-[#20C5BA] focus:outline-none"
+            >
+              {tabs.map((tab) => (
+                <option key={tab.id} value={tab.id}>
+                  {tab.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
+
         {/* Main Content */}
         <div className="bg-[#579DFF] w-full rounded-b-2xl overflow-hidden shadow-md">
-          <div className="flex flex-col  lg:flex-row lg:min-h-[600px]">
+          <div className="flex flex-col lg:flex-row lg:min-h-[600px]">
             {/* Left Image Section */}
-            <div className="lg:w-1/2 relative">
-              <div className="absolute  z-10" />
+            <div className="lg:w-1/2 relative h-64 sm:h-80 lg:h-auto">
               <Image
                 src={TabsPic.src}
                 alt={`${currentData.title} showcase`}
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
                 priority
               />
             </div>
 
             {/* Right Content Section */}
-            <div className="lg:w-1/2 p-8 lg:p-12 lg:py-16 text-white flex flex-col justify-between">
-              <h1 className="text-4xl lg:text-5xl font-bold mb-6">
+            <div className="lg:w-1/2 p-6 sm:p-8 lg:p-12 text-white flex flex-col justify-between">
+              <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold mb-4 sm:mb-6">
                 {currentData.title}
               </h1>
 
-              <p className="text-[24px] font-roboto text-[#e6eaef] leading-[42px] tracking-[em] mb-8">
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-roboto text-[#e6eaef] leading-relaxed mb-6 sm:mb-8">
                 {currentData.description}
               </p>
 
               <div>
                 {/* Stats */}
-                <div className="flex items-center gap-4 mb-8">
-                  <div className=" flex gap-2 items-center text-[24px] font-[400] text-white">
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 sm:gap-6 mb-6 sm:mb-8">
+                  <div className="flex gap-2 items-center text-base sm:text-xl md:text-2xl font-normal text-white">
                     {currentData.stats.projects}
                     <p>Projects</p>
                   </div>
-                  <div className="border-2 h-5 border-l border-white " />
-                  <div className=" flex gap-2 items-center text-[24px] font-[400] text-white">
+                  <div className="hidden sm:block border-l h-5 border-white" />
+                  <div className="flex gap-2 items-center text-base sm:text-xl md:text-2xl font-normal text-white">
                     {currentData.stats.reviews}
                     <p>Reviews</p>
                   </div>
-                  <div className="border-2 h-5 border-l border-white " />
-
-                  <div className=" flex gap-2 items-center text-[24px] font-[400] text-white">
+                  <div className="hidden sm:block border-l h-5 border-white" />
+                  <div className="flex gap-2 items-center text-base sm:text-xl md:text-2xl font-normal text-white">
                     {currentData.stats.industries}
-                    <p>target Industries</p>
+                    <p>Industries</p>
                   </div>
                 </div>
+
                 {/* CTA Button */}
                 <Link href={`/industries/industry`}>
-                  <button className="bg-white text-[#579DFF] px-6 py-3 rounded-[3px] font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center gap-2 group">
+                  <button className="bg-white text-[#579DFF] px-4 sm:px-6 py-2 sm:py-3 rounded-[5px] font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center gap-2 group">
                     <p>Explore More</p>
                     <ArrowRight
                       color="#579DFF"
@@ -438,18 +455,19 @@ const page = () => {
           </div>
         </div>
 
-        <button className="bg-[#20C5BA] hover:bg-[#17a398] mt-12 text-white px-8 py-4 rounded-[3px] font-roboto font-[400] text-[18px]">
+        {/* Bottom Button */}
+        <button className="bg-[#20C5BA] hover:bg-[#17a398] mt-8 sm:mt-12 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-[5px] font-roboto font-medium text-base sm:text-lg md:text-xl">
           Let's Build Something Great
         </button>
       </div>
 
       {/* domain experts */}
-      <div className="flex flex-col text-center gap-2 leading-[50px] items-center border-none  p-6">
+      <div className="flex flex-col bg-[#FAFBFA] text-center gap-2 leading-[50px] items-center border-none lg:py-16 py-8  p-6">
         <div className="md:max-w-[80%] gap-3 max-w-7xl mx-auto">
           <p className="text-[20px] font-[500] text-[#FFAB40] ">
             Domain Experts
           </p>
-          <h1 className=" md:text-[40px] lg:text-[56px] font-extrabold tracking-tight font-roboto text-[#0F172A] sm:text-[34px]">
+          <h1 className=" md:text-[40px] lg:text-[56px] font-extrabold tracking-tight font-roboto text-[#0F172A] text-[34px]">
             Why CorTechSols for Your <br />
             Industry?
           </h1>
@@ -459,9 +477,9 @@ const page = () => {
             your strategic tech partner.
           </p>
 
-          <div className="flex flex-wrap items-center justify-between w-full gap-3">
+          <div className="flex flex-wrap items-center justify-between pl-4 md:pl-0 w-full gap-3 max-w-[1920px]">
             {domainExperts.map((expert, index) => (
-              <div className="flex  items-center gap-2" key={index}>
+              <div className="flex items-center gap-2" key={index}>
                 <div className="flex-shrink-0  bg-teal-500 h-6 w-6  flex items-center justify-center rounded-full">
                   <Check className="w-4 h-4 text-white" size={16} />
                 </div>
@@ -470,7 +488,7 @@ const page = () => {
             ))}
           </div>
         </div>
-        <div className="w-full">
+        <div className="w-full max-w-[1920px] mx-auto">
           <div
             className="flex overflow-x-auto items-center  pb-2 scrollbar-hide w-full justify-between"
             style={{ scrollbarWidth: "auto" }}
@@ -495,7 +513,7 @@ const page = () => {
           <p className="text-[20px] font-[500] text-[#FFAB40] ">
             Built with Security & Compliance in Mind
           </p>
-          <h1 className=" md:text-[40px] lg:text-[56px] font-extrabold tracking-tight font-roboto text-[#0F172A] sm:text-[34px]">
+          <h1 className=" md:text-[40px] lg:text-[56px] font-extrabold tracking-tight font-roboto text-[#0F172A] text-[34px]">
             Industry-Specific Compliance
           </h1>
           <p className="text-[20px] mt-3 font-roboto text-[#0F172A] leading-[180%] mb-8">
@@ -604,12 +622,12 @@ const page = () => {
       </div>
 
       {/* Happy Clients */}
-      <div className="flex flex-col text-center gap-2 leading-[50px] items-center border-none  p-6">
+      <div className="flex flex-col bg-[#FAFBFA] text-center gap-2 leading-[50px] items-center border-none  p-6">
         <div className="md:max-w-[80%] gap-3 max-w-7xl mx-auto">
           <p className="text-[20px] font-[500] text-[#FFAB40] ">
             Happy Clients
           </p>
-          <h1 className=" md:text-[40px] lg:text-[56px] font-extrabold tracking-tight font-roboto text-[#0F172A] sm:text-[34px]">
+          <h1 className=" md:text-[40px] lg:text-[56px] font-extrabold tracking-tight font-roboto text-[#0F172A] text-[34px]">
             What Our Clients Say
           </h1>
           <p className="text-[20px] mt-3 font-roboto text-[#0F172A] leading-[180%] mb-8">
@@ -617,7 +635,7 @@ const page = () => {
             Explore their stories of success, growth, and transformation
           </p>
         </div>
-        <div className="w-full ">
+        <div className="w-full max-w-[1920px] mx-auto">
           <div
             className="flex overflow-x-auto gap-3 items-center pb-12 scrollbar-hide w-full justify-between"
             style={{ scrollbarWidth: "auto" }}
@@ -625,7 +643,7 @@ const page = () => {
             {testimonials.map((testimonial) => (
               <div
                 key={testimonial.id}
-                className="bg-white rounded-lg border border-gray-100 shadow-lg relative flex-shrink-0 max-w-96 min-w-72 p-4"
+                className="bg-white min-h-[223px] rounded-lg border border-gray-100 shadow-lg relative flex-shrink-0 max-w-96 min-w-72 p-4"
               >
                 {/* Client Info */}
                 <div className="flex items-center justify-between">
@@ -673,7 +691,7 @@ const page = () => {
 
       <InfoSection
         title="Still Curious? Let's Talk"
-        subText="Still Curious? Let's Talk"
+        subText="Let's Build Something That Moves Your Industry Forward."
         buttonText="Get in Touch"
       />
 

@@ -293,6 +293,20 @@ const page = () => {
     },
   ];
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleDateString("en-US", { month: "long" });
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  };
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${hours}:${minutes}`;
+  };  
   return (
     <main className="bg-white w-full font-roboto">
       {/* hero section */}
@@ -785,8 +799,13 @@ const page = () => {
                     </div>
 
                     {/* Date & Time */}
-                    <div className="text-sm text-gray-500 mb-4">
-                      {post.date} • {post.time}
+                    <div className="text-sm text-gray-500 mb-4 font-roboto">
+                      <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                        {formatDate(post.date)}
+                      </span>{" "}
+                      <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                        {post.time}
+                      </span>
                     </div>
 
                     {/* Title */}

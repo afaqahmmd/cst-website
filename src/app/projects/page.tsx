@@ -4,9 +4,7 @@ import React from "react";
 import Mob1 from "@/assets/images/services/mob1.png";
 import Mob2 from "@/assets/images/services/mob2.png";
 import Mob3 from "@/assets/images/services/mob3.png";
-import CyanMob from "@/assets/images/projects/cyan-mobile.webp";
 import Image from "next/image";
-import OrangeMob from "@/assets/images/projects/orange-mobile.webp";
 import PinkMob from "@/assets/images/projects/pink-mobile.webp";
 import LightBlueMob from "@/assets/images/projects/lightblue-mobile.webp";
 import BlueMob from "@/assets/images/projects/blue-mobile.webp";
@@ -16,7 +14,8 @@ import LightCyanMob from "@/assets/images/projects/lightcyan-mobile.webp";
 import InfoSection from "@/components/InfoSection/InfoSection";
 import StayInLoop from "@/components/StayInLoop/StayInLoop";
 import Footer from "@/components/Footer/Footer";
-import UxReview from "@/assets/images/projects/orange.webp";
+import UxReview2 from "@/assets/images/projects/orange-banner.svg";
+import CyanMobile from "@/assets/images/projects/cyan-mobile.svg";
 
 const page = () => {
   const recentPosts = [
@@ -150,6 +149,21 @@ const page = () => {
     },
   ];
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleDateString("en-US", { month: "long" });
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  };
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${hours}:${minutes}`;
+  };
+
   return (
     <main className="w-full font-roboto">
       <HeroSection
@@ -162,7 +176,7 @@ const page = () => {
       <div className="relative flex flex-col w-full lg:max-w-[90%] max-w-7xl px-4 mx-auto lg:my-16 my-8 ">
         <div className="relative aspect-[1200/550] rounded-lg overflow-hidden">
           <Image
-            src={UxReview}
+            src={UxReview2}
             alt="ux-review-representations"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -235,7 +249,7 @@ const page = () => {
           <div className="relative  rounded-lg overflow-hidden">
             <div className="aspect-[720/455] pointer-events-none">
               <Image
-                src={CyanMob}
+                src={CyanMobile}
                 alt="cyan-mobile-interface"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -323,8 +337,13 @@ const page = () => {
                 </div>
 
                 {/* Date & Time */}
-                <div className="text-sm text-gray-500 mb-4">
-                  {project.date} • {project.time}
+                <div className="text-sm text-gray-500 mb-4 font-roboto">
+                  <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                    {formatDate(project.date)}
+                  </span>{" "}
+                  <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                    {project.time}
+                  </span>
                 </div>
 
                 {/* Title */}
@@ -392,10 +411,14 @@ const page = () => {
                   ))}
                 </div>
 
-                {/* Date & Time */}
-                <div className="text-sm text-gray-500 mb-4">
-                  {project.date} • {project.time}
-                </div>
+                <div className="text-sm text-gray-500 mb-4 font-roboto">
+                      <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                        {formatDate(project.date)}
+                      </span>{" "}
+                      <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                        {project.time}
+                      </span>
+                    </div>
 
                 {/* Title */}
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">

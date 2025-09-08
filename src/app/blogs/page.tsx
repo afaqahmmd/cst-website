@@ -17,8 +17,17 @@ import StayInLoop from "@/components/StayInLoop/StayInLoop";
 import Footer from "@/components/Footer/Footer";
 import { fetchBlogs } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+import { getBlogImageUrl } from "@/utils/getBlobImageUrl";
+import Avatar1 from "@/assets/images/blogs/avatar1.png";
+import Avatar2 from "@/assets/images/blogs/avatar2.png";
+import Avatar3 from "@/assets/images/blogs/avatar3.png";
+import Avatar4 from "@/assets/images/blogs/avatar4.png";
+import Avatar5 from "@/assets/images/blogs/avatar5.png";
+import Avatar6 from "@/assets/images/blogs/avatar6.png";
+import Avatar7 from "@/assets/images/blogs/avatar7.png";
+import Avatar8 from "@/assets/images/blogs/avatar8.png";
+import Avatar9 from "@/assets/images/blogs/avatar9.png";
 
-// Default avatar using a placeholder service
 const defaultAvatar = "https://ui-avatars.com/api/?name=User&background=0ea5e9&color=fff&size=32";
 
 const page = () => {
@@ -27,7 +36,11 @@ const page = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const totalPages = 8;
 
-  const { data: blogsData, isLoading, error } = useQuery({
+  const {
+    data: blogsData,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["blogs"],
     queryFn: fetchBlogs,
   });
@@ -49,21 +62,45 @@ const page = () => {
     return pages;
   };
 
+  const getAuthorAvatar = (blogId: number, email: string, name: string) => {
+    if (!email && !name) return defaultAvatar;
+    
+    // Use imported avatars based on blog ID to ensure different avatars
+    const avatars = [Avatar1, Avatar2, Avatar3, Avatar4, Avatar5, Avatar6, Avatar7, Avatar8, Avatar9];
+    
+    // Use blog ID to assign different avatars
+    const avatarIndex = blogId % avatars.length;
+    return avatars[avatarIndex];
+  };
+
+  const getAvatarBackgroundColor = (blogId: number) => {
+    const colors = [
+      "bg-blue-100",    
+      "bg-green-100",   
+      "bg-purple-100",  
+      "bg-pink-100",    
+      "bg-yellow-100",  
+      "bg-indigo-100",  
+      "bg-red-100",     
+      "bg-orange-100",  
+      "bg-teal-100",    
+    ];
+    
+    return colors[blogId % colors.length];
+  };
+
   const goToPage = (page: number) => {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
   };
 
-
-
   // Function to format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+    const day = date.getDate();
+    const month = date.toLocaleDateString("en-US", { month: "long" });
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
   };
 
   // Function to get author name from email
@@ -93,16 +130,9 @@ const page = () => {
     return colors[index % colors.length];
   };
 
-  // Function to get author avatar with dynamic generation
-  const getAuthorAvatar = (email: string, name: string) => {
-    if (!email && !name) return defaultAvatar;
-    const displayName = name || email.split("@")[0];
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=0ea5e9&color=fff&size=32`;
-  };
-
   // Handle the API response structure: {message: "...", data: [...]}
   const blogs = blogsData?.data || [];
-  
+
   // Get unique tags from blogs data
   const getUniqueTags = () => {
     const allTags = new Set<string>();
@@ -117,21 +147,26 @@ const page = () => {
   };
 
   const tags = getUniqueTags();
-  
+
   // Filter blogs based on search query and selected tag
   const filteredBlogs = blogs.filter((blog: any) => {
     if (!blog) return false;
-    
+
     const matchesSearch =
-      (blog.title && blog.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (blog.summary && blog.summary.toLowerCase().includes(searchQuery.toLowerCase()));
-    
+      (blog.title &&
+        blog.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (blog.summary &&
+        blog.summary.toLowerCase().includes(searchQuery.toLowerCase()));
+
     const matchesTag =
       selectedTag === "All" ||
-      (blog.tags && Array.isArray(blog.tags) && blog.tags.some((tag: { id: number; name: string }) => 
-        tag.name.toLowerCase() === selectedTag.toLowerCase()
-      ));
-    
+      (blog.tags &&
+        Array.isArray(blog.tags) &&
+        blog.tags.some(
+          (tag: { id: number; name: string }) =>
+            tag.name.toLowerCase() === selectedTag.toLowerCase()
+        ));
+
     return matchesSearch && matchesTag && blog.published;
   });
 
@@ -154,7 +189,9 @@ const page = () => {
     return (
       <div className="w-full h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">Error Loading Blogs</h2>
+          <h2 className="text-2xl font-bold text-red-600 mb-4">
+            Error Loading Blogs
+          </h2>
           <p className="text-gray-600">Please try again later.</p>
           <p className="text-sm text-gray-500 mt-2">{error.message}</p>
         </div>
@@ -260,18 +297,17 @@ const page = () => {
                 <Card className="transition-shadow duration-300 p-4 rounded-none shadow-lg border-gray-100 hover:shadow-xl">
                   <CardHeader className="p-0">
                     <Image
-                      src={blog.images?.[0] || "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=200&fit=crop"}
+                      src={getBlogImageUrl(blog.images?.[0]) || "/placeholder.svg"}
                       alt={blog.title}
                       width={400}
                       height={200}
                       className="w-full h-48 object-cover rounded-t-md"
                       onError={(e) => {
-                        e.currentTarget.src = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=200&fit=crop";
+                        e.currentTarget.src = "/placeholder.svg";
                       }}
                     />
                   </CardHeader>
                   <CardContent className="p-0">
-                    
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-lg font-semibold line-clamp-2">
                         {blog.title}
@@ -279,20 +315,24 @@ const page = () => {
                       <ArrowUpRight className="flex-shrink-0 ml-2" />
                     </div>
                     <p className="text-gray-600 text-sm line-clamp-2">
-                      {blog.summary || blog.meta_description || "Click to read more about this blog post."}
+                      {blog.summary ||
+                        blog.meta_description ||
+                        "Click to read more about this blog post."}
                     </p>
                   </CardContent>
                   <CardFooter className="flex items-center gap-3 p-0 mt-4">
-                    {/* <Image
-                      src={getAuthorAvatar(blog.author_email, getAuthorName(blog.author_email))}
-                      alt={getAuthorName(blog.author_email)}
-                      width={32}
-                      height={32}
-                      className="rounded-full"
-                      onError={(e) => {
-                        e.currentTarget.src = defaultAvatar;
-                      }}
-                    /> */}
+                    <div className={`w-8 h-8 rounded-full ${getAvatarBackgroundColor(blog.id)} flex items-center justify-center`}>
+                      <Image
+                        src={getAuthorAvatar(blog.id, blog.author_email, getAuthorName(blog.author_email))}
+                        alt={getAuthorName(blog.author_email)}
+                        width={32}
+                        height={32}
+                        className="rounded-full"
+                        onError={(e) => {
+                          e.currentTarget.src = defaultAvatar;
+                        }}
+                      />
+                    </div>
                     <div className="flex flex-col text-sm">
                       <span className="font-medium">
                         {getAuthorName(blog.author_email)}
@@ -308,10 +348,9 @@ const page = () => {
           ) : (
             <div className="col-span-full text-center py-12">
               <p className="text-gray-500 text-lg">
-                {searchQuery || selectedTag !== "All" 
-                  ? "No blogs found matching your criteria." 
-                  : "No blogs available at the moment."
-                }
+                {searchQuery || selectedTag !== "All"
+                  ? "No blogs found matching your criteria."
+                  : "No blogs available at the moment."}
               </p>
             </div>
           )}

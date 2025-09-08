@@ -62,7 +62,6 @@ export async function fetchServiceById(id: number) {
   console.log("Fetching service with id:", id);
   const res = await fetch(`${API_BASE_URL}/api/v1/services/${id}/`, {
     headers: { "Content-Type": "application/json" },
-    cache: "no-store",
   });
 
   if (!res.ok) {

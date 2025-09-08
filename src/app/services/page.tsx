@@ -56,6 +56,7 @@ import Saas from "@/components/svgs/icons/Saas";
 import Mobile from "@/components/svgs/icons/Mobile";
 import Enterprise from "@/components/svgs/icons/Enterprise";
 import Rocket from "@/components/svgs/icons/Rocket";
+import Button from "@/components/Button/Button";
 
 const page = () => {
   const features = [
@@ -548,16 +549,25 @@ const page = () => {
         </svg>
       ));
   };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleDateString("en-US", { month: "long" });
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  };
+
   return (
     <div className="w-full flex flex-col font-roboto">
       {/* hero section */}
-      <div className="bg-gray-50 min-h-screen font-roboto">
+      <div className="bg-white min-h-screen font-roboto">
         <div className="max-w-screen mx-auto lg:px-12 sm:px-6 px-4 md:px-8">
-          <div className="grid lg:grid-cols-2 gap-12  min-h-screen py-12">
+          <div className=" grid lg:grid-cols-2 gap-12 min-h-screen items-start justify-start py-6 zoomed-out-center">
             {/* Left Content */}
-            <div className="space-y-12 mt-12">
+            <div className="space-y-12 mt-6 zoomed-out-textcenter">
               <div className="space-y-6">
-                <h1 className="font-[800] text-[48px] leading-[55px] tracking-[-1.5%] text-[#33333] ">
+                <h1 className="font-[800] lg:text-[48px] text-[40px] leading-[55px] tracking-[-1.5%] text-[#33333] ">
                   Transform Your Ideas Into Stunning Digital Experiences
                 </h1>
 
@@ -568,12 +578,15 @@ const page = () => {
                 </p>
               </div>
 
-              <button className="text-sm bg-[#20C5BA] hover:bg-[#22aea5] text-white px-8 py-4 rounded-sm font-semibold duration-200 shadow-lg transition-all">
+              <button
+                type="submit"
+                className="min-w-[214px] bg-teal-500 text-white py-4 rounded-[5px] leading-[29px] font-[500] font-roboto hover:bg-teal-600 transition-colors duration-200  text-[18px]"
+              >
                 Get Started Today
               </button>
 
               {/* Stats */}
-              <div className="flex flex-wrap gap-8 pt-8">
+              <div className="flex flex-wrap gap-8 pt-8 zoomed-out-center ">
                 <div className="flex items-center gap-3">
                   <div className="w-6 h-6 bg-orange-400 rounded-full"></div>
                   <span className="font-[500] text-[20px] leading-[150%] text-[#101828]">
@@ -590,7 +603,7 @@ const page = () => {
             </div>
 
             {/* Right Image */}
-            <div className="relative overflow-hidden rounded-2xl aspect-[575/403]">
+            <div className="relative overflow-hidden bg-green-300 rounded-2xl aspect-[575/403]">
               <Image
                 src={HeroImg.src}
                 alt="Designer working on wireframes and sketches"
@@ -604,14 +617,14 @@ const page = () => {
       </div>
 
       {/* about our ui/ux */}
-      <div className="font-robot bg-[#FAFBFA] py-16 lg:py-24">
+      <div className="font-roboto bg-[#FAFBFA] py-16 lg:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-[32px] font-[600] text-[#333333] tracking-[-3%] mb-6">
               About Our UI/UX Design Service
             </h2>
-            <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-[18px] font-[400] text-[#666666] max-w-4xl mx-auto leading-[150%]">
               Our UI/UX design service combines strategic thinking with creative
               excellence to deliver digital experiences that users love and
               businesses value. We don't just make things look pretty — we solve
@@ -621,9 +634,9 @@ const page = () => {
           </div>
 
           {/* Feature Cards */}
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid md:grid-cols-3 gap-6">
             {/* User-Centered Card */}
-            <div className="text-center group">
+            <div className="text-center group bg-white rounded-[24px] p-8">
               <div className="w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-200 transition-colors duration-200">
                 <Image
                   src={UserCentered.src}
@@ -635,14 +648,14 @@ const page = () => {
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 User-Centered
               </h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-[#868282] leading-[22px] font-[400] text-[16px]">
                 Every design decision is backed by user research and usability
                 testing
               </p>
             </div>
 
             {/* Research-Driven Card */}
-            <div className="text-center group">
+            <div className="text-center group bg-white rounded-[24px] p-8">
               <div className=" w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-200 transition-colors duration-200">
                 <Image
                   src={ResearchDriven.src}
@@ -654,13 +667,13 @@ const page = () => {
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 Research-Driven
               </h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-[#868282] leading-[22px] font-[400] text-[16px]">
                 Data and insights guide our design process from start to finish
               </p>
             </div>
 
             {/* Results-Focused Card */}
-            <div className="text-center group">
+            <div className="text-center group bg-white rounded-[24px] p-8">
               <div className=" w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-purple-200 transition-colors duration-200">
                 <Image
                   src={ResearchFocused.src}
@@ -672,7 +685,7 @@ const page = () => {
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 Results-Focused
               </h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-[#868282] leading-[22px] font-[400] text-[16px]">
                 Designs that improve conversion rates and business metrics
               </p>
             </div>
@@ -681,11 +694,11 @@ const page = () => {
       </div>
 
       {/* why choose our ui/ux */}
-      <div className="bg-gray-50 py-16 lg:py-24">
+      <div className="bg-white py-16 lg:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-[32px] font-[600] text-[#333333] tracking-[-3%] mb-6">
               Why Choose Our UI/UX Design Service?
             </h2>
             <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
@@ -731,7 +744,7 @@ const page = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-[32px] font-[600] text-[#333333] tracking-[-3%] mb-6">
               What We Offer
             </h2>
             <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
@@ -788,11 +801,11 @@ const page = () => {
       </div>
 
       {/* perfect for every business */}
-      <div className="font-robot bg-[#FAFBFA] py-16 lg:py-24">
+      <div className="font-roboto bg-[#FAFBFA] py-16 lg:py-24">
         <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-[32px] font-[600] text-[#333333] tracking-[-3%] mb-6">
               Perfect for every Business
             </h2>
             <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
@@ -839,7 +852,7 @@ const page = () => {
         <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-[32px] font-[600] text-[#333333] tracking-[-3%] mb-6">
               Our Design Process
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
@@ -939,12 +952,12 @@ const page = () => {
         </div>
       </div>
 
-      {/* our design team different */}
+      {/* what makes our design team different */}
       <div className="bg-[#FAFBFA] py-16 lg:py-24 w-full ">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-[32px] font-[600] text-[#333333] tracking-[-3%] mb-6">
               What Makes Our Design Team Different
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -960,7 +973,7 @@ const page = () => {
               {designFeatures.map((feature, index) => {
                 const IconComponent = feature.icon;
                 return (
-                  <div key={index} className="flex gap-4 items-start">
+                  <div key={index} className="flex gap-4 items-start bg-white rounded-xl p-4">
                     {/* Icon */}
                     <div
                       className={`${feature.iconBg} w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0`}
@@ -1003,7 +1016,7 @@ const page = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-[32px] font-[600] text-[#333333] tracking-[-3%] mb-6">
               Meet Our Design Team
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -1060,11 +1073,11 @@ const page = () => {
       </div>
 
       {/* tools we use */}
-      <div className="bg-gray-50 py-16 lg:py-24">
+      <div className="bg-[#FAFBFA] py-16 lg:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-[32px] font-[600] text-[#333333] tracking-[-3%] mb-6">
               Tools We Use
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -1074,35 +1087,40 @@ const page = () => {
           </div>
 
           {/* Tools Grid */}
-          <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 ">
+          <div className="w-full px-8 sm:px-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {toolCategories.map((category, categoryIndex) => (
-              <div key={categoryIndex} className="space-y-6">
-                {/* Category Title */}
-                <h3 className="text-xl font-semibold text-gray-900">
-                  {category.title}
-                </h3>
+              <div
+                key={categoryIndex}
+                className="space-y-6 flex items-center justify-center"
+              >
+                <div className="flex flex-col gap-4 w-full">
+                  {/* Category Title */}
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    {category.title}
+                  </h3>
 
-                {/* Tools List */}
-                <div className="space-y-3">
-                  {category.tools.map((tool, toolIndex) => (
-                    <div key={toolIndex} className="flex items-center gap-3">
-                      {/* Colored Dot */}
-                      <div
-                        className={`w-3 h-3 rounded-full ${tool.color} flex-shrink-0`}
-                      ></div>
+                  {/* Tools List */}
+                  <div className="space-y-3">
+                    {category.tools.map((tool, toolIndex) => (
+                      <div key={toolIndex} className="flex items-center gap-3">
+                        {/* Colored Dot */}
+                        <div
+                          className={`w-3 h-3 rounded-full ${tool.color} flex-shrink-0`}
+                        ></div>
 
-                      {/* Tool Name */}
-                      <span className="text-gray-700 font-medium">
-                        {tool.name}
-                      </span>
-                    </div>
-                  ))}
+                        {/* Tool Name */}
+                        <span className="text-gray-700 font-medium">
+                          {tool.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
           <div className=" mt-12 w-full justify-center flex">
-            <button className="text-sm  bg-[#20C5BA] hover:bg-[#22aea5] text-white px-8 py-4 rounded-sm font-semibold duration-200 shadow-lg transition-all">
+            <button className="text-[16px] height-[52px] bg-[#20C5BA] hover:bg-[#22aea5] text-white px-8 py-4 rounded-[5px] font-[500] duration-200 transition-all">
               Let's Design Something Brilliant
             </button>
           </div>
@@ -1114,7 +1132,7 @@ const page = () => {
         <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-[32px] font-[600] text-[#333333] tracking-[-3%] mb-6">
               Featured Projects
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -1126,10 +1144,10 @@ const page = () => {
             {featuredProjects.map((project, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
+                className="bg-white rounded-2xl transition-all duration-300 overflow-hidden group"
               >
                 {/* Project Image */}
-                <div className="relative h-72 bg-gray-50">
+                <div className="relative aspect-[400/360]">
                   <Image
                     src={project.image}
                     alt={`${project.title} mobile interface`}
@@ -1141,7 +1159,7 @@ const page = () => {
                 </div>
 
                 {/* Content */}
-                <div className="p-6">
+                <div className="p-6 px-0">
                   {/* Category Badge */}
                   <div className="mb-4">
                     <span
@@ -1164,10 +1182,14 @@ const page = () => {
                   </div>
 
                   {/* Date & Time */}
-                  <div className="text-sm text-gray-500 mb-4">
-                    {project.date} • {project.time}
+                  <div className="text-sm text-gray-500 mb-4 font-roboto">
+                    <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                      {formatDate(project.date)}
+                    </span>{" "}
+                    <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                      {project.time}
+                    </span>
                   </div>
-
                   {/* Title */}
                   <h3 className="text-xl font-semibold text-gray-900 mb-3">
                     {project.title}
@@ -1179,7 +1201,7 @@ const page = () => {
                   </p>
 
                   {/* Read More Button */}
-                  <button className="bg-gray-100 hover:bg-gray-200 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                  <button className="bg-white hover:bg-gray-200 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
                     Read More
                   </button>
                 </div>
@@ -1190,16 +1212,14 @@ const page = () => {
       </div>
 
       {/* related posts */}
-      <div className="w-full flex flex-col  py-16 lg:py-24">
+      <div className="w-full bg-[#FAFBFA] flex flex-col  py-16 lg:py-24">
         <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="flex mx-12 justify-between items-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
               Related Post
             </h2>
-            <button className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200">
-              View All
-            </button>
+            <Button name="View All" buttonHeight="51" />
           </div>
 
           {/* Horizontally Scrollable Posts */}
@@ -1208,10 +1228,10 @@ const page = () => {
               {relatedPosts.map((post) => (
                 <div
                   key={post.id}
-                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group w-80 flex-shrink-0"
+                  className="bg-white rounded-2xl transition-all duration-300 overflow-hidden group w-80 flex-shrink-0"
                 >
                   {/* Post Image */}
-                  <div className="relative h-48 bg-gray-100">
+                  <div className="relative rounded-xl overflow-hidden aspect-[400/360]">
                     <Image
                       src={post.image}
                       alt={post.title}
@@ -1222,7 +1242,7 @@ const page = () => {
                   </div>
 
                   {/* Content */}
-                  <div className="p-6">
+                  <div className="p-6 px-0 ">
                     {/* Categories */}
                     <div className="flex flex-wrap gap-3 mb-3">
                       {post.categories.map((category, index) => (
@@ -1236,8 +1256,13 @@ const page = () => {
                     </div>
 
                     {/* Date & Time */}
-                    <div className="text-sm text-gray-500 mb-4">
-                      {post.date} • {post.time}
+                    <div className="text-sm text-gray-500 mb-4 font-roboto">
+                      <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                        {formatDate(post.date)}
+                      </span>{" "}
+                      <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                        {post.time}
+                      </span>
                     </div>
 
                     {/* Title */}
@@ -1269,7 +1294,7 @@ const page = () => {
         </div>
       </div>
 
-      {/* testimonials */}
+      {/* client testimonials */}
       <div className=" mx-auto flex flex-col px-6 py-12 bg-[#F7F7F7] w-full">
         {/* Header Section */}
 
@@ -1278,10 +1303,10 @@ const page = () => {
           <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex flex-col items-start justify-between">
               <div className="">
-                <p className="text-orange-500 font-medium text-sm mb-2">
+                <p className="text-[#FFAB40] font-medium text-sm mb-2">
                   Client's Feedback
                 </p>
-                <h2 className="text-3xl font-bold text-[#0F172A] mb-4">
+                <h2 className="text-[20px] font-[500] leading-[110%] text-[#0F172A] mb-4">
                   What They Say After Using Our Product
                 </h2>
                 <p className="text-[#737373] tracking-tight font-semibold max-w-md">
@@ -1316,15 +1341,18 @@ const page = () => {
                   />
                 </div>
                 <div>
-                  <h3 className="font-semibold font-poppins mt-2 text-gray-900 text-sm">
+                  <h3 className="font-[600] font-poppins mt-2 text-[#0F1125] text-[20px]">
                     {testimonial.name}
                   </h3>
-                  <p className="text-gray-500 text-sm">{testimonial.role}</p>
+                  <p className="text-gray-500 text-[18px] font-[500] leading-[150%]">{testimonial.role}</p>
                 </div>
               </div>
 
+              <div className="border border-[#E9EFF5] w-[95%] mb-3 mx-2" />
+
               {/* Feedback */}
-              <p className="text-[#0F1125] font-semibold leading-[160%] text-center text-sm  mb-4">
+              <p className="text-[#0F1125] font-[500] leading-[150%] text-center text-[18px] mb-4">
+
                 {testimonial.feedback}
               </p>
 

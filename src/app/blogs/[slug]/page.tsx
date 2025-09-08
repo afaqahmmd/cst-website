@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useBlogBySlug } from "@/hooks/useBlogBySlug";
 import { useBlogStore } from "@/store/blogStore";
-import { useEffect, use } from "react";
+import { useEffect, use, useState } from "react";
 import Mob1 from "@/assets/images/services/mob1.png";
 import Mob2 from "@/assets/images/services/mob2.png";
 import Mob3 from "@/assets/images/services/mob3.png";
@@ -11,6 +11,9 @@ import RelatedPost from "@/assets/images/services/related-post.jpg";
 import InfoSection from "@/components/InfoSection/InfoSection";
 import StayInLoop from "@/components/StayInLoop/StayInLoop";
 import Footer from "@/components/Footer/Footer";
+import { getBlogImageUrl } from "@/utils/getBlobImageUrl";
+import { generateJsonLd } from "@/utils/structuredData";
+import { joinUrl } from "@/utils/joinUrl";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -20,22 +23,24 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = use(params);
   const { blog, isLoading, error, notFound } = useBlogBySlug(slug);
   const { setCurrentBlog } = useBlogStore();
+  const [structuredData, setStructuredData] = useState<any>(null);
 
   // Update the store when blog data changes
   useEffect(() => {
     if (blog) {
+      console.log("current blog", blog);
       setCurrentBlog(blog);
+      setStructuredData(generateJsonLd("Blog", blog));
     }
   }, [blog, setCurrentBlog]);
 
   // Function to format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+    const day = date.getDate();
+    const month = date.toLocaleDateString("en-US", { month: "long" });
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
   };
 
   // Function to format time
@@ -72,7 +77,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">Error Loading Blog</h2>
+          <h2 className="text-2xl font-bold text-red-600 mb-4">
+            Error Loading Blog
+          </h2>
           <p className="text-gray-600">Please try again later.</p>
           <p className="text-sm text-gray-500 mt-2">{error.message}</p>
         </div>
@@ -85,8 +92,12 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-600 mb-4">Blog Not Found</h2>
-          <p className="text-gray-500">The blog post you're looking for doesn't exist.</p>
+          <h2 className="text-2xl font-bold text-gray-600 mb-4">
+            Blog Not Found
+          </h2>
+          <p className="text-gray-500">
+            The blog post you're looking for doesn't exist.
+          </p>
         </div>
       </div>
     );
@@ -245,132 +256,224 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         "Travelling in sea has many advantages. Some of the advantages of transporting goods by sea include: you can ship large volumes at costs",
     },
   ];
+  const parseImageUrl = (url: string) => {
+    if (!url) return "";
+
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+
+    const mediaIndex = url.indexOf("/media/");
+    if (mediaIndex === -1) return url;
+
+    const path = url.substring(mediaIndex);
+    console.log("Parsed image URL:", `${baseUrl}${path}`);
+    return `${baseUrl}${path}`;
+  };
 
   return (
-    <div className="w-full">
-      <div className="mx-auto px-6 max-w-[90%]">
-        {/* Header */}
-        <header className="mb-8">
-          <div className="flex items-center gap-2 text-sm text-blue-600 mb-2">
-            {blog.tags.map((tag: { id: number; name: string }, index: number) => (
-              <span key={tag.id}>{tag.name}</span>
-            ))}
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <div className="w-full">
+        <div className="mx-auto px-6 max-w-[90%]">
+          {/* Header */}
+          <header className="my-8">
+            <div className="flex items-center gap-2 text-sm text-blue-600 mb-2">
+              {blog.tags.map(
+                (tag: { id: number; name: string }, index: number) => (
+                  <span
+                    className="font-robot font-[600] text-[16px] leading-[20px]"
+                    key={tag.id}
+                  >
+                    {tag.name}
+                  </span>
+                )
+              )}
+            </div>
+            <div className="text-sm text-gray-500 mb-4 font-roboto">
+              <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                {formatDate(blog.created_at)}
+              </span>{" "}
+              <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                {formatTime(blog.created_at)}
+              </span>
+            </div>
+            <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
+              {blog.title}
+            </h1>
+            <p className="text-xl text-gray-600 leading-relaxed">
+              {blog.sections.hero_section.description}
+            </p>
+          </header>
+
+          {/* Hero Image */}
+          <div className="mb-12">
+            <Image
+              src={
+                joinUrl(process.env.NEXT_PUBLIC_API_BASE_URL, blog.sections.hero_section.image) || "/placeholder.svg"
+              }
+              // src="/placeholder.svg"
+              alt={blog.title}
+              width={600}
+              height={400}
+              className="rounded-lg object-cover w-full h-[800px]"
+              priority
+              onError={(e) => {
+                e.currentTarget.src = "/placeholder.svg";
+              }}
+            />
           </div>
-          <div className="text-sm text-gray-500 mb-4">
-            {formatDate(blog.created_at)} · {formatTime(blog.created_at)}
+          <div className="text-[#666666] text-[16px] font-[400] leading-[150%] mb-8 space-y-6">
+            <p>{blog.sections.hero_section.summary}</p>
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-4">
-            {blog.title}
-          </h1>
-          <p className="text-xl text-gray-600 leading-relaxed">
-            {blog.summary || blog.meta_description || "Click to read more about this blog post."}
-          </p>
-        </header>
 
-        {/* Hero Image */}
-        <div className="mb-12">
-          <Image
-            src={blog.images?.[0] || "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=200&fit=crop"}
-            alt={blog.title}
-            width={600}
-            height={400}
-            className="rounded-lg object-cover w-full h-[800px]"
-            priority
-            onError={(e) => {
-              e.currentTarget.src = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=200&fit=crop";
-            }}
-          />
-        </div>
+          {/* Article Content */}
+          <article className="prose prose-lg max-w-none font-roboto">
+            <div className="max-w-7xl mx-auto space-y-12">
+              <p className="text-[#666666] text-[16px] font-[400] leading-[150%] mb-8 space-y-6">
+                {blog.sections.quote_section.summary}
+              </p>
 
-        {/* Article Content */}
-        <article className="prose prose-lg max-w-none font-roboto">
-          <div className="text-gray-700 leading-relaxed mb-8 space-y-6">
-            <div dangerouslySetInnerHTML={{ __html: blog.content }} />
-          </div>
-        </article>
+              {blog.sections.quote_section.quotes.map(
+                (quote: any, index: number) => (
+                  <section className="mb-12" key={index}>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                      {quote.title}
+                    </h2>
 
-        {/* related projects */}
-        <div className="flex flex-col w-full max-w-8xl mx-auto mt-16">
-          {/* header title and button */}
-          <div className="flex justify-between items-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Related Post
-            </h2>
-            <button className="bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 rounded-sm text-sm transition-colors duration-200">
-              View All
-            </button>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProjects.map((project, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
-              >
-                {/* Project Image */}
-                <div className="relative h-72 bg-gray-50">
-                  <Image
-                    src={project.image}
-                    alt={`${project.title} mobile interface`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover"
-                    priority={index === 0}
-                  />
-                </div>
+                    <div className="text-gray-700 leading-relaxed space-y-4 mb-6">
+                      <p>{quote.description}</p>
+                    </div>
 
-                {/* Content */}
-                <div className="p-6">
-                  {/* Category Badge */}
-                  <div className="mb-4">
-                    <span
-                      className={`${project.categoryColor} text-white px-3 py-1 rounded-full text-sm font-medium`}
-                    >
-                      {project.category}
-                    </span>
-                  </div>
+                    <blockquote className="sm:ml-8 md:ml-12 ml-0 border-l-4 border-[#FFAB40] pl-6 py-4 mb-8 bg-gray-50">
+                      <p className="text-gray-600 italic mb-2 text-[24px]">
+                        {quote.quote}
+                      </p>
+                    </blockquote>
+                    <footer className="sm:ml-16 ml-0 text-sm text-gray-500 font-medium">
+                      — {quote.quoteusername}
+                    </footer>
+                  </section>
+                )
+              )}
 
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-4 mb-4">
-                    {project.tags.map((tag, tagIndex) => (
-                      <span
-                        key={tagIndex}
-                        className={`${tag.color} font-medium text-sm`}
-                      >
-                        {tag.name}
-                      </span>
-                    ))}
-                  </div>
+              {/* info section */}
 
-                  {/* Date & Time */}
-                  <div className="text-sm text-gray-500 mb-4">
-                    {project.date} • {project.time}
-                  </div>
+              <p className="text-[#666666] text-md">
+                {blog.sections.info_section.title}
+              </p>
 
-                  {/* Title */}
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                    {project.title}
-                  </h3>
+              <p className="text-[#666666] text-[16px] font-[400] leading-[150%] mb-8 space-y-6">
+                {blog.sections.info_section.description}
+              </p>
 
-                  {/* Description */}
-                  <p className="text-gray-600 leading-relaxed mb-6">
-                    {project.description}
-                  </p>
-
-                  {/* Read More Button */}
-                  <button className="bg-gray-100 hover:bg-gray-200 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
-                    Read More
-                  </button>
-                </div>
+              <div className="mb-12 flex justify-center">
+                <Image
+                  src={
+                    joinUrl(process.env.NEXT_PUBLIC_API_BASE_URL, blog.sections.info_section.image) || "/placeholder.svg"
+                  }
+                  alt="Modern office workspace with white desks and colorful chairs"
+                  width={600}
+                  height={200}
+                  className=" rounded-lg object-cover max-w-7xl w-[90%] h-[300px] md:w-[80%] md:h-[400px]"
+                  priority
+                />
               </div>
-            ))}
-          </div>
-        </div>
 
-        {/* popular posts */}
-        <div className="w-full flex flex-col  py-16 lg:py-24">
-          <div className="max-w-full mx-auto px-0 sm:px-6 lg:px-8">
+              <p className="text-[#666666] text-md">
+                {blog.sections.info_section.summary_2}
+              </p>
+            </div>
+          </article>
+
+          {/* related projects */}
+          <div className="flex flex-col w-full max-w-8xl mx-auto mt-16">
+            {/* header title and button */}
+            <div className="flex justify-between items-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+                Related Post
+              </h2>
+              <button className="bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 rounded-sm text-sm transition-colors duration-200">
+                View All
+              </button>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredProjects.map((project, index) => (
+                <div
+                  key={index}
+                  className="bg-white transition-all duration-300 overflow-hidden group"
+                >
+                  {/* Project Image */}
+                  <div className="relative h-72 bg-gray-50 rounded-xl overflow-hidden">
+                    <Image
+                      src={getBlogImageUrl(project.image.src)}
+                      // src={project.image}
+                      alt={`${project.title} mobile interface`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover"
+                      priority={index === 0}
+                    />
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6 px-0">
+                    {/* Category Badge */}
+                    <div className="mb-4">
+                      <span
+                        className={`${project.categoryColor} text-white px-3 py-1 rounded-full text-sm font-medium`}
+                      >
+                        {project.category}
+                      </span>
+                    </div>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-4 mb-4">
+                      {project.tags.map((tag, tagIndex) => (
+                        <span
+                          key={tagIndex}
+                          className={`${tag.color} font-medium text-sm`}
+                        >
+                          {tag.name}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Date & Time */}
+                    <div className="text-sm text-gray-500 mb-4 font-roboto">
+                      <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                        {formatDate(project.date)}
+                      </span>{" "}
+                      <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                        {project.time}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                      {project.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-gray-600 leading-relaxed mb-6">
+                      {project.description}
+                    </p>
+
+                    {/* Read More Button */}
+                    <button className="bg-white hover:bg-gray-200 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                      Read More
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* popular posts */}
+          <div className="w-full flex flex-col mb-12 max-w-8xl mx-auto mt-16">
             {/* Header */}
-            <div className="flex mx-12 justify-between items-center mb-12">
+            <div className="flex  justify-between items-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
                 Popular Post
               </h2>
@@ -380,17 +483,18 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
 
             {/* Horizontally Scrollable Posts */}
-            <div className="overflow-x-auto scrollbar-hide sm:ml-12">
+            <div className="overflow-x-auto scrollbar-hide">
               <div className="flex gap-6 pb-4" style={{ width: "max-content" }}>
                 {relatedPosts.map((post) => (
                   <div
                     key={post.id}
-                    className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group w-80 flex-shrink-0"
+                    className="bg-white  transition-all duration-300 overflow-hidden group w-80 flex-shrink-0"
                   >
                     {/* Post Image */}
-                    <div className="relative h-48 bg-gray-100">
+                    <div className="relative h-48 bg-gray-100 rounded-xl overflow-hidden">
                       <Image
-                        src={post.image}
+                        src={getBlogImageUrl(post.image.src)}
+                        // src={post.image}
                         alt={post.title}
                         fill
                         sizes="320px"
@@ -399,7 +503,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                     </div>
 
                     {/* Content */}
-                    <div className="p-6">
+                    <div className="p-6 px-0">
                       {/* Categories */}
                       <div className="flex flex-wrap gap-3 mb-3">
                         {post.categories.map((category, index) => (
@@ -413,12 +517,17 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                       </div>
 
                       {/* Date & Time */}
-                      <div className="text-sm text-gray-500 mb-4">
-                        {post.date} • {post.time}
+                      <div className="text-sm text-gray-500 mb-4 font-roboto">
+                        <span className="text-[#999999] text-[12px] font-[500] leading-[150%]">
+                          {post.date}
+                        </span>{" "}
+                        <span className="text-[#333333] text-[12px] font-[700] leading-[150%] ml-3">
+                          {post.time}
+                        </span>
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+                      <h3 className="text-[24px] font-[700] leading-[32px] text-gray-900 mb-3 line-clamp-2">
                         {post.title}
                       </h3>
 
@@ -445,15 +554,15 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
           </div>
         </div>
+        <div className="w-full bg-amber-700">
+          <InfoSection
+            title="Let's Build Something That Matters"
+            subText="Have a project or an idea? Let's turn it into a digital experience people will remember."
+          />
+        </div>
+        <StayInLoop />
+        <Footer />
       </div>
-      <div className="w-full bg-amber-700">
-        <InfoSection
-          title="Let's Build Something That Matters"
-          subText="Have a project or an idea? Let's turn it into a digital experience people will remember."
-        />
-      </div>
-      <StayInLoop />
-      <Footer />
-    </div>
+    </>
   );
 }

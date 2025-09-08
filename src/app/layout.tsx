@@ -3,6 +3,7 @@ import { Geist, Geist_Mono,Roboto,Poppins,Yantramanav } from "next/font/google";
 import "./globals.css";
 import TopNav from "@/components/TopNav/TopNav";
 import QueryProvider from "@/components/providers/QueryProvider";
+import ChatBotButton from "@/components/ChatbotButton/ChatbotButton";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -46,9 +47,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} ${poppins.variable} ${yantramanav.variable} antialiased`}
       >
-        <TopNav />
         <QueryProvider>
+          <TopNav />
           {children}
+          <ChatBotButton />
         </QueryProvider>
       </body>
     </html>
