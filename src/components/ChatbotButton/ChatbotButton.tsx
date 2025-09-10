@@ -27,12 +27,12 @@ export default function ChatBotButton() {
       {/* Floating Button */}
       <button
         onClick={() => setOpen(!open)}
-        className="bg-[#2B2B2B] hover:bg-[#2B2B2B]/75 text-white p-4 rounded-full shadow-xl w-[80px] h-[80px]"
+        className="bg-[#2B2B2B] flex items-center justify-center hover:bg-[#2B2B2B]/75 text-white p-4 rounded-full shadow-xl w-[70px] h-[70px]"
       >
         <svg
-          width="48"
-          height="48"
-          viewBox="0 0 48 48"
+          width="44"
+          height="42"
+          viewBox="0 0 44 42"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >

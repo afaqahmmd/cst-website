@@ -572,7 +572,7 @@ export default function Home() {
       >
         <div className="w-full px-0 grid grid-cols-1 self-center gap-10 py-8 md:py-12 md:pb-0 pb-12 lg:grid-cols-2 lg:gap-12">
           {/* LEFT CONTENT */}
-          <div className="relative z-10 flex flex-col md:pt-18 justify-center gap-[20%]">
+          <div className="relative z-10 flex flex-col md:pt-8 justify-center gap-[20%]">
             <div className="flex flex-col px-8 md:px-12">
               <h1 className="text-5xl font-bold tracking-tight font-roboto text-[#0F172A] sm:text-5xl md:text-[60px] lg:text-[72px]">
                 <span className="relative inline-block font-roboto">
@@ -1312,7 +1312,7 @@ export default function Home() {
               {/* Content Section */}
               <div className="col-span-1 md:p-8 p-2 lg:p-12 w-full  flex flex-col justify-center">
                 <div className="w-full">
-                  <div className="w-full flex justify-center">
+                  <div className="w-full flex justify-center ">
                     {/* image  */}
                     <Image
                       src={VirtualAssistant}
@@ -1321,7 +1321,7 @@ export default function Home() {
                       height={500}
                     />
                   </div>
-                  <p className="text-[20px] font-[500] text-[#FFAB40] leading-[110%]">
+                  <p className="text-[20px] font-[500] text-[#FFAB40] leading-[110%] my-3">
                     Contact Us
                   </p>
                   <h1 className="font-roboto leading-[110%] lg:text-[56px] text-[44px] font-[800] text-[#0F172A] mb-6">
