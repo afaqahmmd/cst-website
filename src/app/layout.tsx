@@ -50,7 +50,7 @@ export default function RootLayout({
         <QueryProvider>
           <TopNav />
           {children}
-          <ChatBotButton />
+          {/* <ChatBotButton /> */}
         </QueryProvider>
       </body>
     </html>
