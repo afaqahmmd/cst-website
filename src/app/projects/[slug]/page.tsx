@@ -1,8 +1,10 @@
-import React from "react";
+"use client";
+
+import React, { use } from "react";
 import IndustryImg from "@/assets/images/industries/tabs-pic.png";
 import Image from "next/image";
 import { Check, MoveRight, Smartphone } from "lucide-react";
-import W from "@/assets/images/industries/w.png";
+import W from "@/assets/images/industries/W.png";
 import settingIllustration from "@/assets/images/industries/settingsIllustration.png";
 import studentPlanner2 from "@/assets/images/industries/student-planner.png";
 import LMS from "@/assets/images/industries/LMS.png";
@@ -42,6 +44,8 @@ import ServiceIcon1 from "@/assets/images/projects/serviceIcon1.webp";
 import ServiceIcon2 from "@/assets/images/projects/serviceIcon2.webp";
 import Industry from "@/assets/images/projects/industry.webp";
 import Link from "next/link";
+import { useProjectBySlug } from "@/hooks/useProjectBySlug";
+import { getBlogImageUrl } from "@/utils/getBlobImageUrl";
 
 // Mock service data
 const services = [
@@ -99,7 +103,172 @@ const generateFeatures = (description: string) => {
   return features.slice(0, 3); // Return first 3 features
 };
 
-const page = () => {
+interface ProjectPageProps {
+  params: Promise<{ slug: string }>;
+}
+
+const page = ({ params }: ProjectPageProps) => {
+  const { slug } = use(params);
+  // const { project, isLoading, error, notFound } = useProjectBySlug(slug);
+
+  const project = {
+    id: 4,
+    name: "Design Thinking in Real Products: What Most Teams Miss",
+    slug: "design-thinking-real-projects",
+    description:
+      "Travelling in sea has many advantages. Some of the advantages of transporting goods by sea include: you can ship large volumes at costs",
+    image:
+      "http://localhost:7000/media/projects/821fad0b-e91a-45c6-a692-06140069646d.png",
+    published: false,
+    created_at: "2025-09-10T07:14:38.748485Z",
+    updated_at: "2025-09-10T07:14:38.762960Z",
+    tags: [
+      {
+        id: 1,
+        name: "Python v2",
+      },
+      {
+        id: 5,
+        name: "Saas",
+      },
+    ],
+    author_email: "mh4353662@gmail.com",
+    canonical_url:
+      "https://cortechsols.com/project/design-thinking-real-projects",
+    sections: {
+      hero_section: {
+        title: "FleetTrackPro – Revolutionizing Logistics Visibility",
+        description:
+          "How skipping the empathy and iteration phase can silently kill your product experience.",
+        sub_sections: [
+          {
+            image:
+              "http://localhost:7000/media/projects/sections/512fd9ea-42b4-494b-be6a-eac86eb910bf.png",
+          },
+        ],
+        hero_main_image:
+          "http://localhost:7000/media/projects/821fad0b-e91a-45c6-a692-06140069646d.png",
+      },
+      about_section: {
+        title: "🧠 The Challenge",
+        description:
+          "Fleet logistics companies often struggle with real-time visibility, inefficient manual processes, and lack of data-driven insights. Our client, a mid-sized logistics firm expanding regionally, needed a scalable digital platform that could streamline fleet tracking, reduce communication gaps, and provide actionable analytics — all while remaining user-friendly for on-ground staff and admin teams.",
+        sub_sections: [],
+      },
+      project_goals_section: {
+        title: "Project Goals",
+        description: "",
+        sub_sections: [
+          {
+            image:
+              "http://localhost:7000/media/projects/sections/8a2d40d6-9a2b-4de5-856b-44f8dd921f83.png",
+            title: "To create real time fleet visibility",
+          },
+          {
+            image:
+              "http://localhost:7000/media/projects/sections/e5293b16-bca4-4c77-8b7f-13617094421a.png",
+            title: "operational efficiency",
+          },
+          {
+            image:
+              "http://localhost:7000/media/projects/sections/33fa350a-cb3f-4ff5-b233-f0b160ac58a9.png",
+            title: "Actionable insights throug data",
+          },
+        ],
+        approaches: [
+          {
+            title: "🔍 Our Approach",
+            description:
+              "We kicked off with stakeholder interviews and on-site workflow audits to understand the bottlenecks. Our UX team mapped key journeys — from delivery planning to fleet performance reporting — and identified opportunities to automate and simplify.",
+            additional_info: [
+              "A responsive web app for admin teams to manage and monitor logistics operations.",
+              "A responsive web app for admin teams to manage and monitor logistics operations.",
+              "A responsive web app for admin teams to manage and monitor logistics operations.",
+            ],
+          },
+          {
+            title: "🎨 Design & User Experience",
+            description:
+              "The design focused on clarity, accessibility, and speed. We created a custom design system to ensure consistency across modules. Every component was tested for usability, especially for users in low-light or on-the-move environments. Key features included:",
+            additional_info: [
+              "Interactive fleet maps with real-time geolocation",
+              "Interactive fleet maps with real-time geolocation",
+              "Interactive fleet maps with real-time geolocation",
+              "Interactive fleet maps with real-time geolocation",
+            ],
+          },
+          {
+            title: "💻 Development Process",
+            description: "Our full-stack team built the platform using:",
+            additional_info: [
+              "React for a fast, modular frontend",
+              "Node.js + Express for scalable backend services",
+              "MongoDB for flexible and high-speed data storage",
+            ],
+          },
+          {
+            title: "📊 Results & Impact",
+            description: "Since launch, FleetTrackPro has:",
+            additional_info: [
+              "Reduced manual planning time by 70%",
+              "Reduced manual planning time by 70%",
+              "Reduced manual planning time by 70%",
+              "Reduced manual planning time by 70%",
+            ],
+          },
+          {
+            title: "🧭 Why This Project Stands Out",
+            description: "",
+            additional_info: [
+              "Solved a real operational problem at scale",
+              "Solved a real operational problem at scale",
+              "Solved a real operational problem at scale",
+            ],
+          },
+        ],
+      },
+      technologies_used_section: {
+        title: "🔧 Technologies & Tools Used",
+        description: "Since launch, FleetTrackPro has:",
+        sub_sections: [
+          {
+            title: "Design",
+            images: [
+              "http://localhost:7000/media/projects/sections/2284f90b-22e4-4037-9384-9fd4c5bec73d.png",
+              "http://localhost:7000/media/projects/sections/82bd8d8d-2654-4ec3-a838-0186d8be6b97.png",
+            ],
+            description: "",
+          },
+          {
+            title: "Backend",
+            images: [
+              "http://localhost:7000/media/projects/sections/9cb1d454-9f2e-43b5-827c-30bf50d8e784.png",
+              "http://localhost:7000/media/projects/sections/77380ffb-2bd8-4241-956f-6821c2921ddf.png",
+            ],
+            description: "",
+          },
+        ],
+      },
+      services_provided_section: {
+        title: "Services provided",
+        description: "Looking to build something similar?",
+        sub_sections: [
+          {
+            title: "UI/UX Design",
+            description:
+              "Empowering products with user-first design and modern aesthetics.",
+            additional_info: [
+              "UX Research & Strategy",
+              "UX Research & Strategy",
+              "UX Research & Strategy",
+              "UX Research & Strategy",
+            ],
+          },
+        ],
+      },
+    },
+  };
+
   const industryChallenges = [
     "Lack of engagement in online learning environments",
     "Limited scalability of traditional LMS systems",
@@ -306,19 +475,19 @@ const page = () => {
     const hours = date.getHours();
     const minutes = date.getMinutes();
     return `${hours}:${minutes}`;
-  };  
+  };
   return (
     <main className="bg-white w-full font-roboto">
       {/* hero section */}
-      <section className="w-full bg-white">
+      <section className="w-full bg-white lg:px-6 px-4">
         <div className="max-w-7xl mt-12 gap-4 mx-auto flex flex-col items-start text-start lg:px-16 md:px-12 px-4">
           {/* date and time */}
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-3 items-center">
             <p className="text-[#999999] text-[14px] leading-[150%] tracking-[0] font-[700]">
-              16 March 2023
+              {formatDate(project?.created_at)}
             </p>
             <p className="text-[#333333] text-[14px] leading-[150%] tracking-[0] font-[700]">
-              12:24 PM
+              {formatTime(project?.created_at)}
             </p>
           </div>
 
@@ -326,25 +495,23 @@ const page = () => {
             <p className="text-[#333333] text-[16px] leading-[20px] tracking-[0%] font-[600]">
               🏷️ Industry:
             </p>
-            <a
-              href="#"
-              className="text-[#1D76F1] underline text-[16px] leading-[20px] tracking-[0%] font-[600]"
-            >
+            <a className="text-[#1D76F1] cursor-pointer underline text-[16px] leading-[20px] tracking-[0%] font-[600]">
               Logistics & Transportation
             </a>
           </div>
 
-          <h1 className=" font-roboto font-bold text-[48px] leading-[63.98px] tracking-[0]">
-            FleetTrackPro - Revolutionizing Logistics Visibility
+          <h1 className=" font-roboto font-bold lg:text-[48px] text-[36px] lg:leading-[63.98px] leading-[50px] tracking-[0]">
+            {project?.sections?.hero_section?.title}
           </h1>
           <p className="font-roboto font-normal text-[#666666] text-[24px] leading-[150%] tracking-[0]">
-            How skipping the empathy and iteration phase can silently kill your
-            product experience.
+            {project?.sections?.hero_section?.description}
           </p>
-          <div className="flex gap-4 items-center">
+          <div className="flex flex-wrap gap-4 items-center">
             <div className="h-20 w-20 flex items-center justify-center bg-[#ECECEC] rounded-full overflow-hidden p-2">
               <Image
-                src={Figma}
+                src={getBlogImageUrl(
+                  project?.sections?.hero_section?.sub_sections[0]?.image
+                )}
                 alt="Figma"
                 width={47}
                 height={47}
@@ -357,7 +524,6 @@ const page = () => {
             <div className="h-20 w-20 flex items-center justify-center bg-[#F7F0FE] rounded-full overflow-hidden p-2">
               <Image src={Sheets} alt="Sheets" width={34} height={42} />
             </div>
-
             <div className="h-20 w-20 flex items-center justify-center bg-[#E9FFEF] rounded-full overflow-hidden p-2">
               <Image
                 src={Excel}
@@ -370,9 +536,11 @@ const page = () => {
           </div>
         </div>
 
-        <div className="aspect-[308/225] mt-12 w-full max-w-7xl mx-auto relative">
+        <div className="relative aspect-[308/225] mt-12 w-full max-w-7xl mx-auto">
           <Image
-            src={IndustryHero}
+            src={getBlogImageUrl(
+              project?.sections?.hero_section?.sub_sections[0]?.image
+            )}
             alt="Sample"
             fill
             className="object-cover"
@@ -382,7 +550,7 @@ const page = () => {
       </section>
 
       {/* the challenge section */}
-      <section className="w-full bg-white px-12">
+      <section className="w-full bg-white lg:px-12 px-8">
         <div className="lg:max-w-[70%] relative border-[#188AEC] border-[2px] p-12 mt-12 gap-4 mx-auto flex flex-col  text-center lg:px-16 md:px-12 px-4">
           <div className="absolute -top-[16px] left-0 -translate-x-1/2 w-[22px] h-[32px] border-[1.5px] bg-white border-[#188AEC]" />
           <div className="absolute -bottom-[16px] left-0 -translate-x-1/2 w-[22px] h-[32px] border-[1.5px] bg-white border-[#188AEC]" />
@@ -390,50 +558,39 @@ const page = () => {
           <div className="absolute -bottom-[16px] right-[15%] -translate-x-1/2 w-[22px] h-[32px] border-[1.5px] bg-white border-[#188AEC]" />
 
           <h1 className=" font-roboto text-[#2B2B2B] font-[600] text-[48px] leading-[100%] tracking-[-3%]">
-            🧠 The Challenge
+            {project?.sections?.about_section?.title}
           </h1>
           <p className="font-roboto font-normal text-[#666666] text-[24px] leading-[150%] tracking-[0] mt-5">
-            Fleet logistics companies often struggle with real-time visibility,
-            inefficient manual processes, and lack of data-driven insights. Our
-            client, a mid-sized logistics firm expanding regionally, needed a
-            scalable digital platform that could streamline fleet tracking,
-            reduce communication gaps, and provide actionable analytics — all
-            while remaining user-friendly for on-ground staff and admin teams.
+            {project?.sections?.about_section?.description}
           </p>
         </div>
       </section>
 
       {/* project goals section */}
-      <section className="w-full bg-white px-12">
-        <div className="lg:max-w-[70%] relative p-12 mt-12  mx-auto flex flex-col bg-[#FAFBFA] text-center lg:px-16 md:px-12 px-4">
+      <section className="w-full bg-white px-12 ">
+        <div className="lg:max-w-[70%] relative rounded-[28px] p-12 mt-12  mx-auto flex flex-col bg-[#FAFBFA] text-center lg:px-8 md:px-6 px-4">
           <h1 className=" font-roboto text-[#2B2B2B] font-[600] text-[48px] leading-[100%] tracking-[-3%]">
-            Project Goals
+            {project?.sections?.project_goals_section?.title}
           </h1>
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 lg:mt-12 mt-8">
-            <div className="flex flex-col items-center lg:gap-5 gap-4">
-              <div className="h-20 w-20 flex items-center justify-center bg-[#20C5BA] rounded-full overflow-hidden p-2">
-                <Flow />
-              </div>
-              <p className="text-[#22222A] text-[24px] leading-[150%] tracking-[0%] font-[500]">
-                To create Real-Time Fleet Visibility
-              </p>
-            </div>
-            <div className="flex flex-col items-center lg:gap-5 gap-4">
-              <div className="h-20 w-20 flex items-center justify-center bg-[#FFAB40] rounded-full overflow-hidden p-2">
-                <Muscle />
-              </div>
-              <p className="text-[#22222A] text-[24px] leading-[150%] tracking-[0%] font-[500]">
-                Operational Efficiency & Automation
-              </p>
-            </div>
-            <div className="flex flex-col items-center lg:gap-5 gap-4">
-              <div className="h-20 w-20 flex items-center justify-center bg-[#19817A] rounded-full overflow-hidden p-2">
-                <Noise />
-              </div>
-              <p className="text-[#22222A] text-[24px] leading-[150%] tracking-[0%] font-[500]">
-                Actionable Insights Through Data
-              </p>
-            </div>
+            {project?.sections?.project_goals_section?.sub_sections.map(
+              (subSection, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center lg:gap-5 gap-4"
+                >
+                    <Image
+                      src={getBlogImageUrl(subSection.image)}
+                      alt="Flow"
+                      width={80}
+                      height={80}
+                    />
+                  <p className="text-[#22222A] text-[22px] leading-[150%] tracking-[0%] font-[500]">
+                    {subSection.title}
+                  </p>
+                </div>
+              )
+            )}
           </div>
         </div>
       </section>
@@ -442,85 +599,64 @@ const page = () => {
       <section className="w-full bg-white px-12">
         <div className="lg:max-w-[70%] relative p-12 mt-12  mx-auto flex flex-col  text-start lg:px-16 md:px-12 px-4">
           <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
-            🔍 Our Approach
+            {project?.sections?.project_goals_section?.approaches[0]?.title}
           </h2>
           <p className="lg:mt-8 md:ml-12 mx-auto mt-4 font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            We kicked off with stakeholder interviews and on-site workflow
-            audits to understand the bottlenecks. Our UX team mapped key
-            journeys — from delivery planning to fleet performance reporting —
-            and identified opportunities to automate and simplify.
+            {
+              project?.sections?.project_goals_section?.approaches[0]
+                ?.description
+            }
           </p>
-          <p className="lg:mt-8 mt-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            We proposed a solution in three phases:
-          </p>
+
           <div className="font-roboto mb-6 md:ml-16 mx-auto border-l-[5px] pl-12 mt-12 border-[#FFAB40]">
             <ul className="list-disc">
-              <li>
-                <p className="font-[400] text-[24px] leading-[40px] text-[#666666]">
-                  A responsive web app for admin teams to manage and monitor
-                  logistics operations.
-                </p>
-              </li>
-              <li>
-                <p className="font-[400] text-[24px] leading-[40px] text-[#666666]">
-                  A driver app to update trip statuses, record issues, and
-                  receive optimized route instructions.
-                </p>
-              </li>
-              <li>
-                <p className="font-[400] text-[24px] leading-[40px] text-[#666666]">
-                  A data dashboard for business intelligence and performance
-                  monitoring.
-                </p>
-              </li>
+              {project?.sections?.project_goals_section?.approaches[0]?.additional_info.map(
+                (info, index) => (
+                  <li key={index}>
+                    <p className="font-[400] text-[24px] leading-[40px] text-[#666666]">
+                      {info}
+                    </p>
+                  </li>
+                )
+              )}
             </ul>
           </div>
         </div>
       </section>
 
-      {/* 🎨 Design & User Experience */}
-      <section className="w-full bg-white px-12">
-        <div className="lg:max-w-[70%] relative p-12 mt-12  mx-auto flex flex-col  text-start lg:px-16 md:px-12 px-4">
-          <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
-            🎨 Design & User Experience
-          </h2>
-          <p className="lg:mt-8 mt-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            The design focused on clarity, accessibility, and speed. We created
-            a custom design system to ensure consistency across modules. Every
-            component was tested for usability, especially for users in
-            low-light or on-the-move environments. Key features included:
-          </p>
+      {/* design and process section */}
+      {project?.sections?.project_goals_section?.approaches[1]?.title && (
+        <section className="w-full bg-white px-12">
+          <div className="lg:max-w-[70%] relative p-12 mt-12  mx-auto flex flex-col  text-start lg:px-16 md:px-12 px-4">
+            <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
+              {project?.sections?.project_goals_section?.approaches[1]?.title}
+            </h2>
+            <p className="lg:mt-8 mt-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
+              {project?.sections?.project_goals_section?.approaches[1]?.description}
+            </p>
 
-          <div className="font-roboto mb-6 md:ml-16 mx-auto border-l-[5px] pl-12 mt-12 border-[#FFAB40]">
-            <ul className="list-disc">
-              <li>
-                <p className="font-[400] text-[24px] leading-[40px] text-[#666666]">
-                  Interactive fleet maps with real-time geolocation
-                </p>
-              </li>
-              <li>
-                <p className="font-[400] text-[24px] leading-[40px] text-[#666666]">
-                  Drag-and-drop route planning
-                </p>
-              </li>
-              <li>
-                <p className="font-[400] text-[24px] leading-[40px] text-[#666666]">
-                  Smart notification system
-                </p>
-              </li>
-              <li>
-                <p className="font-[400] text-[24px] leading-[40px] text-[#666666]">
-                  Role-based dashboards
-                </p>
-              </li>
-            </ul>
+            <div className="font-roboto mb-6 md:ml-16 mx-auto border-l-[5px] pl-12 mt-12 border-[#FFAB40]">
+              <ul className="list-disc">
+               {
+                project?.sections?.project_goals_section?.approaches[1]?.additional_info.map(
+                  (info, index) => (
+                    <li key={index}>
+                      <p className="font-[400] text-[24px] leading-[40px] text-[#666666]">
+                        {info}
+                      </p>
+                    </li>
+                  )
+                )
+               }
+              </ul>
+            </div>
+            <p className="lg:mt-8 mt-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
+              We ran multiple clickable prototypes and refined based on user
+              feedback before development.
+            </p>
           </div>
-          <p className="lg:mt-8 mt-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            We ran multiple clickable prototypes and refined based on user
-            feedback before development.
-          </p>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* 💻 Development Process */}
       <section className="w-full bg-white px-12">

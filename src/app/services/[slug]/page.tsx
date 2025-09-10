@@ -2,7 +2,6 @@
 
 import React, { use, useState } from "react";
 import { useServiceBySlug } from "@/hooks/useServiceBySlug";
-import { useServiceStore } from "@/store/serviceStore";
 import { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -47,16 +46,14 @@ interface ServicePageProps {
 const ServicePage = ({ params }: ServicePageProps) => {
   const { slug } = use(params);
   const { service, isLoading, error, notFound } = useServiceBySlug(slug);
-  const { setCurrentService } = useServiceStore();
   const [structuredData, setStructuredData] = useState<any>(null);
-  // Update the store when service data changes
+  // Update structured data when service data changes
   useEffect(() => {
     if (service) {
       console.log("fetched service", service);
-      setCurrentService(service);
       setStructuredData(generateJsonLd("Service", service));
     }
-  }, [service, setCurrentService]);
+  }, [service]);
 
   // Loading state
   if (isLoading) {

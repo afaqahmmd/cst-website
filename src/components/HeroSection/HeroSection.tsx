@@ -11,7 +11,7 @@ const HeroSection = ({HeroImg,title,subText}:Props) => {
   return (
     <div
       id="header"
-      className="relative h-[350px] gap-4 flex flex-col items-center justify-center bg-center bg-cover"
+      className="relative lg:h-[350px] h-[380px] gap-4 flex flex-col items-center justify-center bg-center bg-cover"
       style={{ backgroundImage: `url(${HeroImg.src})` }}
     >
       {/* Black overlay */}
@@ -19,10 +19,10 @@ const HeroSection = ({HeroImg,title,subText}:Props) => {
 
       {/* Content */}
       <div className="relative z-10 text-center px-4">
-        <h2 className="font-bold font-roboto text-[56px] capitalize text-white">
+        <h2 className="font-bold font-roboto lg:text-[56px] text-[46px] leading-[60px] lg:leading-[100px] capitalize text-white">
           {title}
         </h2>
-        <p className="text-balance w-full text-[24px] leading-[36px] text-white">
+        <p className="lg:px-16 px-4 text-center w-full lg:text-[24px] text-[20px] lg:leading-[36px] leading-[32px] lg:mt-0 mt-4 text-white">
           {subText}
         </p>
       </div>

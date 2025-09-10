@@ -8,8 +8,17 @@ import ButtonComponent from "@/components/Button/Button";
 import HeroImgLeft from "@/components/svgs/hero/heroLeftBottom";
 import HeroIcons from "@/components/svgs/hero/heroIcons";
 import { useServices } from "@/hooks/useServices";
-import { useServiceStore } from "@/store/serviceStore";
 import { useEffect } from "react";
+import ServiceIcon1 from "@/assets/images/homepage/service1.png";
+import ServiceIcon2 from "@/assets/images/homepage/service2.png";
+import ServiceIcon3 from "@/assets/images/homepage/service3.png";
+import ServiceIcon4 from "@/assets/images/homepage/service4.png";
+import ServiceIcon5 from "@/assets/images/homepage/service5.png";
+import ServiceIcon6 from "@/assets/images/homepage/service6.png";
+import ServiceIcon7 from "@/assets/images/homepage/service7.png";
+import ServiceIcon8 from "@/assets/images/homepage/service8.png";
+import ServiceIcon9 from "@/assets/images/homepage/service9.png";
+
 import { Service } from "@/types/service";
 import Loop from "@/components/svgs/icons/Loop";
 import QA from "@/components/svgs/icons/QA";
@@ -40,8 +49,6 @@ import Bolt from "@/components/svgs/icons/Bolt";
 import Refresh from "@/components/svgs/icons/Refresh";
 import HeroSnakeSvg from "@/components/svgs/hero/HeroSnakeSvg";
 import StayInLoop from "@/components/StayInLoop/StayInLoop";
-import ServiceIcon1 from "@/assets/images/projects/serviceIcon1.webp";
-import ServiceIcon2 from "@/assets/images/projects/serviceIcon2.webp";
 import BuildIcon from "@/components/svgs/icons/BulidingBig";
 import LaptopIcon from "@/components/svgs/icons/LaptopBig";
 import ShoppingCartIcon from "@/components/svgs/icons/ShoppingCart";
@@ -55,168 +62,20 @@ import PillContainer from "@/assets/images/homepage/pill-container.svg";
 import PhoneNumberInput from "@/components/PhoneNumberInput/PhoneNumberInput";
 export default function Home() {
   const { data: servicesData, isLoading, error } = useServices();
-  const { setServices } = useServiceStore();
   const [isHomePageV2, setIsHomePageV2] = useState(false);
-  const mockServices = [
-    {
-      id: 1,
-      title: "UI/UX Design",
-      slug: "ui-ux-design",
-      icon: ServiceIcon1,
-      description:
-        "Empowering products with user-first design and modern aesthetics.",
-      features: [
-        "UX Research & Strategy",
-        "Wireframing & Information Architecture",
-        "Prototyping & User Testing",
-        "UX Audit & Heuristic Review",
-        "Microinteractions & Animation Design",
-      ],
-    },
-    {
-      id: 2,
-      title: "Website Development",
-      slug: "web-development",
-      icon: ServiceIcon2,
-      description: "Designed to sell — stores that convert and scale.",
-      features: [
-        "Cross-Platform App Development (Flutter/React Native) ",
-        "Native iOS/Android Apps",
-        "App UI/UX Design",
-        "API Integration",
-        "App Store Optimization",
-      ],
-    },
-    {
-      id: 3,
-      title: "Mobile App Development",
-      slug: "mobile-app-development",
-      icon: ServiceIcon2,
-      description: "Designed to sell — stores that convert and scale.",
-      features: [
-        "Cross-Platform App Development (Flutter/React Native) ",
-        "Native iOS/Android Apps",
-        "App UI/UX Design",
-        "API Integration",
-        "App Store Optimization",
-      ],
-    },
-    {
-      id: 4,
-      title: "E-commerce Solutions",
-      slug: "e-commerce-development",
-      icon: ServiceIcon2,
-      description: "Designed to sell — stores that convert and scale.",
-      features: [
-        "Shopify/WooCommerce Development",
-        "Custom eCommerce Platforms",
-        "E-commerce API Integration",
-        "E-commerce App Store Optimization",
-        "E-commerce Performance Optimization",
-        "E-commerce SEO & Marketing",
-        "E-commerce Analytics & Reporting",
-        "E-commerce Performance Optimization",
-        "E-commerce Security & Compliance",
-        "E-commerce Performance Optimization",
-      ],
-    },
-    {
-      id: 5,
-      title: "Digital Marketing",
-      slug: "digital-marketing-services",
-      icon: ServiceIcon2,
-      description: "Designed to sell — stores that convert and scale.",
-      features: [
-        "SEO & Content Marketing",
-        "Social Media Marketing",
-        "Email Marketing",
-        "Paid Advertising",
-        "Analytics & Reporting",
-      ],
-    },
-    {
-      id: 6,
-      title: "SEO & Content Strategy  ",
-      slug: "seo-content-strategy",
-      icon: ServiceIcon2,
-      description: "Designed to sell — stores that convert and scale.",
-      features: [
-        "SEO Audit & Optimization",
-        "Content Strategy & Creation",
-        "Keyword Research & Analysis",
-        "Technical SEO Implementation",
-        "Content Marketing & Distribution",
-        "Analytics & Reporting",
-      ],
-    },
-    {
-      id: 7,
-      title: "Google Ads and Paid Campaigns",
-      slug: "google-ads-and-paid-campaigns",
-      icon: ServiceIcon2,
-      description: "Designed to sell — stores that convert and scale.",
-      features: [
-        "Google Search and Display Ads",
-        "Youtube Video Ads",
-        "Google Display Network Ads",
-        "Google Shopping Ads",
-        "Google Ads Automation",
-      ],
-    },
-    {
-      id: 8,
-      title: "Branding and Identity Design",
-      slug: "branding-and-identity-design",
-      icon: ServiceIcon2,
-      description: "Designed to sell — stores that convert and scale.",
-      features: [
-        "Brand Strategy & Positioning",
-        "Logo Design & Branding",
-        "Stationary Design",
-        "Brand Guidelines & Visual Identity",
-        "Branding & Identity Design",
-      ],
-    },
-    {
-      id: 9,
-      title: "Maintenance & Support",
-      slug: "maintenance-and-support",
-      icon: ServiceIcon2,
-      description: "Designed to sell — stores that convert and scale.",
-      features: [
-        "Website & App Maintenance",
-        "Speed and Security Checks",
-        "CMS Content Updates",
-        "Database Maintenance & Updates",
-        "Security & Compliance",
-      ],
-    },
-  ];
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     message: "",
   });
-  // Update the store when services data changes
-  useEffect(() => {
-    if (servicesData?.data) {
-      setServices(servicesData.data);
-      console.log("Services data updated:", servicesData.data);
-      console.log(
-        "Active services:",
-        servicesData.data.filter((service: Service) => service.is_active)
-      );
-      console.log("All services count:", servicesData.data.length);
-    }
-  }, [servicesData, setServices]);
 
   // Function to get icon based on service title
   const getServiceIcon = (title: string) => {
     const iconMap: { [key: string]: React.ReactElement } = {
       "UI/UX Design Solutions": <Palette className="w-8 h-8 text-blue-600" />,
       "Web Development": <Globe className="w-8 h-8 text-purple-600" />,
-      "Mobile App Development": (
+      "Mobile Application": (
         <Smartphone className="w-8 h-8 text-pink-600" />
       ),
       "E-commerce Development": (
@@ -572,14 +431,149 @@ export default function Home() {
     alert(`Verification code sent: ${code}`);
   };
 
+  const mockServices = [
+    {
+      id: 1,
+      title: "UI/UX Design",
+      slug: "ui-ux-design",
+      icon: ServiceIcon1,
+      description:
+        "Empowering products with user-first design and modern aesthetics.",
+      features: [
+        "UX Research & Strategy",
+        "Wireframing & Information Architecture",
+        "Prototyping & User Testing",
+        "UX Audit & Heuristic Review",
+        "Microinteractions & Animation Design",
+      ],
+    },
+    {
+      id: 2,
+      title: "Website Development",
+      slug: "web-development",
+      icon: ServiceIcon2,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "Cross-Platform App Development (Flutter/React Native) ",
+        "Native iOS/Android Apps",
+        "App UI/UX Design",
+        "API Integration",
+        "App Store Optimization",
+      ],
+    },
+    {
+      id: 3,
+      title: "Mobile Application",
+      slug: "mobile-app-development",
+      icon: ServiceIcon3,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "Cross-Platform App Development (Flutter/React Native) ",
+        "Native iOS/Android Apps",
+        "App UI/UX Design",
+        "API Integration",
+        "App Store Optimization",
+      ],
+    },
+    {
+      id: 4,
+      title: "E-commerce Solutions",
+      slug: "e-commerce-development",
+      icon: ServiceIcon4,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "Shopify/WooCommerce Development",
+        "Custom eCommerce Platforms",
+        "E-commerce API Integration",
+        "E-commerce App Store Optimization",
+        "E-commerce Performance Optimization",
+        "E-commerce Analytics & Reporting",
+      ],
+    },
+    {
+      id: 5,
+      title: "Digital Marketing",
+      slug: "digital-marketing-services",
+      icon: ServiceIcon5,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "SEO & Content Marketing",
+        "Social Media Marketing",
+        "Email Marketing",
+        "Paid Advertising",
+        "Analytics & Reporting",
+      ],
+    },
+    {
+      id: 6,
+      title: "SEO & Content Strategy  ",
+      slug: "seo-content-strategy",
+      icon: ServiceIcon6,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "SEO Audit & Optimization",
+        "Content Strategy & Creation",
+        "Keyword Research & Analysis",
+        "Technical SEO Implementation",
+        "Content Marketing & Distribution",
+        "Analytics & Reporting",
+      ],
+    },
+    {
+      id: 7,
+      title: "Google Ads and Paid Campaigns",
+      slug: "google-ads-and-paid-campaigns",
+      icon: ServiceIcon7,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "Google Search and Display Ads",
+        "Youtube Video Ads",
+        "Google Display Network Ads",
+        "Google Shopping Ads",
+        "Google Ads Automation",
+      ],
+    },
+    {
+      id: 8,
+      title: "Branding and Identity Design",
+      slug: "branding-and-identity-design",
+      icon: ServiceIcon8,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "Brand Strategy & Positioning",
+        "Logo Design & Branding",
+        "Stationary Design",
+        "Brand Guidelines & Visual Identity",
+        "Branding & Identity Design",
+      ],
+    },
+    {
+      id: 9,
+      title: "Maintenance and Support",
+      slug: "maintenance-and-support",
+      icon: ServiceIcon9,
+      description: "Designed to sell — stores that convert and scale.",
+      features: [
+        "Website & App Maintenance",
+        "Speed and Security Checks",
+        "CMS Content Updates",
+        "Database Maintenance & Updates",
+        "Security & Compliance",
+      ],
+    },
+  ];
+
   return (
-    <main className="min-h-screen bg-white font-roboto">
+    <main className="min-h-screen bg-white font-roboto flex justify-center flex-col">
       {/* homepage hero section */}
-      <section className="flex w-full items-center justify-center relative overflow-hidden">
-        <div className="w-full grid grid-cols-1 self-center gap-10 py-10 md:py-16 md:pb-0 pb-12 lg:grid-cols-2 lg:gap-12">
+      <section
+        id="hero-section"
+        className="flex w-full max-w-[1920px] mx-auto items-center justify-center relative overflow-hidden"
+      >
+        <div className="w-full px-0 grid grid-cols-1 self-center gap-10 py-8 md:py-12 md:pb-0 pb-12 lg:grid-cols-2 lg:gap-12">
           {/* LEFT CONTENT */}
           <div className="relative z-10 flex flex-col md:pt-18 justify-center gap-[20%]">
-            <div className="flex flex-col px-8 md:px-18">
+            <div className="flex flex-col px-8 md:px-12">
               <h1 className="text-5xl font-bold tracking-tight font-roboto text-[#0F172A] sm:text-5xl md:text-[60px] lg:text-[72px]">
                 <span className="relative inline-block font-roboto">
                   <span className="relative z-10">Fixing</span>
@@ -615,7 +609,9 @@ export default function Home() {
 
               {/* bottom navigation buttons */}
               <div className="flex -mt-3 flex-col sm:flex-row gap-4 ">
-                <ButtonComponent name="Get In Touch" buttonHeight="55px" />
+                <a href="#contact-section">
+                  <ButtonComponent name="Get In Touch" buttonHeight="55px" />
+                </a>
                 <div className="flex items-center gap-2">
                   <button className="relative w-14 h-14 shadow-lg rounded-full bg-[#2B2B2B1A] flex items-center justify-center">
                     {/* Left semi-circle border */}
@@ -661,109 +657,19 @@ export default function Home() {
           </div>
 
           {/* RIGHT CONTENT */}
-          {isHomePageV2 ? (
-            <div className="relative flex items-center justify-center w-full">
-              <div className="flex absolute top-12 left-[50%] items-center justify-center z-10">
-                <HeroIcons width={200} height={130} />
-              </div>
-              {/* Form Section */}
-              <div className="lg:col-span-3 p-8 lg:p-12 w-full ">
-                <div onSubmit={handleSubmit} className="space-y-6">
-                  {/* Name and Email Row */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <input
-                        type="text"
-                        name="name"
-                        placeholder="Name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-6 border border-gray-200  focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
-                      />
-                    </div>
-                    <div>
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-200 py-6 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Phone Number with Country Code */}
-                  <div className="flex gap-0">
-                    <div className="flex items-center bg-gray-50 border border-gray-200  px-3 py-6">
-                      <span className="text-green-600 mr-2">🇵🇰</span>
-                      <span className="text-gray-600 text-sm">+92</span>
-                      <svg
-                        className="w-4 h-4 ml-2 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
-                    <input
-                      type="tel"
-                      name="phone"
-                      placeholder="Phone Number"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="flex-1 px-4 py-6 border border-gray-200 rounded-r focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
-                    />
-                    <button
-                      type="button"
-                      onClick={getCode}
-                      className="px-6 py-6 bg-gray-800 text-white rounded-none hover:bg-gray-900 transition-colors duration-200 font-medium"
-                    >
-                      Get Code
-                    </button>
-                  </div>
-
-                  {/* Message */}
-                  <div>
-                    <textarea
-                      name="message"
-                      placeholder="Message"
-                      rows={6}
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-6 border border-gray-200  focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200 resize-none"
-                    />
-                  </div>
-
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    onClick={handleSubmit}
-                    className="w-full bg-teal-500 text-white py-4 rounded-sm hover:bg-teal-600 transition-colors duration-200 font-semibold text-lg"
-                  >
-                    Send
-                  </button>
-                </div>
-              </div>
+          <div className="relative flex w-full justify-center items-center  px-2">
+            <div className="relative w-full flex justify-center items-center">
+              <Image src={HerosectionImg} alt="Logo" className="" />
             </div>
-          ) : (
-            <div className="relative flex w-full px-2">
-              <div className="relative w-full ">
-                <Image src={HerosectionImg} alt="Logo" className="" />
-              </div>
-            </div>
-          )}
+          </div>
         </div>
       </section>
 
       {/* summary stats section */}
-      <div className="flex bg-[#F6F6F6] lg:flex-row flex-col relative pb-0 w-full h-fit items-start justify-center ">
+      <div
+        id="summary-section"
+        className="flex bg-[#F6F6F6] mx-auto lg:flex-row flex-col relative pb-0 w-full max-w-[1920px] h-fit items-start justify-center "
+      >
         <div className="relative h-fit flex lg:-mb-32 mb-12 md:pt-20 pt-8">
           <div className="relative ">
             <Image
@@ -826,80 +732,12 @@ export default function Home() {
         </div>
       </div>
 
-      {/* our services */}
-      {/* <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-[20px] font-[500] text-[#FFAB40] mb-4">
-              Our Services
-            </p>
-            <h1 className="font-roboto leading-[60px] tracking-[-1.5%] text-[56px] font-[800] text-[#0F172A]">
-              Powering Ideas with Design, Code & Growth
-            </h1>
-            <p className="text-[20px] text-[#0F172A] font-[500] leading-[33px] tracking-[-1.5%] my-6">
-              From UX to full-stack and marketing - our services connect like a
-              smart system to elevate your digital journey.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {mockServices.map((service) => (
-              <Link
-                href={`/services/${service.slug}`}
-                key={service.id}
-                className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 cursor-pointer"
-              >
-                <div className="flex flex-col items-start gap-4 mb-4">
-                  <div className="flex items-center gap-4 flex-shrink-0 p-2 bg-gray-50 rounded-lg">
-                    <Image
-                      src={service.icon || ""}
-                      alt={service.title || ""}
-                      width={50}
-                      height={50}
-                    />
-                    <h3 className="relative inline-block text-xl font-semibold text-gray-900 mb-2">
-                      <span className="absolute left-0 h-4 w-4 rounded-full bg-[#20C5BA80] z-0"></span>
-                      <span className="absolute left-1/2 -bottom-1 -translate-x-1/2 h-1 w-8 bg-[#20C5BA80] z-0"></span>
-
-                      <span className="font-[700] font-roboto text-[24px]  text-[#2B2B2B] relative z-10">
-                        {service.title}
-                      </span>
-                    </h3>
-                  </div>
-
-                  <div className="flex-1 min-w-0 pl-3 border-b border-[#E2E8F0] pb-4">
-                    <p className="text-[#868282] text-[16px] leading-[22px] font-[400]">
-                      {service.description}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  {service.features?.map(
-                    (feature: string, featureIndex: number) => (
-                      <div
-                        key={featureIndex}
-                        className="flex items-center gap-2"
-                      >
-                        <div className="flex-shrink-0 bg-teal-500 h-6 w-6 p-1 flex items-center justify-center rounded-full">
-                          <Check className="w-4 h-4 text-white" size={16} />
-                        </div>
-                        <span className="text-[14.8px] text-[#101828] font-[400] leading-[22px]">
-                          {feature}
-                        </span>
-                      </div>
-                    )
-                  )}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div> */}
-
       {/* services from api */}
       {/* our services */}
-      <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8 font-roboto">
+      <div
+        id="services-section"
+        className="w-full max-w-[1920px] mx-auto bg-white py-12 px-4 sm:px-6 lg:px-8 font-roboto"
+      >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-[20px] font-[500] text-[#FFAB40] mb-4">
@@ -915,77 +753,62 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col gap-8">
-            {isLoading ? (
-              <div className="flex justify-center items-center py-12">
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-teal-500"></div>
-              </div>
-            ) : error ? (
-              <div className="text-center py-12">
-                <p className="text-red-600 mb-4">Error loading services</p>
-                <p className="text-gray-600">{error.message}</p>
-              </div>
-            ) : services.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-gray-600">
-                  No services available at the moment.
-                </p>
-                <p className="text-sm text-gray-500 mt-2">
-                  Debug: servicesData?.data length:{" "}
-                  {servicesData?.data?.length || 0}
-                </p>
-                <p className="text-sm text-gray-500">
-                  Debug: active services:{" "}
-                  {servicesData?.data?.filter((s: Service) => s.is_active)
-                    .length || 0}
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                {services.map((service: Service, index: number) => (
-                  <Link
-                    href={`/services/${service.slug}`}
-                    key={service.id}
-                    className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 cursor-pointer"
-                  >
-                    <div className="flex flex-col items-start gap-4 mb-4  border-b-1 border-[#D1D3D9] pb-4">
-                      <div className="flex items-start gap-4 flex-shrink-0 p-0 bg-white rounded-lg">
-                        {getServiceIcon(service.title)}
-                        <h3 className="relative inline-block text-xl font-semibold text-gray-900 mb-2">
-                          <span className="absolute left-0 h-4 w-4 rounded-full bg-[#20C5BA80] z-0"></span>
-                          <span className="absolute left-1/2 -bottom-1 -translate-x-1/2 h-1 w-8 bg-[#20C5BA80] z-0"></span>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              {mockServices.map((service) => (
+                <Link
+                  href={`/services/${service.slug}`}
+                  key={service.id}
+                  className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 cursor-pointer"
+                >
+                  {/* Icon and Title */}
+                  <div className="flex flex-col items-start gap-4 mb-4">
+                    <div className="flex items-center gap-4 flex-shrink-0 p-2 bg-gray-50 rounded-lg">
+                      <Image
+                        src={service.icon || ""}
+                        alt={service.title || ""}
+                        width={50}
+                        height={50}
+                      />
+                      <h3 className="relative inline-block text-xl font-semibold text-gray-900 mb-2">
+                        {/* Circle at start of title */}
+                        <span className="absolute left-0 h-4 w-4 rounded-full bg-[#20C5BA80] z-0"></span>
+                        {/* Line at center bottom */}
+                        <span className="absolute left-1/2 -bottom-1 -translate-x-1/2 h-1 w-8 bg-[#20C5BA80] z-0"></span>
 
-                          <span className="relative z-10">{service.title}</span>
-                        </h3>
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[#868282] text-[16px] leading-[22px] font-[400]">
-                          {service.description}
-                        </p>
-                      </div>
+                        <span className={`font-[700] font-roboto text-[24px]  text-[#2B2B2B] relative z-10 ${service.title.includes("\n") ? "line-clamp-2" : ""}`}>
+                          {service.title}
+                        </span>
+                      </h3>
                     </div>
 
-                    <div className="space-y-2 mt-5">
-                      {generateFeatures(service.description).map(
-                        (feature: string, featureIndex: number) => (
-                          <div
-                            key={featureIndex}
-                            className="flex items-center gap-2"
-                          >
-                            <div className="flex-shrink-0 bg-teal-500 h-6 w-6 p-1 flex items-center justify-center rounded-full">
-                              <Check className="w-4 h-4 text-white" size={16} />
-                            </div>
-                            <span className="text-sm text-gray-700">
-                              {feature}
-                            </span>
+                    <div className="flex-1 min-w-0 pl-3 border-b border-[#E2E8F0] pb-4">
+                      <p className="text-[#868282] text-[16px] leading-[22px] font-[400]">
+                        {service.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Features List */}
+                  <div className="space-y-2">
+                    {service.features?.map(
+                      (feature: string, featureIndex: number) => (
+                        <div
+                          key={featureIndex}
+                          className="flex items-center gap-2"
+                        >
+                          <div className="flex-shrink-0 bg-teal-500 h-6 w-6 p-1 flex items-center justify-center rounded-full">
+                            <Check className="w-4 h-4 text-white" size={16} />
                           </div>
-                        )
-                      )}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
+                          <span className="text-[14.8px] text-[#101828] font-[400] leading-[22px]">
+                            {feature}
+                          </span>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
 
           {/* bottom navigation buttons */}
@@ -1003,17 +826,23 @@ export default function Home() {
                 {/* Button content */}
                 <Mail />
               </button>
-              <p className="font-[600] capitalize text-[16px] hover:underline cursor-pointer">
+              <a
+                href="#contact-section"
+                className="font-[600] capitalize text-[16px] hover:underline cursor-pointer"
+              >
                 Get in touch
-              </p>
+              </a>
             </div>
           </div>
         </div>
       </div>
 
       {/* Target industries */}
-      <div className="mt-16 text-center ">
-        <div className="min-h-screen bg-[#F6F6F6] py-12 px-4 sm:px-6 lg:px-8">
+      <div
+        id="industries-section"
+        className="mt-16 text-center w-full max-w-[1920px] mx-auto"
+      >
+        <div className=" bg-[#F6F6F6] py-12 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             {/* Header */}
             <div className="text-center mb-12">
@@ -1059,7 +888,9 @@ export default function Home() {
               </div>
               {/* bottom navigation buttons */}
               <div className="flex mt-12 flex-col sm:flex-row gap-4 justify-center items-center">
-                <ButtonComponent name="Get In Touch" buttonHeight="55px" />
+                <a href="#contact-section">
+                  <ButtonComponent name="Get In Touch" buttonHeight="55px" />
+                </a>
                 <div className="flex items-center gap-2">
                   <button className="relative w-14 h-14 shadow-lg rounded-full bg-white flex items-center justify-center">
                     {/* Left semi-circle border */}
@@ -1090,17 +921,20 @@ export default function Home() {
       </div>
 
       {/* Peak behind the pixels section */}
-      <section className="bg-white py-16 px-6">
-        <div className="max-w-[90%] mx-auto flex flex-col lg:flex-row items-center gap-12">
+      <section
+        id="case-studies-section"
+        className="bg-white py-16 px-6 lg:pr-0"
+      >
+        <div className="w-full max-w-[1920px] mx-auto md:pl-12 pl-0 flex flex-col lg:flex-row items-center justify-center gap-12">
           {/* Left Content */}
           <div className="lg:w-1/3 w-full">
             <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-8 leading-tight">
               <span className="relative inline-block font-roboto">
-                <span className="relative z-10">Peek Behind the</span>
-                {/* orange underline */}
+                <span className="relative z-10">Peek Behind</span>
+                {/* orange underline - positioned under "Peek Behind" only */}
                 <span
                   aria-hidden="true"
-                  className="absolute -bottom-1 left-[20%] right-[20%] h-2 bg-orange-400"
+                  className="absolute -bottom-1 left-[10%] right-[10%] h-2 bg-orange-400"
                   style={{
                     borderRadius: "50%/100% 100% 0 0",
                     height: "10px",
@@ -1109,7 +943,7 @@ export default function Home() {
                 />
                 <span
                   aria-hidden="true"
-                  className="absolute w-[40%] -bottom-1 -rotate-2 right-[20%] h-2 bg-orange-400"
+                  className="absolute w-[60%] -bottom-1 -rotate-2 left-[10%] h-2 bg-orange-400"
                   style={{
                     borderRadius: "50%/100% 100% 0 0",
                     height: "8px",
@@ -1117,7 +951,8 @@ export default function Home() {
                   }}
                 />
               </span>{" "}
-              <br />
+              <span className="relative z-10">the</span>{" "}
+              <br className="hidden lg:block" />
               <span className="relative">Pixels</span>
             </h1>
 
@@ -1161,7 +996,7 @@ export default function Home() {
           </div>
 
           {/* Right Content - Single Image */}
-          <div className="lg:w-2/3  w-full aspect-[4/3]">
+          <div className="lg:w-2/3 w-full aspect-[1920/1280]">
             <div className="relative w-full h-full">
               <Image
                 src={PeakPixels}
@@ -1176,7 +1011,10 @@ export default function Home() {
       </section>
 
       {/* decision makers */}
-      <section className="bg-[#F6F6F6] py-16 px-6">
+      <section
+        id="team-section"
+        className="bg-[#F6F6F6] py-16 px-6 w-full max-w-[1920px] mx-auto"
+      >
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
           {/* Left Content - Single Image */}
           <div className="lg:w-1/2 w-full">
@@ -1247,7 +1085,10 @@ export default function Home() {
       </section>
 
       {/* happy clients section */}
-      <section className="bg-[#2B2B2B] py-16 px-6">
+      <section
+        id="clients-section"
+        className="bg-[#2B2B2B] py-16 px-6 w-full max-w-[1920px] mx-auto"
+      >
         <div className="max-w-6xl mx-auto text-center">
           {/* Header */}
           <div className="mb-16">
@@ -1278,7 +1119,10 @@ export default function Home() {
       </section>
 
       {/* faqs section */}
-      <section className="bg-white py-16 px-6">
+      <section
+        id="faqs-section"
+        className="bg-white py-16 px-6 w-full max-w-[1920px] mx-auto"
+      >
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
@@ -1395,109 +1239,109 @@ export default function Home() {
         </div>
       </section>
 
-      {isHomePageV2 ? (
-        <StayInLoop />
-      ) : (
-        <div className="font-roboto bg-[#F6F6F6] py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-[90%] mx-auto">
-            <div className="overflow-hidden">
-              <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
-                {/* Form Section */}
-                <div className="col-span-1 p-8 lg:p-12 lg:pr-6">
-                  <div onSubmit={handleSubmit} className="space-y-6">
-                    {/* Name and Email Row */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <input
-                          type="text"
-                          name="name"
-                          placeholder="Name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 border bg-white border-gray-200 max-h-[60px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="email"
-                          name="email"
-                          placeholder="Email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 border bg-white border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Phone Number with Country Code */}
-                    <div className="flex gap-0 max-h-[60px] bg-white">
-                      <PhoneNumberInput />
-                      <button
-                        type="button"
-                        onClick={getCode}
-                        className="px-6 py-3 min-w-[120px] bg-[#2B2B2B] text-white rounded-none hover:bg-gray-900 transition-colors duration-200 font-medium"
-                      >
-                        Get Code
-                      </button>
-                    </div>
-
-                    {/* Message */}
+      {/* contact section */}
+      <div
+        id="contact-section"
+        className="font-roboto bg-[#F6F6F6] py-12 px-4 sm:px-6 lg:px-8 w-full max-w-[1920px] mx-auto"
+      >
+        <div className="md:max-w-[90%] max-w-[100%] mx-auto">
+          <div className="overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
+              {/* Form Section */}
+              <div className="col-span-1 md:p-8 p-2 lg:p-12 lg:pr-6">
+                <div onSubmit={handleSubmit} className="space-y-6">
+                  {/* Name and Email Row */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <textarea
-                        name="message"
-                        placeholder="Message"
-                        rows={12}
-                        value={formData.message}
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder="Name"
+                        value={formData.name}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border bg-white border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200 resize-none"
+                        className="w-full px-4 py-3 border bg-white border-gray-200 max-h-[60px] focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
                       />
                     </div>
+                    <div>
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border bg-white border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200"
+                      />
+                    </div>
+                  </div>
 
-                    {/* Submit Button */}
+                  {/* Phone Number with Country Code */}
+                  <div className="flex md:flex-row flex-col gap-0 md:max-h-[60px] max-h-[100px] bg-white">
+                    <PhoneNumberInput />
                     <button
-                      type="submit"
-                      onClick={handleSubmit}
-                      className="w-full bg-teal-500 text-white py-4 rounded-[5px] hover:bg-teal-600 transition-colors duration-200 font-semibold text-lg"
+                      type="button"
+                      onClick={getCode}
+                      className="px-6 py-3 min-w-[120px] bg-[#2B2B2B] text-white rounded-none hover:bg-gray-900 transition-colors duration-200 font-medium"
                     >
-                      Send
+                      Get Code
                     </button>
                   </div>
+
+                  {/* Message */}
+                  <div>
+                    <textarea
+                      name="message"
+                      placeholder="Message"
+                      rows={12}
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border bg-white border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all duration-200 resize-none"
+                    />
+                  </div>
+
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    className="w-full bg-teal-500 text-white py-4 rounded-[5px] hover:bg-teal-600 transition-colors duration-200 font-semibold text-lg"
+                  >
+                    Send
+                  </button>
                 </div>
+              </div>
 
-                {/* Content Section */}
-                <div className="col-span-1 p-8 lg:p-12 w-full  flex flex-col justify-center">
-                  <div className="w-full">
-                    <div className="w-full flex justify-center">
-                      {/* image  */}
-                      <Image
-                        src={VirtualAssistant}
-                        alt="image"
-                        width={500}
-                        height={500}
-                      />
-                    </div>
-                    <p className="text-[20px] font-[500] text-[#FFAB40] leading-[110%]">
-                      Contact Us
+              {/* Content Section */}
+              <div className="col-span-1 md:p-8 p-2 lg:p-12 w-full  flex flex-col justify-center">
+                <div className="w-full">
+                  <div className="w-full flex justify-center">
+                    {/* image  */}
+                    <Image
+                      src={VirtualAssistant}
+                      alt="image"
+                      width={500}
+                      height={500}
+                    />
+                  </div>
+                  <p className="text-[20px] font-[500] text-[#FFAB40] leading-[110%]">
+                    Contact Us
+                  </p>
+                  <h1 className="font-roboto leading-[110%] lg:text-[56px] text-[44px] font-[800] text-[#0F172A] mb-6">
+                    Let's Build Something Brilliant Together
+                  </h1>
+
+                  <div className="leading-[180%] text-[20px] font-[400] text-[#0F172A]">
+                    <p>
+                      Got an idea? A project in mind? Or just want to see if
+                      we're the right fit? Drop us a message — we usually reply
+                      within a few hours. Whether it's design, code, strategy,
+                      or scaling — we're all ears (and keyboards).
                     </p>
-                    <h1 className="font-roboto leading-[110%] lg:text-[56px] text-[44px] font-[800] text-[#0F172A] mb-6">
-                      Let's Build Something Brilliant Together
-                    </h1>
-
-                    <div className="leading-[180%] text-[20px] font-[400] text-[#0F172A]">
-                      <p>
-                        Got an idea? A project in mind? Or just want to see if
-                        we're the right fit? Drop us a message — we usually
-                        reply within a few hours. Whether it's design, code,
-                        strategy, or scaling — we're all ears (and keyboards).
-                      </p>
-                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      )}
+      </div>
 
       <Footer />
     </main>

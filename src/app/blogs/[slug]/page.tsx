@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useBlogBySlug } from "@/hooks/useBlogBySlug";
-import { useBlogStore } from "@/store/blogStore";
 import { useEffect, use, useState } from "react";
 import Mob1 from "@/assets/images/services/mob1.png";
 import Mob2 from "@/assets/images/services/mob2.png";
@@ -22,17 +21,15 @@ interface BlogPostPageProps {
 export default function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = use(params);
   const { blog, isLoading, error, notFound } = useBlogBySlug(slug);
-  const { setCurrentBlog } = useBlogStore();
   const [structuredData, setStructuredData] = useState<any>(null);
 
-  // Update the store when blog data changes
+  // Update structured data when blog data changes
   useEffect(() => {
     if (blog) {
       console.log("current blog", blog);
-      setCurrentBlog(blog);
       setStructuredData(generateJsonLd("Blog", blog));
     }
-  }, [blog, setCurrentBlog]);
+  }, [blog]);
 
   // Function to format date
   const formatDate = (dateString: string) => {
@@ -256,18 +253,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         "Travelling in sea has many advantages. Some of the advantages of transporting goods by sea include: you can ship large volumes at costs",
     },
   ];
-  const parseImageUrl = (url: string) => {
-    if (!url) return "";
-
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
-
-    const mediaIndex = url.indexOf("/media/");
-    if (mediaIndex === -1) return url;
-
-    const path = url.substring(mediaIndex);
-    console.log("Parsed image URL:", `${baseUrl}${path}`);
-    return `${baseUrl}${path}`;
-  };
 
   return (
     <>

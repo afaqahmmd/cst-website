@@ -1,3 +1,4 @@
+"use client";
 import HeroSection from "@/components/HeroSection/HeroSection";
 import HeroImg from "@/assets/images/projects/hero-img.webp";
 import React from "react";
@@ -16,52 +17,15 @@ import StayInLoop from "@/components/StayInLoop/StayInLoop";
 import Footer from "@/components/Footer/Footer";
 import UxReview2 from "@/assets/images/projects/orange-banner.svg";
 import CyanMobile from "@/assets/images/projects/cyan-mobile.svg";
+import { useProjects } from "@/hooks/useProjects";
+import { joinUrl } from "@/utils/joinUrl";
+import { getBlogImageUrl } from "@/utils/getBlobImageUrl";
+import Link from "next/link";
 
 const page = () => {
-  const recentPosts = [
-    {
-      title: "HabitFy",
-      description:
-        "HabitFy is a habit building app aimed to help people leading a sedentary lifestyle to develop healthier habits...",
-      image: Mob1,
-      bgGradient: "from-purple-400 to-purple-600",
-      tags: [
-        { name: "Designing", color: "text-blue-600" },
-        { name: "Web Development", color: "text-purple-600" },
-        { name: "Testing", color: "text-orange-600" },
-      ],
-      date: "13 March 2023",
-      time: "12:24 PM",
-    },
-    {
-      title: "HabitFy",
-      description:
-        "HabitFy is a habit building app aimed to help people leading a sedentary lifestyle to develop healthier habits...",
-      image: Mob2,
-      bgGradient: "from-orange-400 to-orange-600",
-      tags: [
-        { name: "Designing", color: "text-blue-600" },
-        { name: "Web Development", color: "text-purple-600" },
-        { name: "Testing", color: "text-orange-600" },
-      ],
-      date: "13 March 2023",
-      time: "12:24 PM",
-    },
-    {
-      title: "HabitFy",
-      description:
-        "HabitFy is a habit building app aimed to help people leading a sedentary lifestyle to develop healthier habits...",
-      image: Mob3,
-      bgGradient: "from-blue-400 to-blue-600",
-      tags: [
-        { name: "Designing", color: "text-blue-600" },
-        { name: "Web Development", color: "text-purple-600" },
-        { name: "Testing", color: "text-orange-600" },
-      ],
-      date: "13 March 2023",
-      time: "12:24 PM",
-    },
-  ];
+  const { data: projectsData, isLoading, error } = useProjects();
+  const firstProject = projectsData?.[0];
+
   const popularPosts = [
     {
       title: "HabitFy",
@@ -149,6 +113,18 @@ const page = () => {
     },
   ];
 
+  if (isLoading) {
+    <div className="flex justify-center items-center py-12">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-teal-500"></div>
+    </div>;
+
+    if (error) {
+      <div className="text-center py-12">
+        <p className="text-red-600 mb-4">Error loading projects</p>
+      </div>;
+    }
+  }
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const day = date.getDate();
@@ -159,9 +135,10 @@ const page = () => {
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    return `${hours}:${minutes}`;
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   return (
@@ -234,6 +211,7 @@ const page = () => {
       {/* our recent post */}
       <div className="flex flex-col w-full lg:max-w-[90%] max-w-7xl px-4 mx-auto mt-16">
         {/* header title and button */}
+
         <div className="flex justify-between items-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
             Our Recent Post
@@ -249,7 +227,7 @@ const page = () => {
           <div className="relative  rounded-lg overflow-hidden">
             <div className="aspect-[720/455] pointer-events-none">
               <Image
-                src={CyanMobile}
+                src={getBlogImageUrl(firstProject?.image)}
                 alt="cyan-mobile-interface"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -263,106 +241,117 @@ const page = () => {
             <div className="flex flex-col gap-4 max-w-2xl">
               {/* Category Badge */}
               <div className="flex gap-2 items-center">
-                <p
-                  className={` text-[#6941C6] text-[14px] leading-[20px] tracking-[0%] rounded-full text-sm font-medium`}
-                >
-                  Design
-                </p>
-                <p
-                  className={` text-[#1D76F1] text-[14px] leading-[20px] tracking-[0%] rounded-full text-sm font-medium`}
-                >
-                  UX Research
-                </p>
+                {firstProject &&
+                  firstProject.tags.map(
+                    (tag: { id: number; name: string }, index: number) => (
+                      <p
+                        key={index}
+                        className={`${
+                          index % 2 === 0 ? "text-[#6941C6]" : "text-[#1D76F1]"
+                        } text-[14px] leading-[20px] tracking-[0%] rounded-full text-sm font-medium`}
+                      >
+                        {tag.name}
+                      </p>
+                    )
+                  )}
               </div>
 
               {/* Date & Time */}
-              <div className="text-sm text-gray-500 ">
-                16 March 2023 • 12:24 PM
+              <div className="font-roboto flex items-center gap-3">
+                <p className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                  {formatDate(firstProject?.created_at)}
+                </p>
+                <p className="text-[#333333] text-[14px] font-[700] leading-[150%]">
+                  {formatTime(firstProject?.created_at)}
+                </p>
               </div>
 
               {/* Title */}
               <h3 className="text-[32px] leading-[45px] tracking-[-1px] font-[600] text-gray-900 ">
-                Design Thinking in Real Products: What Most Teams Miss
+                {firstProject?.name}
               </h3>
 
               {/* Description */}
               <p className="text-gray-600 font-[400] text-[16px] leading-[150%] tracking-[0%] ">
-                A crash course on why wireframes aren't enough — and how to
-                embed user empathy into scalable product design.A crash course
-                on why wireframes aren't enough — and how to embed user empathy
-                into...A crash course on why wireframes aren't enough — and how
-                to embed user empathy into scalable product design.A crash
-                course on why wireframes aren't enough — and how to embed user
-                empathy into...
+                {firstProject?.description}
               </p>
             </div>
 
             {/* Read More Button */}
+            <Link href={`/projects/${firstProject?.slug}`}>
             <button className="bg-gray-100 max-w-[125px] hover:bg-gray-200 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
               Read More
             </button>
+            </Link>
           </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {recentPosts.map((project, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-2xl overflow-hidden group"
-            >
-              {/* Project Image */}
-              <div className="relative aspect-[400/360] bg-gray-50">
-                <Image
-                  src={project.image}
-                  alt={`${project.title} mobile interface`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover"
-                  priority={index === 0}
-                />
-              </div>
+          {projectsData &&
+            projectsData.slice(1, 4).map((project: any, index: number) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl overflow-hidden group"
+              >
+                {/* Project Image */}
+                <div className="relative aspect-[400/360] overflow-hidden rounded-b-2xl bg-gray-50">
+                  <Image
+                    src={getBlogImageUrl(project.image)}
+                    alt={`${project.name} mobile interface`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
+                    priority={index === 0}
+                  />
+                </div>
 
-              {/* Content */}
-              <div className="p-6 px-1">
-                {/* Tags */}
-                <div className="flex flex-wrap gap-4 mb-4">
-                  {project.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className={`${tag.color} font-medium text-sm`}
-                    >
-                      {tag.name}
+                {/* Content */}
+                <div className="p-6 px-1">
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-4 mb-4">
+                    {project.tags.map(
+                      (tag: { id: number; name: string }, tagIndex: number) => (
+                        <span
+                          key={tagIndex}
+                          className={`${
+                            tagIndex % 2 === 0
+                              ? "text-[#6941C6]"
+                              : "text-[#1D76F1]"
+                          } font-medium text-sm`}
+                        >
+                          {tag.name}
+                        </span>
+                      )
+                    )}
+                  </div>
+
+                  {/* Date & Time */}
+                  <div className="text-sm text-gray-500 mb-4 font-roboto">
+                    <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                      {formatDate(project.created_at)}
+                    </span>{" "}
+                    <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                      {formatTime(project.created_at)}
                     </span>
-                  ))}
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                    {project.name}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-gray-600 leading-relaxed mb-6">
+                    {project.description}
+                  </p>
+
+                  {/* Read More Button */}
+                  <button className="hover:bg-gray-100 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                    Read More
+                  </button>
                 </div>
-
-                {/* Date & Time */}
-                <div className="text-sm text-gray-500 mb-4 font-roboto">
-                  <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
-                    {formatDate(project.date)}
-                  </span>{" "}
-                  <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
-                    {project.time}
-                  </span>
-                </div>
-
-                {/* Title */}
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                  {project.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-gray-600 leading-relaxed mb-6">
-                  {project.description}
-                </p>
-
-                {/* Read More Button */}
-                <button className="hover:bg-gray-100 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
-                  Read More
-                </button>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
 
@@ -380,63 +369,71 @@ const page = () => {
 
         {/* cards grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {popularPosts.map((project, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-2xl  transition-all duration-300 overflow-hidden group"
-            >
-              {/* Project Image */}
-              <div className="relative aspect-[400/360] bg-gray-50">
-                <Image
-                  src={project.image}
-                  alt={`${project.title} mobile interface`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover"
-                  priority={index === 0}
-                />
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                {/* Tags */}
-                <div className="flex flex-wrap gap-4 mb-4">
-                  {project.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className={`${tag.color} font-medium text-sm`}
-                    >
-                      {tag.name}
-                    </span>
-                  ))}
+          {projectsData &&
+            projectsData.slice(1, 7).map((project: any, index: number) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl overflow-hidden group"
+              >
+                {/* Project Image */}
+                <div className="relative aspect-[400/360] overflow-hidden rounded-b-2xl bg-gray-50">
+                  <Image
+                    src={getBlogImageUrl(project.image)}
+                    alt={`${project.name} mobile interface`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
+                    priority={index === 0}
+                  />
                 </div>
 
-                <div className="text-sm text-gray-500 mb-4 font-roboto">
-                      <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
-                        {formatDate(project.date)}
-                      </span>{" "}
-                      <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
-                        {project.time}
-                      </span>
-                    </div>
+                {/* Content */}
+                <div className="p-6 px-1">
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-4 mb-4">
+                    {project.tags.map(
+                      (tag: { id: number; name: string }, tagIndex: number) => (
+                        <span
+                          key={tagIndex}
+                          className={`${
+                            tagIndex % 2 === 0
+                              ? "text-[#6941C6]"
+                              : "text-[#1D76F1]"
+                          } font-medium text-sm`}
+                        >
+                          {tag.name}
+                        </span>
+                      )
+                    )}
+                  </div>
 
-                {/* Title */}
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                  {project.title}
-                </h3>
+                  {/* Date & Time */}
+                  <div className="text-sm text-gray-500 mb-4 font-roboto">
+                    <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                      {formatDate(project.created_at)}
+                    </span>{" "}
+                    <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                      {formatTime(project.created_at)}
+                    </span>
+                  </div>
 
-                {/* Description */}
-                <p className="text-gray-600 leading-relaxed mb-6">
-                  {project.description}
-                </p>
+                  {/* Title */}
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                    {project.name}
+                  </h3>
 
-                {/* Read More Button */}
-                <button className="bg-gray-100 hover:bg-gray-200 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
-                  Read More
-                </button>
+                  {/* Description */}
+                  <p className="text-gray-600 leading-relaxed mb-6">
+                    {project.description}
+                  </p>
+
+                  {/* Read More Button */}
+                  <button className="hover:bg-gray-100 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                    Read More
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
 

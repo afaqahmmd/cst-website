@@ -3,6 +3,7 @@ import {
   Mail,
   Phone,
   MapPin,
+  Instagram,
 
 } from "lucide-react";
 import DarkLogo from "@/assets/images/logo-dark.png";
@@ -15,7 +16,7 @@ import Twitter from "@/components/svgs/icons/x";
 
 const Footer = () => {
   return (
-    <footer className="w-full relative bg-zinc-900 text-white py-10 px-6 overflow-hidden">
+    <footer className="w-full max-w-[1920px] mx-auto relative bg-zinc-900 text-white py-10 px-6 overflow-hidden">
       {/* Radial gradient background layer */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div
@@ -33,26 +34,23 @@ const Footer = () => {
           </div>
           <div className="space-y-2 text-sm">
             <a href="mailto:CortechsolsSuport@gmail.com" className="flex items-center gap-2 underline cursor-pointer">
-              <Mail size={16} /> CortechsolsSuport@gmail.com
+              <Mail size={16} /> CortechsolsSupport@gmail.com
             </a>
             <p className="flex items-center gap-2">
-              <Phone size={16} /> +92 3XX-XXXXXXX
+              <Phone size={16} /> +1 7373125488
             </p>
             <p className="flex items-center gap-2">
               <MapPin size={16} /> Islamabad, Pakistan
             </p>
           </div>
           <div className="flex space-x-[16px] mt-3">
-            <a href="#" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
+            <a href="https://www.facebook.com/share/1B2L4EMkTR/" target="_blank" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
               <Facebook />
             </a>
-            <a href="#" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
-              <Youtube />
+            <a href="https://www.instagram.com/cortechsols?igsh=MXZoYXcybGVkNzRhaQ==" target="_blank" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
+              <Instagram  color="#19817A"/>
             </a>
-            <a href="#" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
-              <Twitter />
-            </a>
-            <a href="#" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
+            <a href="https://www.instagram.com/cortechsols?igsh=MXZoYXcybGVkNzRhaQ==" target="_blank" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
               <Linkedin />
             </a>
           </div>
@@ -62,12 +60,31 @@ const Footer = () => {
         <div>
           <h3 className="font-semibold mb-4">Services</h3>
           <ul className="space-y-2 text-sm">
-            <li>Web Development</li>
-            <li>UI/UX Design</li>
-            <li>App Development</li>
-            <li>SEO & Performance</li>
-            <li>Google Ads</li>
-            <li>Digital Strategy</li>
+            <li>
+              <a href="#services-section" className="hover:underline">
+                Web Development
+              </a>
+            </li>
+            <li>
+              <a href="#services-section" className="hover:underline">
+                UI/UX Design
+              </a>
+            </li>
+            <li>
+              <a href="#services-section" className="hover:underline">
+                App Development
+              </a>
+            </li>
+            <li>
+              <a href="#services-section" className="hover:underline">
+                Google Ads
+              </a>
+            </li>
+            <li>
+              <a href="#services-section" className="hover:underline">
+                Digital Strategy
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -75,11 +92,27 @@ const Footer = () => {
         <div>
           <h3 className="font-semibold mb-4">Company</h3>
           <ul className="space-y-2 text-sm">
-            <li>About Us</li>
-            <li>Our Team</li>
-            <li>Careers</li>
-            <li>Culture</li>
-            <li>Contact</li>
+            <li>
+              <a href="#hero-section" className="hover:underline">
+                About Us
+              </a>
+            </li>
+            <li>
+              <a href="#team-section" className="hover:underline">
+                Our Team
+              </a>
+            </li>
+            <li>
+              <a href="#clients-section" className="hover:underline">
+                Testimonials
+              </a>
+            </li>
+           
+            <li>
+              <a href="#contact-section" className="hover:underline">
+                Contact
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -87,12 +120,33 @@ const Footer = () => {
         <div>
           <h3 className="font-semibold mb-4">Industries</h3>
           <ul className="space-y-2 text-sm">
-            <li>eCommerce</li>
-            <li>SaaS Startups</li>
-            <li>Healthcare</li>
-            <li>Education</li>
-            <li>Fintech</li>
-            <li>Retail</li>
+            <li>
+              <a href="#industries-section" className="hover:underline">
+                eCommerce
+              </a>
+            </li>
+            <li>
+              <a href="#industries-section" className="hover:underline">
+                Healthcare
+              </a>
+            </li>
+           
+            <li>
+              <a href="#industries-section" className="hover:underline">
+                Fintech
+              </a>
+            </li>
+            <li>
+              <a href="#industries-section" className="hover:underline">
+                EdTech
+              </a>
+            </li>
+            <li>
+              <a href="#industries-section" className="hover:underline">
+                Logistics
+              </a>
+            </li>
+           
           </ul>
         </div>
 
@@ -101,30 +155,16 @@ const Footer = () => {
           <h3 className="font-semibold mb-4">Resources</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <a href="#" className="hover:underline">
-                Blog
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline">
+              <a href="#case-studies-section" className="hover:underline">
                 Case Studies
               </a>
             </li>
             <li>
-              <a href="#" className="hover:underline">
+              <a href="#faqs-section" className="hover:underline">
                 FAQs
               </a>
             </li>
-            <li>
-              <a href="#" className="hover:underline">
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline">
-                Terms of Service
-              </a>
-            </li>
+           
           </ul>
         </div>
       </div>

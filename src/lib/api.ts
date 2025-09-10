@@ -34,7 +34,6 @@ export async function fetchBlogById(id: number) {
   return data;
 }
 
-
 export async function fetchServices() {
   console.log("Fetching services from:", `${API_BASE_URL}/api/v1/services/`);
   const res = await fetch(`${API_BASE_URL}/api/v1/services/`, {
@@ -52,7 +51,7 @@ export async function fetchServices() {
     hasData: !!data.data,
     dataLength: data.data?.length,
     firstService: data.data?.[0],
-    message: data.message
+    message: data.message,
   });
 
   return data;
@@ -70,6 +69,39 @@ export async function fetchServiceById(id: number) {
 
   const data = await res.json();
   console.log("Fetched service:", data);
+
+  return data;
+}
+
+export async function fetchProjects() {
+  console.log("Fetching projects from:", `${API_BASE_URL}/api/v1/projects/`);
+  const res = await fetch(`${API_BASE_URL}/api/v1/projects/`, {
+    headers: { "Content-Type": "application/json" },
+    cache: "no-store", //optional
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch projects");
+  }
+
+  const data = await res.json();
+  console.log("Fetched projects:", data);
+
+  return data.data;
+}
+
+export async function fetchProjectById(id: number) {
+  console.log("Fetching project with id:", id);
+  const res = await fetch(`${API_BASE_URL}/api/v1/projects/${id}/`, {
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch project with id ${id}`);
+  }
+
+  const data = await res.json();
+  console.log("Fetched project with id:", data);
 
   return data;
 }
