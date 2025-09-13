@@ -9,6 +9,14 @@ import HeroImgLeft from "@/components/svgs/hero/heroLeftBottom";
 import HeroIcons from "@/components/svgs/hero/heroIcons";
 import { useServices } from "@/hooks/useServices";
 import { useEffect } from "react";
+import LeftTestimonials from "@/assets/images/homepage/left-testimonials.svg";
+import RightTestimonials from "@/assets/images/homepage/right-testimonials.svg";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import ServiceIcon1 from "@/assets/images/homepage/service1.png";
 import ServiceIcon2 from "@/assets/images/homepage/service2.png";
 import ServiceIcon3 from "@/assets/images/homepage/service3.png";
@@ -19,12 +27,18 @@ import ServiceIcon7 from "@/assets/images/homepage/service7.png";
 import ServiceIcon8 from "@/assets/images/homepage/service8.png";
 import ServiceIcon9 from "@/assets/images/homepage/service9.png";
 
+import Blocks from "@/components/svgs/icons/Blocks";
+import Blocks2 from "@/components/svgs/icons/Blocks2";
+import ChartSpline from "@/components/svgs/icons/ChartSpline";
+import BlocksPolygon from "@/components/svgs/icons/BlocksPolygon";
+import Code from "@/components/svgs/icons/Code";
+import ShieldCircle from "@/components/svgs/icons/ShieldCircle";
+
 import { Service } from "@/types/service";
 import Loop from "@/components/svgs/icons/Loop";
 import QA from "@/components/svgs/icons/QA";
 import VirtualAssistant from "@/assets/images/homepage/virtual-assistant.svg";
 import {
-  ChartSpline,
   Code2,
   Puzzle,
   Rocket,
@@ -63,6 +77,7 @@ import PhoneNumberInput from "@/components/PhoneNumberInput/PhoneNumberInput";
 export default function Home() {
   const { data: servicesData, isLoading, error } = useServices();
   const [isHomePageV2, setIsHomePageV2] = useState(false);
+  const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -75,9 +90,7 @@ export default function Home() {
     const iconMap: { [key: string]: React.ReactElement } = {
       "UI/UX Design Solutions": <Palette className="w-8 h-8 text-blue-600" />,
       "Web Development": <Globe className="w-8 h-8 text-purple-600" />,
-      "Mobile Application": (
-        <Smartphone className="w-8 h-8 text-pink-600" />
-      ),
+      "Mobile Application": <Smartphone className="w-8 h-8 text-pink-600" />,
       "E-commerce Development": (
         <ShoppingCart className="w-8 h-8 text-blue-600" />
       ),
@@ -570,11 +583,11 @@ export default function Home() {
         id="hero-section"
         className="flex w-full max-w-[1920px] mx-auto items-center justify-center relative overflow-hidden"
       >
-        <div className="w-full px-0 grid grid-cols-1 self-center gap-10 py-8 md:py-12 md:pb-0 pb-12 lg:grid-cols-2 lg:gap-12">
+        <div className=" w-full px-0 grid grid-cols-1 self-center gap-10 py-8 md:py-12 md:pb-0 pb-12 lg:grid-cols-2 lg:gap-12">
           {/* LEFT CONTENT */}
-          <div className="relative z-10 flex flex-col md:pt-8 justify-center gap-[20%]">
+          <div className="relative flex flex-col w-full ">
             <div className="flex flex-col px-8 md:px-12">
-              <h1 className="text-5xl font-bold tracking-tight font-roboto text-[#0F172A] sm:text-5xl md:text-[60px] lg:text-[72px]">
+              <h1 className="text-5xl  font-bold tracking-tight font-roboto text-[#0F172A] sm:text-4xl md:text-[60px] lg:text-[72px]">
                 <span className="relative inline-block font-roboto">
                   <span className="relative z-10">Fixing</span>
                   {/* orange underline */}
@@ -637,29 +650,29 @@ export default function Home() {
                 </div>
               </div>
               {/* Trusted by */}
-              <div className="flex gap-12 mt-10">
-                <p className="mb-3 text-xs uppercase tracking-wide text-slate-500 text-balance">
+              <div className="flex sm:flex-row flex-col gap-12 mt-10">
+                <p className="mb-3 text-[16px] leading-[140%] font-roboto font-[400] tracking-wide text-[#475569] ">
                   Trusted by <br />
                   leading companies
                 </p>
-                <div className="flex max-w-md items-center justify-between gap-4 text-slate-500">
-                  <ShieldCheck className="h-5 w-5" aria-label="Security" />
-                  <ChartSpline className="h-5 w-5" aria-label="Analytics" />
-                  <Code2 className="h-5 w-5" aria-label="Development" />
-                  <Puzzle className="h-5 w-5" aria-label="Integrations" />
-                  <Rocket className="h-5 w-5" aria-label="Growth" />
+                <div className="flex items-center lg:gap-12 md:gap-8 gap-4 text-slate-500">
+                  <ShieldCircle />
+                  <ChartSpline />
+                  <Blocks />
+                  <Blocks2 />
+                  <BlocksPolygon />
                 </div>
               </div>
             </div>
-            <div className="hidden lg:block">
+            <div className="hidden lg:block mt-12">
               <HeroImgLeft />
             </div>
           </div>
 
           {/* RIGHT CONTENT */}
-          <div className="relative flex w-full justify-center items-center  px-2">
+          <div className="relative  flex w-full justify-center items-center px-2">
             <div className="relative w-full flex justify-center items-center">
-              <Image src={HerosectionImg} alt="Logo" className="" />
+              <Image src={HerosectionImg} alt="Logo"/>
             </div>
           </div>
         </div>
@@ -754,43 +767,32 @@ export default function Home() {
 
           <div className="flex flex-col gap-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {mockServices.map((service) => (
+              {services.map((service: Service, index: number) => (
                 <Link
                   href={`/services/${service.slug}`}
                   key={service.id}
                   className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 cursor-pointer"
                 >
-                  {/* Icon and Title */}
-                  <div className="flex flex-col items-start gap-4 mb-4">
-                    <div className="flex items-center gap-4 flex-shrink-0 p-2 bg-gray-50 rounded-lg">
-                      <Image
-                        src={service.icon || ""}
-                        alt={service.title || ""}
-                        width={50}
-                        height={50}
-                      />
+                  <div className="flex flex-col items-start gap-4 mb-4  border-b-1 border-[#D1D3D9] pb-4">
+                    <div className="flex items-start gap-4 flex-shrink-0 p-0 bg-white rounded-lg">
+                      {getServiceIcon(service.title)}
                       <h3 className="relative inline-block text-xl font-semibold text-gray-900 mb-2">
-                        {/* Circle at start of title */}
                         <span className="absolute left-0 h-4 w-4 rounded-full bg-[#20C5BA80] z-0"></span>
-                        {/* Line at center bottom */}
                         <span className="absolute left-1/2 -bottom-1 -translate-x-1/2 h-1 w-8 bg-[#20C5BA80] z-0"></span>
 
-                        <span className={`font-[700] font-roboto text-[24px]  text-[#2B2B2B] relative z-10 ${service.title.includes("\n") ? "line-clamp-2" : ""}`}>
-                          {service.title}
-                        </span>
+                        <span className="relative z-10">{service.title}</span>
                       </h3>
                     </div>
 
-                    <div className="flex-1 min-w-0 pl-3 border-b border-[#E2E8F0] pb-4">
+                    <div className="flex-1 min-w-0">
                       <p className="text-[#868282] text-[16px] leading-[22px] font-[400]">
                         {service.description}
                       </p>
                     </div>
                   </div>
 
-                  {/* Features List */}
-                  <div className="space-y-2">
-                    {service.features?.map(
+                  <div className="space-y-2 mt-5">
+                    {generateFeatures(service.description).map(
                       (feature: string, featureIndex: number) => (
                         <div
                           key={featureIndex}
@@ -799,7 +801,7 @@ export default function Home() {
                           <div className="flex-shrink-0 bg-teal-500 h-6 w-6 p-1 flex items-center justify-center rounded-full">
                             <Check className="w-4 h-4 text-white" size={16} />
                           </div>
-                          <span className="text-[14.8px] text-[#101828] font-[400] leading-[22px]">
+                          <span className="text-sm text-gray-700">
                             {feature}
                           </span>
                         </div>
@@ -998,13 +1000,39 @@ export default function Home() {
           {/* Right Content - Single Image */}
           <div className="lg:w-2/3 w-full aspect-[1920/1280]">
             <div className="relative w-full h-full">
-              <Image
-                src={PeakPixels}
-                alt="Design interface showcase"
-                width={800}
-                height={600}
-                className="w-full h-full object-cover object-center rounded-lg"
-              />
+              <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTitle className="hidden"></DialogTitle>
+                <DialogTrigger asChild>
+                  <Image
+                    src={PeakPixels}
+                    alt="Design interface showcase"
+                    width={800}
+                    height={600}
+                    className="w-full h-full object-cover object-center rounded-lg"
+                  />
+                </DialogTrigger>
+
+                {/* Popup modal */}
+                <DialogContent className="w-full p-0 overflow-hidden bg-black">
+                  <div
+                    className="relative w-full h-0"
+                    style={{ paddingBottom: "56.25%" }}
+                  >
+                    {open && (
+                      <iframe
+                        width="560"
+                        height="315"
+                        src="https://www.youtube.com/embed/ZK-rNEhJIDs?si=eo9m2R-s2kIOkOaY"
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                      ></iframe>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </div>
@@ -1105,9 +1133,17 @@ export default function Home() {
           </div>
 
           {/* Testimonials Image */}
-          <div className="relative w-full max-w-7xl mx-auto">
+          <div className="relative w-full flex items-center justify-center lg:flex-row flex-col max-w-7xl mx-auto">
             <Image
-              src={HappyClients}
+              src={LeftTestimonials}
+              alt="Client testimonials chat interface"
+              width={1000}
+              height={1000}
+              className="w-full h-auto"
+              priority
+            />
+            <Image
+              src={RightTestimonials}
               alt="Client testimonials chat interface"
               width={1000}
               height={1000}

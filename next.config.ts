@@ -11,7 +11,8 @@ const nextConfig: NextConfig = {
       "www.cortechsols.com",
       "ui-avatars.com",
       "vfv2pt7z-7000.inc1.devtunnels.ms",
-      "vfv2pt7z-7000.inc1.devtunnels.ms"
+      "vfv2pt7z-7000.inc1.devtunnels.ms",
+      "marlin-welcome-goat.ngrok-free.app"
     ],
   },
 };

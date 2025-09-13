@@ -267,12 +267,12 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="flex items-center gap-2 text-sm text-blue-600 mb-2">
               {blog.tags.map(
                 (tag: { id: number; name: string }, index: number) => (
-                  <span
+                  <p
                     className="font-robot font-[600] text-[16px] leading-[20px]"
                     key={tag.id}
                   >
                     {tag.name}
-                  </span>
+                  </p>
                 )
               )}
             </div>
@@ -344,7 +344,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               )}
 
               {/* info section */}
-
               <p className="text-[#666666] text-md">
                 {blog.sections.info_section.title}
               </p>
@@ -416,12 +415,12 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                     {/* Tags */}
                     <div className="flex flex-wrap gap-4 mb-4">
                       {project.tags.map((tag, tagIndex) => (
-                        <span
+                        <p
                           key={tagIndex}
                           className={`${tag.color} font-medium text-sm`}
                         >
                           {tag.name}
-                        </span>
+                        </p>
                       ))}
                     </div>
 

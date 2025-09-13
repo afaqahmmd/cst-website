@@ -51,7 +51,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} ${poppins.variable} ${yantramanav.variable} antialiased `}
+        className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} ${poppins.variable} ${yantramanav.variable} antialiased max-w-[1920px] mx-auto`}
       >
         <QueryProvider>
           <TopNav />

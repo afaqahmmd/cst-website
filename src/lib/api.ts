@@ -1,17 +1,23 @@
+import axios from "axios";
+
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export async function fetchBlogs() {
   console.log("api url:", API_BASE_URL);
-  const res = await fetch(`${API_BASE_URL}/api/v1/blogs/`, {
-    headers: { "Content-Type": "application/json" },
-    cache: "no-store", //optional
+  const res = await axios.get(`${API_BASE_URL}/api/v1/blogs/`, {
+    headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
   });
 
-  if (!res.ok) {
+  console.log("blogs res:", res.data);
+
+  if (!res.data) {
     throw new Error("Failed to fetch blogs");
   }
 
-  const data = await res.json();
+  const data = res.data;
   console.log("Fetched blogs:", data);
 
   return data;
@@ -20,7 +26,10 @@ export async function fetchBlogs() {
 export async function fetchBlogById(id: number) {
   console.log("Fetching blog with id:", id);
   const res = await fetch(`${API_BASE_URL}/api/v1/blogs/${id}/`, {
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
     cache: "no-store",
   });
 
@@ -37,7 +46,10 @@ export async function fetchBlogById(id: number) {
 export async function fetchServices() {
   console.log("Fetching services from:", `${API_BASE_URL}/api/v1/services/`);
   const res = await fetch(`${API_BASE_URL}/api/v1/services/`, {
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
     cache: "no-store",
   });
 
@@ -60,7 +72,10 @@ export async function fetchServices() {
 export async function fetchServiceById(id: number) {
   console.log("Fetching service with id:", id);
   const res = await fetch(`${API_BASE_URL}/api/v1/services/${id}/`, {
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
   });
 
   if (!res.ok) {
@@ -76,7 +91,10 @@ export async function fetchServiceById(id: number) {
 export async function fetchProjects() {
   console.log("Fetching projects from:", `${API_BASE_URL}/api/v1/projects/`);
   const res = await fetch(`${API_BASE_URL}/api/v1/projects/`, {
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
     cache: "no-store", //optional
   });
 
@@ -93,7 +111,10 @@ export async function fetchProjects() {
 export async function fetchProjectById(id: number) {
   console.log("Fetching project with id:", id);
   const res = await fetch(`${API_BASE_URL}/api/v1/projects/${id}/`, {
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
   });
 
   if (!res.ok) {

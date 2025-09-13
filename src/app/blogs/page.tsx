@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowUpRight, Search } from "lucide-react";
 import Link from "next/link";
 import clsx from "clsx";
@@ -133,24 +133,55 @@ const page = () => {
   // Handle the API response structure: {message: "...", data: [...]}
   const blogs = blogsData?.data || [];
 
+ // Loading state
+ if (isLoading) {
+  return (
+    <div className="w-full h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-teal-500"></div>
+    </div>
+  );
+}
+
+// Error state
+if (error) {
+  return (
+    <div className="w-full h-screen flex items-center justify-center">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-red-600 mb-4">
+          Error Loading Blogs
+        </h2>
+        <p className="text-gray-600">Please try again later.</p>
+        <p className="text-sm text-gray-500 mt-2">{error.message}</p>
+      </div>
+    </div>
+  );
+}
+
   // Get unique tags from blogs data
-  const getUniqueTags = () => {
+  const getUniqueTags = (blogs: any[]) => {
     const allTags = new Set<string>();
-    blogs.forEach((blog: any) => {
+  
+    blogs.forEach((blog) => {
       if (blog.tags && Array.isArray(blog.tags)) {
         blog.tags.forEach((tag: { id: number; name: string }) => {
           allTags.add(tag.name);
         });
       }
     });
+  
+    console.log("passed blogs param:", blogs);
     return ["All", ...Array.from(allTags).sort()];
   };
+  
 
-  const tags = getUniqueTags();
+  const tags = getUniqueTags(blogs);
+
 
   // Filter blogs based on search query and selected tag
   const filteredBlogs = blogs.filter((blog: any) => {
     if (!blog) return false;
+
+    console.log("blog in filteredBlogs:", blog);
 
     const matchesSearch =
       (blog.title &&
@@ -170,34 +201,8 @@ const page = () => {
     return matchesSearch && matchesTag && blog.published;
   });
 
-  // Debug logging
-  console.log("blogsData:", blogsData);
-  console.log("isLoading:", isLoading);
-  console.log("error:", error);
 
-  // Loading state
-  if (isLoading) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-teal-500"></div>
-      </div>
-    );
-  }
-
-  // Error state
-  if (error) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">
-            Error Loading Blogs
-          </h2>
-          <p className="text-gray-600">Please try again later.</p>
-          <p className="text-sm text-gray-500 mt-2">{error.message}</p>
-        </div>
-      </div>
-    );
-  }
+ 
 
   return (
     <div className="w-full h-fit">
@@ -334,9 +339,9 @@ const page = () => {
                       />
                     </div>
                     <div className="flex flex-col text-sm">
-                      <span className="font-medium">
+                      <p className="font-medium">
                         {getAuthorName(blog.author_email)}
-                      </span>
+                      </p>
                       <span className="text-gray-500">
                         {formatDate(blog.created_at)}
                       </span>
