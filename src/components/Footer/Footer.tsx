@@ -50,7 +50,7 @@ const Footer = () => {
             <a href="https://www.instagram.com/cortechsols?igsh=MXZoYXcybGVkNzRhaQ==" target="_blank" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
               <Instagram  color="#19817A"/>
             </a>
-            <a href="https://www.instagram.com/cortechsols?igsh=MXZoYXcybGVkNzRhaQ==" target="_blank" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
+            <a href="https://www.linkedin.com/company/cortechsols/" target="_blank" className="bg-white p-2 flex items-center justify-center rounded-[12px] w-[40px] h-[40px] hover:bg-white/75">
               <Linkedin />
             </a>
           </div>
