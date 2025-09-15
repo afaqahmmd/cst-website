@@ -508,7 +508,7 @@ const page = () => {
             Domain Experts
           </p>
           <h1 className=" md:text-[40px] lg:text-[56px] font-extrabold tracking-tight font-roboto text-[#0F172A] text-[34px]">
-            Why CorTechSols for Your <br />
+            Why CorTechSols for Your <br className="hidden ld:block"/>
             Industry?
           </h1>
           <p className="text-[20px] mt-3 font-roboto text-[#0F172A] leading-[180%] mb-8">
