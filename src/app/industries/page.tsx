@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EllipseDown from "@/components/svgs/hero/EllipseDown";
 import EllipseUp from "@/components/svgs/hero/EllipseUp";
 import HeroImg from "@/assets/images/industries/hero-img.png";
@@ -32,6 +32,7 @@ import Client1 from "@/assets/images/industries/client1.jpg";
 import Client2 from "@/assets/images/industries/client2.jpg";
 import Apostrophe from "@/components/svgs/icons/Apostrophe";
 import Link from "next/link";
+import { useIndustries } from "@/hooks/useIndustries";
 
 interface Tab {
   id: string;
@@ -61,20 +62,37 @@ type IndustryData = {
 };
 
 const page = () => {
-  const [activeTab, setActiveTab] = useState<string>("EdTech");
+  const { data: industriesList, isLoading: industriesLoading, error: industriesError } = useIndustries();
 
-  const tabs: Tab[] = [
-    { id: "EdTech", label: "EdTech", icon: Laptop },
-    { id: "RealEstate", label: "Real Estate", icon: Building },
-    { id: "ECommerce", label: "E-Commerce", icon: Store },
-    { id: "Fintech", label: "Fintech", icon: Bank },
-    { id: "HealthTech", label: "HealthTech", icon: HeartPlus },
-    { id: "Logistics", label: "Logistics", icon: Truck },
-    { id: "LegalTech", label: "Legal Tech", icon: Building },
-    { id: "Construction", label: "Construction", icon: Building },
-    { id: "Manufacturing", label: "Manufacturing", icon: Building },
-    { id: "Retail", label: "Retail", icon: Store },
-  ];
+  const industries = industriesList?.data || [];
+  console.log("industries api data:", industries);
+
+  // Set activeTab to first industry slug if industries are loaded
+  const [activeTab, setActiveTab] = useState<string>("");
+
+  // Update activeTab when industries are loaded
+  useEffect(() => {
+    if (industries.length > 0 && !activeTab) {
+      setActiveTab(industries[0].slug);
+    }
+  }, [industries, activeTab]);
+
+  if(industriesLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if(industriesError) {
+    return <div>Error: {industriesError.message}</div>;
+  }
+
+  const icons = [Laptop, Building, Store, Bank, HeartPlus, Truck, Store];
+
+  const tabs: Tab[] = industries.map((industry: any, index: number) => ({
+    id: industry.slug,
+    label: industry.name,
+    icon: icons[index % icons.length], // cycles through icons
+  }));
+
   const domainImages = [
     Domain1,
     Domain2,
@@ -198,7 +216,20 @@ const page = () => {
     },
   };
 
-  const currentData: IndustryInfo = industryData[activeTab];
+  // Find current industry from API data
+  const currentIndustry = industries.find((industry: any) => industry.slug === activeTab);
+  
+  // Fallback data structure for the current industry
+  const currentData = currentIndustry ? {
+    title: currentIndustry.name,
+    description: currentIndustry.description,
+    stats: {
+      projects: "30+", // Default stats - you can modify these or make them dynamic
+      reviews: "130+",
+      industries: "15+",
+    },
+    image: currentIndustry.images?.[0] || "/api/placeholder/400/300",
+  } : null;
 
   const domainExperts = [
     "Human-centered design",
@@ -398,52 +429,56 @@ const page = () => {
 
         {/* Main Content */}
         <div className="bg-[#579DFF] w-full rounded-b-2xl overflow-hidden shadow-md">
-          <div className="flex flex-col lg:flex-row lg:min-h-[600px]">
-            {/* Left Image Section */}
-            <div className="lg:w-1/2 relative h-64 sm:h-80 lg:h-auto">
-              <Image
-                src={TabsPic.src}
-                alt={`${currentData.title} showcase`}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-                priority
-              />
-            </div>
+          {currentData ? (
+            <div className="flex flex-col lg:flex-row lg:min-h-[600px]">
+              {/* Left Image Section */}
+              <div className="lg:w-1/2 relative h-64 sm:h-80 lg:h-auto">
+                <Image
+                  src={currentData.image || TabsPic.src}
+                  alt={`${currentData.title} showcase`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
+                  priority
+                />
+              </div>
 
-            {/* Right Content Section */}
-            <div className="lg:w-1/2 p-6 sm:p-8 lg:p-12 text-white flex flex-col justify-between">
-              <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold mb-4 sm:mb-6">
-                {currentData.title}
-              </h1>
+              {/* Right Content Section */}
+              <div className="lg:w-1/2 p-6 sm:p-8 lg:p-12 text-white flex flex-col justify-between">
+               <div className="flex flex-col gap-4">
+               <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold mb-4 sm:mb-6">
+                  {currentData.title}
+                </h2>
 
-              <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-roboto text-[#e6eaef] leading-relaxed mb-6 sm:mb-8">
-                {currentData.description}
-              </p>
+                <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-roboto text-[#e6eaef] leading-relaxed mb-6 sm:mb-8">
+                  {currentData.description}
+                </p>
+               </div>
+               
 
-              <div>
-                {/* Stats */}
-                <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 sm:gap-6 mb-6 sm:mb-8">
-                  <div className="flex gap-2 items-center text-base sm:text-xl md:text-2xl font-normal text-white">
-                    {currentData.stats.projects}
-                    <p>Projects</p>
+                <div>
+                  {/* Stats */}
+                  <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 sm:gap-6 mb-6 sm:mb-8">
+                    <div className="flex gap-2 items-center text-base sm:text-xl md:text-2xl font-normal text-white">
+                      {currentData.stats.projects}
+                      <p>Projects</p>
+                    </div>
+                    <div className="hidden sm:block border-l h-5 border-white" />
+                    <div className="flex gap-2 items-center text-base sm:text-xl md:text-2xl font-normal text-white">
+                      {currentData.stats.reviews}
+                      <p>Reviews</p>
+                    </div>
+                    <div className="hidden sm:block border-l h-5 border-white" />
+                    <div className="flex gap-2 items-center text-base sm:text-xl md:text-2xl font-normal text-white">
+                      {currentData.stats.industries}
+                      <p>Industries</p>
+                    </div>
                   </div>
-                  <div className="hidden sm:block border-l h-5 border-white" />
-                  <div className="flex gap-2 items-center text-base sm:text-xl md:text-2xl font-normal text-white">
-                    {currentData.stats.reviews}
-                    <p>Reviews</p>
-                  </div>
-                  <div className="hidden sm:block border-l h-5 border-white" />
-                  <div className="flex gap-2 items-center text-base sm:text-xl md:text-2xl font-normal text-white">
-                    {currentData.stats.industries}
-                    <p>Industries</p>
-                  </div>
-                </div>
 
-                {/* CTA Button */}
-                <Link href={`/industries/industry`}>
-                  <button className="bg-white text-[#579DFF] px-4 sm:px-6 py-2 sm:py-3 rounded-[5px] font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center gap-2 group">
-                    <p>Explore More</p>
+                  {/* CTA Button */}
+                  <Link href={`/industries/${activeTab}`}>
+                    <button className="bg-white text-[#579DFF] px-4 sm:px-6 py-2 sm:py-3 rounded-[5px] font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center gap-2 group">
+                      <p>Explore More</p>
                     <ArrowRight
                       color="#579DFF"
                       className="w-4 h-4 group-hover:translate-x-1 transition-transform"
@@ -453,6 +488,11 @@ const page = () => {
               </div>
             </div>
           </div>
+          ) : (
+            <div className="flex items-center justify-center min-h-[400px] text-white">
+              <p className="text-xl">No industry data available</p>
+            </div>
+          )}
         </div>
 
         {/* Bottom Button */}
@@ -488,7 +528,7 @@ const page = () => {
             ))}
           </div>
         </div>
-        <div className="w-full max-w-[1920px] mx-auto">
+        <div className="w-full md:mt-12 mt-6 max-w-[1920px] mx-auto">
           <div
             className="flex overflow-x-auto items-center  pb-2 scrollbar-hide w-full justify-between"
             style={{ scrollbarWidth: "auto" }}
@@ -522,16 +562,7 @@ const page = () => {
             compliance isn't optional, it's essential.
           </p>
 
-          <div className="flex flex-wrap items-center justify-between w-full gap-3">
-            {domainExperts.map((expert, index) => (
-              <div className="flex  items-center gap-2" key={index}>
-                <div className="flex-shrink-0  bg-teal-500 h-6 w-6  flex items-center justify-center rounded-full">
-                  <Check className="w-4 h-4 text-white" size={16} />
-                </div>
-                <p>{expert}</p>
-              </div>
-            ))}
-          </div>
+        
         </div>
         <div className="w-full">
           <div className="max-w-7xl mx-auto px-4 py-12">

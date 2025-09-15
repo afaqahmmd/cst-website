@@ -126,3 +126,61 @@ export async function fetchProjectById(id: number) {
 
   return data;
 }
+
+export async function fetchIndustries() {
+  console.log("Fetching industries from:", `${API_BASE_URL}/api/v1/industries/`);
+  const res = await fetch(`${API_BASE_URL}/api/v1/industries/`, {
+    headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch industries");
+  }
+
+  const data = await res.json();
+  console.log("Fetched industries:", data);
+
+  return data;
+}
+
+export async function fetchIndustryById(id: number) {
+  console.log("Fetching industry with id:", id);
+  const res = await fetch(`${API_BASE_URL}/api/v1/industries/${id}/`, {
+    headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch industry with id ${id}`);
+  }
+
+  const data = await res.json();
+  console.log("Fetched industry:", data);
+
+  return data;
+}
+
+export async function fetchIndustryBySlug(slug: string) {
+  console.log("Fetching industry with slug:", slug);
+  const res = await fetch(`${API_BASE_URL}/api/v1/industries/${slug}/`, {
+    headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch industry with slug ${slug}`);
+  }
+
+  const data = await res.json();
+  console.log("Fetched industry by slug:", data);
+
+  return data;
+}

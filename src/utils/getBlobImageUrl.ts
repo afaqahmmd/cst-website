@@ -13,6 +13,8 @@
 
 export const getBlogImageUrl = (url?: string) => {
 
+  console.log("url linkkkk:", url);
+
   if (!url) return "/placeholder.svg"; // fallback if no URL
 
   // Find the /media part and reconstruct the URL

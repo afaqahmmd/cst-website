@@ -1,23 +1,11 @@
 import React from "react";
 import HeroImg from "@/assets/images/services/hero-img.png";
 import {
-  Users,
-  Search,
-  TrendingUp,
-  CheckCircle,
-  Triangle,
-  RefreshCw,
-  Target,
-  BarChart3,
-  Settings,
-  Palette,
-  TestTube,
-  Code,
+
   Brain,
   Layers,
   BarChart,
   Infinity,
-  ChevronRight,
   ArrowRight,
   Check,
 } from "lucide-react";

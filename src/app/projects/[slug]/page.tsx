@@ -1,32 +1,16 @@
 "use client";
 
 import React, { use } from "react";
-import IndustryImg from "@/assets/images/industries/tabs-pic.png";
 import Image from "next/image";
 import { Check, MoveRight, Smartphone } from "lucide-react";
-import W from "@/assets/images/industries/W.png";
-import settingIllustration from "@/assets/images/industries/settingsIllustration.png";
-import studentPlanner2 from "@/assets/images/industries/student-planner.png";
-import LMS from "@/assets/images/industries/LMS.png";
-import dashboards from "@/assets/images/industries/dashboard.png";
-import work1 from "@/assets/images/industries/work1.png";
-import work2 from "@/assets/images/industries/work2.png";
-import work3 from "@/assets/images/industries/work3.png";
+
 import RelatedPost from "@/assets/images/services/related-post.jpg";
-import Mob1 from "@/assets/images/services/mob1.png";
-import Mob2 from "@/assets/images/services/mob2.png";
-import Mob3 from "@/assets/images/services/mob3.png";
 import InfoSection from "@/components/InfoSection/InfoSection";
 import StayInLoop from "@/components/StayInLoop/StayInLoop";
 import Footer from "@/components/Footer/Footer";
 import Miro from "@/components/svgs/icons/Miro";
 import Excel from "@/assets/images/projects/excel.png";
-import Figma from "@/assets/images/projects/figma.jpg";
 import Sheets from "@/assets/images/projects/sheets.png";
-import IndustryHero from "@/assets/images/projects/industry-hero.webp";
-import Flow from "@/components/svgs/icons/Flow";
-import Muscle from "@/components/svgs/icons/Muscle";
-import Noise from "@/components/svgs/icons/Noise";
 import FigmaIcon from "@/components/svgs/icons/FigmaIcon";
 import AdobeIllustrator from "@/components/svgs/icons/AdobeIllustrator";
 import Canva from "@/components/svgs/icons/Canva";
@@ -44,8 +28,10 @@ import ServiceIcon1 from "@/assets/images/projects/serviceIcon1.webp";
 import ServiceIcon2 from "@/assets/images/projects/serviceIcon2.webp";
 import Industry from "@/assets/images/projects/industry.webp";
 import Link from "next/link";
-import { useProjectBySlug } from "@/hooks/useProjectBySlug";
 import { getBlogImageUrl } from "@/utils/getBlobImageUrl";
+import { useServices } from "@/hooks/useServices";
+import { Service } from "@/types/service";
+import { useIndustries } from "@/hooks/useIndustries";
 
 // Mock service data
 const services = [
@@ -110,6 +96,23 @@ interface ProjectPageProps {
 const page = ({ params }: ProjectPageProps) => {
   const { slug } = use(params);
   // const { project, isLoading, error, notFound } = useProjectBySlug(slug);
+  const {
+    data: servicesData,
+    isLoading: isServicesLoading,
+    error: servicesError,
+  } = useServices();
+  const allServices = servicesData?.data || [];
+  const activeServices = allServices.filter(
+    (service: Service) => service.is_active
+  );
+  const services = activeServices.length > 0 ? activeServices : allServices;
+  const {
+    data: industriesList,
+    isLoading: industriesLoading,
+    error: industriesError,
+  } = useIndustries();
+
+  const industries = industriesList?.data || [];
 
   const project = {
     id: 4,
@@ -133,8 +136,6 @@ const page = ({ params }: ProjectPageProps) => {
       },
     ],
     author_email: "mh4353662@gmail.com",
-    canonical_url:
-      "https://cortechsols.com/project/design-thinking-real-projects",
     sections: {
       hero_section: {
         title: "FleetTrackPro – Revolutionizing Logistics Visibility",
@@ -144,13 +145,14 @@ const page = ({ params }: ProjectPageProps) => {
           {
             image:
               "http://localhost:7000/media/projects/sections/512fd9ea-42b4-494b-be6a-eac86eb910bf.png",
+            image_alt_text: "Figma",
           },
         ],
         hero_main_image:
           "http://localhost:7000/media/projects/821fad0b-e91a-45c6-a692-06140069646d.png",
       },
       about_section: {
-        title: "🧠 The Challenge",
+        title: "The Challenge",
         description:
           "Fleet logistics companies often struggle with real-time visibility, inefficient manual processes, and lack of data-driven insights. Our client, a mid-sized logistics firm expanding regionally, needed a scalable digital platform that could streamline fleet tracking, reduce communication gaps, and provide actionable analytics — all while remaining user-friendly for on-ground staff and admin teams.",
         sub_sections: [],
@@ -177,7 +179,7 @@ const page = ({ params }: ProjectPageProps) => {
         ],
         approaches: [
           {
-            title: "🔍 Our Approach",
+            title: "🔍 Our Approach 01",
             description:
               "We kicked off with stakeholder interviews and on-site workflow audits to understand the bottlenecks. Our UX team mapped key journeys — from delivery planning to fleet performance reporting — and identified opportunities to automate and simplify.",
             additional_info: [
@@ -187,7 +189,7 @@ const page = ({ params }: ProjectPageProps) => {
             ],
           },
           {
-            title: "🎨 Design & User Experience",
+            title: "🎨 Design & User Experience 02",
             description:
               "The design focused on clarity, accessibility, and speed. We created a custom design system to ensure consistency across modules. Every component was tested for usability, especially for users in low-light or on-the-move environments. Key features included:",
             additional_info: [
@@ -198,7 +200,7 @@ const page = ({ params }: ProjectPageProps) => {
             ],
           },
           {
-            title: "💻 Development Process",
+            title: "💻 Development Process 03",
             description: "Our full-stack team built the platform using:",
             additional_info: [
               "React for a fast, modular frontend",
@@ -207,7 +209,7 @@ const page = ({ params }: ProjectPageProps) => {
             ],
           },
           {
-            title: "📊 Results & Impact",
+            title: "📊 Results & Impact 04",
             description: "Since launch, FleetTrackPro has:",
             additional_info: [
               "Reduced manual planning time by 70%",
@@ -217,7 +219,7 @@ const page = ({ params }: ProjectPageProps) => {
             ],
           },
           {
-            title: "🧭 Why This Project Stands Out",
+            title: "🧭 Why This Project Stands Out 05",
             description: "",
             additional_info: [
               "Solved a real operational problem at scale",
@@ -238,6 +240,7 @@ const page = ({ params }: ProjectPageProps) => {
               "http://localhost:7000/media/projects/sections/82bd8d8d-2654-4ec3-a838-0186d8be6b97.png",
             ],
             description: "",
+            image_alt_text: "Design",
           },
           {
             title: "Backend",
@@ -246,6 +249,7 @@ const page = ({ params }: ProjectPageProps) => {
               "http://localhost:7000/media/projects/sections/77380ffb-2bd8-4241-956f-6821c2921ddf.png",
             ],
             description: "",
+            image_alt_text: "Backend",
           },
         ],
       },
@@ -500,24 +504,26 @@ const page = ({ params }: ProjectPageProps) => {
             </a>
           </div>
 
-          <h1 className=" font-roboto font-bold lg:text-[48px] text-[36px] lg:leading-[63.98px] leading-[50px] tracking-[0]">
+          <h2 className=" font-roboto font-bold lg:text-[48px] text-[36px] lg:leading-[63.98px] leading-[50px] tracking-[0]">
             {project?.sections?.hero_section?.title}
-          </h1>
+          </h2>
           <p className="font-roboto font-normal text-[#666666] text-[24px] leading-[150%] tracking-[0]">
             {project?.sections?.hero_section?.description}
           </p>
           <div className="flex flex-wrap gap-4 items-center">
-            <div className="h-20 w-20 flex items-center justify-center bg-[#ECECEC] rounded-full overflow-hidden p-2">
-              <Image
-                src={getBlogImageUrl(
-                  project?.sections?.hero_section?.sub_sections[0]?.image
-                )}
-                alt="Figma"
-                width={47}
-                height={47}
-                className="rounded-lg overflow-hidden"
-              />
-            </div>
+            {project?.sections?.hero_section?.sub_sections.map(
+              (subSection, index) => (
+                <div key={index}>
+                  <Image
+                    src={getBlogImageUrl(subSection.image)}
+                    alt={subSection.image_alt_text}
+                    width={47}
+                    height={47}
+                  />
+                </div>
+              )
+            )}
+
             <div className="h-20 w-20 flex items-center justify-center bg-[#FFFAE9] rounded-full overflow-hidden p-2">
               <Miro />
             </div>
@@ -550,16 +556,16 @@ const page = ({ params }: ProjectPageProps) => {
       </section>
 
       {/* the challenge section */}
-      <section className="w-full bg-white lg:px-12 px-8">
-        <div className="lg:max-w-[70%] relative border-[#188AEC] border-[2px] p-12 mt-12 gap-4 mx-auto flex flex-col  text-center lg:px-16 md:px-12 px-4">
+      <section className="w-full bg-white lg:px-12 px-8 md:mt-12 lg:mt-18">
+        <div className="lg:max-w-[70%] relative border-[#188AEC] border-[2px] p-12 gap-4 mx-auto flex flex-col  text-center lg:px-16 md:px-12 px-4">
           <div className="absolute -top-[16px] left-0 -translate-x-1/2 w-[22px] h-[32px] border-[1.5px] bg-white border-[#188AEC]" />
           <div className="absolute -bottom-[16px] left-0 -translate-x-1/2 w-[22px] h-[32px] border-[1.5px] bg-white border-[#188AEC]" />
           <div className="absolute -top-[16px] right-[15%] -translate-x-1/2 w-[22px] h-[32px] border-[1.5px] bg-white border-[#188AEC]" />
           <div className="absolute -bottom-[16px] right-[15%] -translate-x-1/2 w-[22px] h-[32px] border-[1.5px] bg-white border-[#188AEC]" />
 
-          <h1 className=" font-roboto text-[#2B2B2B] font-[600] text-[48px] leading-[100%] tracking-[-3%]">
-            {project?.sections?.about_section?.title}
-          </h1>
+          <h2 className=" font-roboto text-[#2B2B2B] font-[600] text-[48px] leading-[100%] tracking-[-3%]">
+            🧠 {project?.sections?.about_section?.title}
+          </h2>
           <p className="font-roboto font-normal text-[#666666] text-[24px] leading-[150%] tracking-[0] mt-5">
             {project?.sections?.about_section?.description}
           </p>
@@ -568,10 +574,10 @@ const page = ({ params }: ProjectPageProps) => {
 
       {/* project goals section */}
       <section className="w-full bg-white px-12 ">
-        <div className="lg:max-w-[70%] relative rounded-[28px] p-12 mt-12  mx-auto flex flex-col bg-[#FAFBFA] text-center lg:px-8 md:px-6 px-4">
-          <h1 className=" font-roboto text-[#2B2B2B] font-[600] text-[48px] leading-[100%] tracking-[-3%]">
+        <div className="lg:max-w-[70%] relative rounded-[28px] p-12 mx-auto mt-12 flex flex-col bg-[#FAFBFA] text-center lg:px-8 md:px-6 px-4">
+          <h2 className=" font-roboto text-[#2B2B2B] font-[600] text-[48px] leading-[100%] tracking-[-3%]">
             {project?.sections?.project_goals_section?.title}
-          </h1>
+          </h2>
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 lg:mt-12 mt-8">
             {project?.sections?.project_goals_section?.sub_sections.map(
               (subSection, index) => (
@@ -579,12 +585,12 @@ const page = ({ params }: ProjectPageProps) => {
                   key={index}
                   className="flex flex-col items-center lg:gap-5 gap-4"
                 >
-                    <Image
-                      src={getBlogImageUrl(subSection.image)}
-                      alt="Flow"
-                      width={80}
-                      height={80}
-                    />
+                  <Image
+                    src={getBlogImageUrl(subSection.image)}
+                    alt="Flow"
+                    width={80}
+                    height={80}
+                  />
                   <p className="text-[#22222A] text-[22px] leading-[150%] tracking-[0%] font-[500]">
                     {subSection.title}
                   </p>
@@ -596,8 +602,8 @@ const page = ({ params }: ProjectPageProps) => {
       </section>
 
       {/* 🔍 Our Approach */}
-      <section className="w-full bg-white px-12">
-        <div className="lg:max-w-[70%] relative p-12 mt-12  mx-auto flex flex-col  text-start lg:px-16 md:px-12 px-4">
+      <section className="w-full mt-12 bg-white px-12">
+        <div className="lg:max-w-[70%] relative p-12 mx-auto flex flex-col  text-start lg:px-16 md:px-12 px-4">
           <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
             {project?.sections?.project_goals_section?.approaches[0]?.title}
           </h2>
@@ -626,19 +632,21 @@ const page = ({ params }: ProjectPageProps) => {
 
       {/* design and process section */}
       {project?.sections?.project_goals_section?.approaches[1]?.title && (
-        <section className="w-full bg-white px-12">
-          <div className="lg:max-w-[70%] relative p-12 mt-12  mx-auto flex flex-col  text-start lg:px-16 md:px-12 px-4">
+        <section className="w-full px-12">
+          <div className="lg:max-w-[70%] relative p-12 mx-auto flex flex-col  text-start lg:px-16 md:px-12 px-4">
             <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
               {project?.sections?.project_goals_section?.approaches[1]?.title}
             </h2>
             <p className="lg:mt-8 mt-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-              {project?.sections?.project_goals_section?.approaches[1]?.description}
+              {
+                project?.sections?.project_goals_section?.approaches[1]
+                  ?.description
+              }
             </p>
 
             <div className="font-roboto mb-6 md:ml-16 mx-auto border-l-[5px] pl-12 mt-12 border-[#FFAB40]">
               <ul className="list-disc">
-               {
-                project?.sections?.project_goals_section?.approaches[1]?.additional_info.map(
+                {project?.sections?.project_goals_section?.approaches[1]?.additional_info.map(
                   (info, index) => (
                     <li key={index}>
                       <p className="font-[400] text-[24px] leading-[40px] text-[#666666]">
@@ -646,8 +654,7 @@ const page = ({ params }: ProjectPageProps) => {
                       </p>
                     </li>
                   )
-                )
-               }
+                )}
               </ul>
             </div>
             <p className="lg:mt-8 mt-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
@@ -662,27 +669,32 @@ const page = ({ params }: ProjectPageProps) => {
       <section className="w-full bg-white px-12">
         <div className="lg:max-w-[70%] relative p-12 mt-12  mx-auto flex flex-col  text-start lg:px-16 md:px-12 px-4">
           <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
-            💻 Development Process
+            {project?.sections?.project_goals_section?.approaches[2]?.title}
           </h2>
           <p className="lg:my-8 my-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            Our full-stack team built the platform using:
+            {
+              project?.sections?.project_goals_section?.approaches[2]
+                ?.description
+            }
           </p>
 
-          {industryChallenges.map((challenge, index) => (
-            <div
-              key={index}
-              className="flex md:items-center items-start gap-4 mb-4"
-            >
-              <MoveRight
-                size={32}
-                color="#FFAB40"
-                className="shrink-0 md:mt-0 mt-2"
-              />
-              <p className="font-roboto text-[24px] font-[500] leading-[183%] tracking-[0%] text-[#666666]">
-                {challenge}
-              </p>
-            </div>
-          ))}
+          {project?.sections?.project_goals_section?.approaches[2]?.additional_info.map(
+            (challenge, index) => (
+              <div
+                key={index}
+                className="flex md:items-center items-start gap-4 mb-4"
+              >
+                <MoveRight
+                  size={32}
+                  color="#FFAB40"
+                  className="shrink-0 md:mt-0 mt-2"
+                />
+                <p className="font-roboto text-[24px] font-[500] leading-[183%] tracking-[0%] text-[#666666]">
+                  {challenge}
+                </p>
+              </div>
+            )
+          )}
         </div>
       </section>
 
@@ -690,38 +702,39 @@ const page = ({ params }: ProjectPageProps) => {
       <section className="w-full bg-white px-12">
         <div className="lg:max-w-[70%] relative p-12 mt-12  mx-auto flex flex-col  text-start lg:px-16 md:px-12 px-4">
           <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
-            📊 Results & Impact
+            {project?.sections?.project_goals_section?.approaches[3]?.title}
           </h2>
           <p className="lg:my-8 my-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            Since launch, FleetTrackPro has:
+            {
+              project?.sections?.project_goals_section?.approaches[3]
+                ?.description
+            }
           </p>
 
           <div className="md:ml-12 mx-auto w-full ">
             {/* Grid Layout */}
             <div className=" bg-[#8FD8184D] rounded-xl p-8">
               <ul className="flex flex-col md:px-8 px-4 gap-[10px] list-disc text-[#3C5612] font-[500] text-[22px] leading-[173%] tracking-[0%]">
-                <li>Reduced manual planning time by 70%</li>
-                <li>Increased delivery success rate by 30%</li>
-                <li>Enabled real-time tracking of 120+ active vehicles</li>
-                <li>
-                  Received positive feedback from both field and admin users
-                </li>
+                {project?.sections?.project_goals_section?.approaches[3]?.additional_info.map(
+                  (info, index) => (
+                    <li key={index}>{info}</li>
+                  )
+                )}
               </ul>
             </div>
           </div>
           <p className="lg:my-8 my-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            The client now uses FleetTrackPro as a core operational tool and is
-            planning to expand it across international branches.
+            {project?.sections?.hero_section?.description}
           </p>
         </div>
       </section>
 
-      {/* project goals section */}
+      {/* why this project stands out */}
       <section className="w-full bg-white px-12">
         <div className="lg:max-w-[70%] relative lg:p-18 p-12 mt-12  mx-auto flex flex-col items-start bg-[#F6FAFE] text-start lg:px-16 md:px-12 px-4">
-          <h1 className=" font-roboto md:ml-12 mt-6 mx-auto text-[#2B2B2B] font-[600] text-[32px] leading-[100%] tracking-[-3%]">
+          <h2 className=" font-roboto md:ml-12 mt-6 mx-auto text-[#2B2B2B] font-[600] text-[32px] leading-[100%] tracking-[-3%]">
             🧭 Why This Project Stands Out
-          </h1>
+          </h2>
           <div className="flex flex-col gap-4 md:ml-12 mx-auto lg:mt-12 mt-8 mb-6">
             <div className="flex items-center lg:gap-5 gap-4">
               <p className="font-poppins text-[40px] leading-[183%] tracking-[0%] font-[500]">
@@ -754,33 +767,39 @@ const page = ({ params }: ProjectPageProps) => {
       {/* technologies and tools used */}
       <section className="w-full bg-white px-12">
         <div className="lg:max-w-[70%] relative lg:p-18 p-12 mt-12 mx-auto flex flex-col items-start text-start lg:px-16 md:px-12 px-4">
-          <h1 className="font-roboto md:ml-12 mt-6 mx-auto text-[#2B2B2B] font-[600] text-[32px] leading-[100%] tracking-[-3%]">
-            🔧 Technologies & Tools Used
-          </h1>
+          <h2 className="font-roboto md:ml-12 mt-6 mx-auto text-[#2B2B2B] font-[600] text-[32px] leading-[100%] tracking-[-3%]">
+            {project?.sections?.technologies_used_section?.title}
+          </h2>
           <p className="lg:my-8 my-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            Since launch, FleetTrackPro has:
+            {project?.sections?.technologies_used_section?.description}
           </p>
           <div className="grid md:grid-cols-2 grid-cols-1 gap-12 w-full md:ml-12 mx-auto lg:mt-12 mt-8 mb-6">
-            {technologiesAndToolsUsed.map((tool, index) => (
-              <div className="flex flex-col gap-8" key={index}>
-                <h2 className="font-poppins text-[#282D46] font-[600] md:text-[32px] text-[24px] leading-[100%] tracking-[-3%]">
-                  {tool.name}
-                </h2>
-                <div
-                  key={index}
-                  className={`${tool.bgColor} flex flex-col items-center rounded-xl`}
-                >
-                  <div className="flex flex-wrap gap-5 items-center justify-center p-12">
-                    {tool.icons?.map((Icon, iconIndex) => (
-                      <Icon.IconComponent
-                        key={iconIndex}
-                        className={`${Icon.iconSize}`}
-                      />
-                    ))}
+            {project?.sections?.technologies_used_section?.sub_sections.map(
+              (tool, index) => (
+                <div className="flex flex-col gap-8" key={index}>
+                  <h2 className="font-poppins text-[#282D46] font-[600] md:text-[32px] text-[24px] leading-[100%] tracking-[-3%]">
+                    {tool.title}
+                  </h2>
+                  <div
+                    key={index}
+                    className={`${technologiesAndToolsUsed[index].bgColor} flex flex-col items-center rounded-xl`}
+                  >
+                    <div className="flex flex-wrap gap-5 items-center justify-center p-12">
+                      {tool.images?.map((image, index) => (
+                        <Image
+                          key={index}
+                          src={getBlogImageUrl(image)}
+                          alt={tool.image_alt_text}
+                          width={100}
+                          height={100}
+                          className="object-contain"
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
         </div>
       </section>
@@ -790,51 +809,47 @@ const page = ({ params }: ProjectPageProps) => {
         <div className=" px-0 sm:px-6 lg:px-8">
           {/* Header */}
           <h2 className="text-3xl md:text-[46px] font-[700] text-[#333333] font-roboto">
-            🏷️ Services Provided:
+            {project?.sections?.services_provided_section?.title}
           </h2>
           <p className="lg:my-8 ml-2 my-4 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            Looking to build something similar?
+            {project?.sections?.services_provided_section?.description}
           </p>
           {/* Services Grid */}
+
           <div className="flex flex-col gap-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {services.map((service) => (
+              {services.slice(0, 2).map((service: Service, index: number) => (
                 <Link
                   href={`/services/${service.slug}`}
                   key={service.id}
                   className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 cursor-pointer"
                 >
-                  {/* Icon and Title */}
-                  <div className="flex flex-col items-start gap-4 mb-4">
-                    <div className="flex items-center gap-4 flex-shrink-0 p-2 bg-gray-50 rounded-lg">
+                  <div className="flex flex-col items-start gap-4 mb-4  border-b-1 border-[#D1D3D9] pb-4">
+                    <div className="flex items-start gap-4 flex-shrink-0 p-0 bg-white rounded-lg">
+                      {/* {getServiceIcon(service.title)} */}
                       <Image
-                        src={service.icon}
-                        alt={service.title}
-                        width={50}
-                        height={50}
+                        src={service.images[0]}
+                        alt={"service icon"}
+                        width={40}
+                        height={40}
+                        className="w-10 h-10"
                       />
-                      <h3 className="relative inline-block text-xl font-semibold text-gray-900 mb-2">
-                        {/* Circle at start of title */}
+                      <h2 className="relative inline-block text-xl font-semibold text-gray-900 mb-2">
                         <span className="absolute left-0 h-4 w-4 rounded-full bg-[#20C5BA80] z-0"></span>
-                        {/* Line at center bottom */}
                         <span className="absolute left-1/2 -bottom-1 -translate-x-1/2 h-1 w-8 bg-[#20C5BA80] z-0"></span>
-
-                        <span className="font-[700] font-roboto text-[24px]  text-[#2B2B2B] relative z-10">
-                          {service.title}
-                        </span>
-                      </h3>
+                        <span className="relative z-10">{service.title}</span>
+                      </h2>
                     </div>
 
-                    <div className="flex-1 min-w-0 pl-3">
-                      <p className="text-gray-600 text-sm leading-relaxed">
-                        {service.description}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[#868282] text-[16px] leading-[22px] font-[400]">
+                        {service.description.slice(0, 100)}...
                       </p>
                     </div>
                   </div>
 
-                  {/* Features List */}
-                  <div className="space-y-2">
-                    {service.features?.map(
+                  <div className="space-y-2 mt-5">
+                    {generateFeatures(service.description).map(
                       (feature: string, featureIndex: number) => (
                         <div
                           key={featureIndex}
@@ -844,7 +859,7 @@ const page = ({ params }: ProjectPageProps) => {
                             <Check className="w-4 h-4 text-white" size={16} />
                           </div>
                           <span className="text-sm text-gray-700">
-                            {feature}
+                            {feature.slice(0, 100)}...
                           </span>
                         </div>
                       )
@@ -858,7 +873,7 @@ const page = ({ params }: ProjectPageProps) => {
       </div>
 
       {/* Industry */}
-      <div className="w-full max-w-[90%] mx-auto flex flex-col py-16 lg:py-24">
+      <div className="w-full max-w-[90%] mx-auto flex flex-col py-16 lg:py-24 lg:pt-0">
         <div className=" px-0 sm:px-6 lg:px-8">
           <h2 className="mb-12 text-3xl md:text-[46px] font-[700] text-[#333333] font-roboto">
             🏷️ Industry:
@@ -866,25 +881,26 @@ const page = ({ params }: ProjectPageProps) => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* industry card */}
-            <div className="flex flex-col max-w-[500px] overflow-hidden gap-4 bg-white border border-gray-200 rounded-[24px] ">
-              <div className="w-full aspect-[400/280] relative">
-                <Image
-                  src={Industry}
-                  alt="industry"
-                  fill
-                  className="object-cover"
-                />
+            {industries.length > 0 && (
+              <div className="flex flex-col max-w-[500px] overflow-hidden gap-4 bg-white border border-gray-200 rounded-[24px] ">
+                <div className="w-full aspect-[400/280] relative">
+                  <Image
+                    src={getBlogImageUrl(industries[0]?.images[0])}
+                    alt={industries[0]?.image_alt_texts[0] || "industry"}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex flex-col gap-4 p-6">
+                  <h2 className="font-Roboto text-[#2B2B2B] font-[700] text-[20px] leading-[100%] tracking-[-3%]">
+                    {industries[0]?.name}
+                  </h2>
+                  <p className="font-roboto text-[#475569] text-[16px] tracking-[0%] font-[400] leading-[24px]">
+                    {industries[0]?.description}
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-col gap-4 p-6">
-                <h2 className="font-Roboto text-[#2B2B2B] font-[700] text-[20px] leading-[100%] tracking-[-3%]">
-                  Logistics:
-                </h2>
-                <p className="font-roboto text-[#475569] text-[16px] tracking-[0%] font-[400] leading-[24px]">
-                  Streamlined dashboards, real-time tracking, and data-driven
-                  systems that move with your supply chain.
-                </p>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -945,9 +961,9 @@ const page = ({ params }: ProjectPageProps) => {
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
                       {post.title}
-                    </h3>
+                    </h2>
 
                     {/* Description */}
                     <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">

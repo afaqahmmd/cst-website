@@ -13,6 +13,7 @@ import Footer from "@/components/Footer/Footer";
 import { getBlogImageUrl } from "@/utils/getBlobImageUrl";
 import { generateJsonLd } from "@/utils/structuredData";
 import { joinUrl } from "@/utils/joinUrl";
+import { useProjects } from "@/hooks/useProjects";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -22,6 +23,11 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = use(params);
   const { blog, isLoading, error, notFound } = useBlogBySlug(slug);
   const [structuredData, setStructuredData] = useState<any>(null);
+  const {
+    data: projectsData,
+    isLoading: projectsLoading,
+    error: projectsError,
+  } = useProjects();
 
   // Update structured data when blog data changes
   useEffect(() => {
@@ -296,7 +302,10 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="mb-12">
             <Image
               src={
-                joinUrl(process.env.NEXT_PUBLIC_API_BASE_URL, blog.sections.hero_section.image) || "/placeholder.svg"
+                joinUrl(
+                  process.env.NEXT_PUBLIC_API_BASE_URL,
+                  blog.sections.hero_section.image
+                ) || "/placeholder.svg"
               }
               // src="/placeholder.svg"
               alt={blog.title}
@@ -355,7 +364,10 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               <div className="mb-12 flex justify-center">
                 <Image
                   src={
-                    joinUrl(process.env.NEXT_PUBLIC_API_BASE_URL, blog.sections.info_section.image) || "/placeholder.svg"
+                    joinUrl(
+                      process.env.NEXT_PUBLIC_API_BASE_URL,
+                      blog.sections.info_section.image
+                    ) || "/placeholder.svg"
                   }
                   alt="Modern office workspace with white desks and colorful chairs"
                   width={600}
@@ -383,74 +395,74 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               </button>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredProjects.map((project, index) => (
-                <div
-                  key={index}
-                  className="bg-white transition-all duration-300 overflow-hidden group"
-                >
-                  {/* Project Image */}
-                  <div className="relative h-72 bg-gray-50 rounded-xl overflow-hidden">
-                    <Image
-                      src={getBlogImageUrl(project.image.src)}
-                      // src={project.image}
-                      alt={`${project.title} mobile interface`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover"
-                      priority={index === 0}
-                    />
+              {projectsData &&
+                projectsData.slice(1, 7).map((project: any, index: number) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-2xl overflow-hidden group"
+                  >
+                    {/* Project Image */}
+                    <div className="relative aspect-[400/360] overflow-hidden rounded-b-2xl bg-gray-50">
+                      <Image
+                        src={getBlogImageUrl(project.image)}
+                        alt={`${project.name} mobile interface`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover"
+                        priority={index === 0}
+                      />
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6 px-1">
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-4 mb-4">
+                        {project.tags.map(
+                          (
+                            tag: { id: number; name: string },
+                            tagIndex: number
+                          ) => (
+                            <span
+                              key={tagIndex}
+                              className={`${
+                                tagIndex % 2 === 0
+                                  ? "text-[#6941C6]"
+                                  : "text-[#1D76F1]"
+                              } font-medium text-sm`}
+                            >
+                              {tag.name}
+                            </span>
+                          )
+                        )}
+                      </div>
+
+                      {/* Date & Time */}
+                      <div className="text-sm text-gray-500 mb-4 font-roboto">
+                        <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                          {formatDate(project.created_at)}
+                        </span>{" "}
+                        <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                          {formatTime(project.created_at)}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                        {project.name}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-gray-600 leading-relaxed mb-6">
+                        {project.description}
+                      </p>
+
+                      {/* Read More Button */}
+                      <button className="hover:bg-gray-100 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                        Read More
+                      </button>
+                    </div>
                   </div>
-
-                  {/* Content */}
-                  <div className="p-6 px-0">
-                    {/* Category Badge */}
-                    <div className="mb-4">
-                      <span
-                        className={`${project.categoryColor} text-white px-3 py-1 rounded-full text-sm font-medium`}
-                      >
-                        {project.category}
-                      </span>
-                    </div>
-
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-4 mb-4">
-                      {project.tags.map((tag, tagIndex) => (
-                        <p
-                          key={tagIndex}
-                          className={`${tag.color} font-medium text-sm`}
-                        >
-                          {tag.name}
-                        </p>
-                      ))}
-                    </div>
-
-                    {/* Date & Time */}
-                    <div className="text-sm text-gray-500 mb-4 font-roboto">
-                      <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
-                        {formatDate(project.date)}
-                      </span>{" "}
-                      <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
-                        {project.time}
-                      </span>
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                      {project.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-gray-600 leading-relaxed mb-6">
-                      {project.description}
-                    </p>
-
-                    {/* Read More Button */}
-                    <button className="bg-white hover:bg-gray-200 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
-                      Read More
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
 

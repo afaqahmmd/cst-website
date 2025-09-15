@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import IndustryImg from "@/assets/images/industries/tabs-pic.png";
 import Image from "next/image";
@@ -17,9 +18,100 @@ import Mob3 from "@/assets/images/services/mob3.png";
 import InfoSection from "@/components/InfoSection/InfoSection";
 import StayInLoop from "@/components/StayInLoop/StayInLoop";
 import Footer from "@/components/Footer/Footer";
+import { useProjects } from "@/hooks/useProjects";
+import { getBlogImageUrl } from "@/utils/getBlobImageUrl";
+import { useIndustryBySlug } from "@/hooks/useIndustryBySlug";
 
-const page = () => {
-  const industryData = [
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+
+
+const page = ({ params }: PageProps) => {
+  const { slug } = React.use(params);
+  
+  // Fetch single industry data by slug
+  const {
+    industry,
+    isLoading: industryLoading,
+    error: industryError,
+    notFound,
+  } = useIndustryBySlug(slug);
+
+  // Fetch projects data (existing)
+  const {
+    data: projectsData,
+    isLoading: projectsLoading,
+    error: projectsError,
+  } = useProjects();
+
+  // Log the industry data for debugging (you can remove this later)
+  console.log("Industry data for slug:", slug, industry);
+
+  // Handle loading state
+  if (industryLoading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-teal-500"></div>
+      </div>
+    );
+  }
+
+  // Handle not found state
+  if (notFound) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-600 mb-4">
+            Industry Not Found
+          </h2>
+          <p className="text-gray-600">The industry "{slug}" could not be found.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Handle error state
+  if (industryError) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">
+            Error Loading Industry
+          </h2>
+          <p className="text-gray-600">Please try again later.</p>
+          <p className="text-sm text-gray-500 mt-2">{industryError.message}</p>
+        </div>
+      </div>
+    );
+  }
+
+  const heroSection = industry?.sections?.hero_section;
+  const challengesSection = industry?.sections?.challenges_section;
+  const whatSetsUsApartSection = industry?.sections?.what_sets_us_apart_section;
+  const expertiseSection = industry?.sections?.expertise_section;
+  const weBuildSection = industry?.sections?.we_build_section;
+
+  const expertiseCardItems = expertiseSection?.sub_sections.filter(
+    (item: any) => "title" in item
+  );
+  
+  const expertiseImageItems = expertiseSection?.sub_sections.filter(
+    (item:any) => item.type === "image"
+  );
+
+  const whatSetsUsApartCardItems = whatSetsUsApartSection?.sub_sections.filter(
+    (item: any) => "title" in item
+  );
+
+  const whatSetsUsApartImageItems = whatSetsUsApartSection?.sub_sections.filter(
+    (item:any) => item.type === "image"
+  );
+  
+  // TODO: Replace hardcoded data with API data from 'industry' object
+  // Available fields: id, name, slug, description, images, is_active, etc.
+
+  const industryStatsData = [
     {
       title: "Completed Projects",
       value: "395",
@@ -276,21 +368,17 @@ const page = () => {
       <section className="w-full bg-white">
         <div className="max-w-7xl mt-12 gap-4 mx-auto flex flex-col items-center text-start lg:px-16 md:px-12 px-4">
           <h1 className="font-roboto font-bold text-[48px] leading-[63.98px] tracking-[0]">
-            Powering Smarter, Scalable, and Human-Centered Learning Platforms
+            {heroSection?.title}
           </h1>
           <p className="font-roboto font-normal text-[#666666] text-[24px] leading-[150%] tracking-[0]">
-            From online classrooms to outcome-based learning tools, we help
-            EdTech teams innovate with scalable technology, engaging design, and
-            measurable results. Whether you're building LMS systems, mobile
-            learning apps, or hybrid education tools — we're your partner in
-            digital transformation.
+            {heroSection?.description}
           </p>
         </div>
 
         <div className="aspect-[308/225] mt-12 w-full max-w-7xl mx-auto relative">
           <Image
-            src={IndustryImg}
-            alt="Sample"
+            src={getBlogImageUrl(heroSection.image) || '/placeholder.svg'}
+            alt={heroSection.image_alt_text}
             fill
             className="object-cover"
             priority
@@ -300,16 +388,16 @@ const page = () => {
 
       <div className="max-w-5xl mt-12 gap-4 mx-auto flex flex-col items-center text-start lg:px-16 md:px-12 px-4">
         <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-[5px]">
-          {industryData.map((industry, index) => (
+          {heroSection.sub_sections.slice(0, 4).map((stat: any, index: number) => (
             <div
               key={index}
-              className={`${industry.bgColor} flex flex-col items-center gap-6 p-12 justify-center rounded-lg  text-center shadow-sm`}
+              className={`${industryStatsData[index%4].bgColor} flex flex-col items-center gap-6 p-12 justify-center rounded-lg  text-center shadow-sm`}
             >
-              <h3 className="font-poppins text-[#4A4343] text-center text-3xl font-semibold leading-none tracking-tight">
-                {industry.title}
-              </h3>
+              <h2 className="font-poppins text-[#4A4343] text-center text-3xl font-semibold leading-none tracking-tight">
+                {stat.title}
+              </h2>
               <p className="font-poppins  text-[#282D46] font-semibold lg:text-[80px] md:text-[72px] text-[56px] leading-[100%] tracking-[-0.03em] text-center">
-                {industry.value}
+                {stat.count}
               </p>
             </div>
           ))}
@@ -319,9 +407,9 @@ const page = () => {
       <section className="w-full bg-white">
         <div className="mt-12 w-full max-w-7xl mx-auto relative px-4">
           <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
-            🧩 Industry Challenges We Help Solve
+            🧩 {challengesSection?.title}
           </h2>
-          {industryChallenges.map((challenge, index) => (
+          {challengesSection?.description.split(',').map((challenge: string, index: number) => (
             <div
               key={index}
               className="flex md:items-center items-start gap-4 mb-4"
@@ -342,36 +430,36 @@ const page = () => {
       <section className="max-w-7xl mx-auto py-12 mt-12 bg-[#FAFBFA]">
         <div className="w-full max-w-7xl mx-auto relative px-4">
           <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
-            🚀 Our EdTech Expertise
+            🚀 {expertiseSection?.title}
           </h2>
           <p className="md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            We build custom digital solutions for:
+            {expertiseSection?.description}
           </p>
           <div className="max-w-7xl mx-auto mt-12">
             {/* Grid Layout */}
             <div className="flex flex-wrap gap-6 justify-center">
-              {cards.map((card) => (
+              {expertiseCardItems.map((item:any, index:number) => (
                 <div
-                  key={card.id}
+                  key={index}
                   className="bg-white rounded-3xl p-8 w-full max-w-sm border border-[#E0E0E0] hover:shadow-xl transition-shadow duration-300"
                 >
                   {/* Image Container */}
                   <div className="relative aspect-[283/166] mb-6 rounded-2xl overflow-hidden ">
                     <Image
-                      src={card.image}
-                      alt={card.title}
+                      src={getBlogImageUrl(expertiseImageItems[index]?.image) || '/placeholder.svg'}
+                      alt={expertiseImageItems[index]?.image_alt_text || ''}
                       fill
-                      className="object-cover"
+                      className="object-contain"
                     />
                   </div>
 
                   {/* Content */}
                   <div className="flex flex-col text-center">
-                    <h3 className="text-[24px] font-bold mb-3 leading-[100%] font-roboto text-[#2B2B2B]">
-                      {card.title}
-                    </h3>
-                    <p className="text-[16px] font-[400]  leading-[22px] tracking-[0%] font-roboto text-[#868282]">
-                      {card.description}
+                    <h2 className="text-[24px] font-bold mb-3 leading-[100%] font-roboto text-[#2B2B2B]">
+                      {item.title}
+                    </h2>
+                    <p className="text-[16px] font-[400] leading-[22px] tracking-[0%] font-roboto text-[#868282]">
+                      {item.description}
                     </p>
                   </div>
                 </div>
@@ -385,36 +473,36 @@ const page = () => {
       <section className="max-w-7xl mx-auto py-12 mt-12 bg-white">
         <div className="w-full max-w-7xl mx-auto relative px-4">
           <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
-            💡 What Sets Us Apart
+            💡 {whatSetsUsApartSection?.title}
           </h2>
           <p className="md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            We build custom digital solutions for:
+            {whatSetsUsApartSection?.description}
           </p>
           <div className="max-w-7xl mx-auto mt-12">
             {/* Grid Layout */}
             <div className="flex flex-wrap gap-6 justify-center">
-              {cards2.map((card) => (
+              {whatSetsUsApartCardItems.map((item:any, index:number) => (
                 <div
-                  key={card.id}
+                  key={index}
                   className="flex flex-col items-center bg-white rounded-3xl p-8 w-full max-w-sm border border-[#E0E0E0] hover:shadow-xl transition-shadow duration-300"
                 >
                   {/* Image Container */}
                   <div className="relative h-[61px] aspect-[64/61] mb-6 ">
                     <Image
-                      src={card.image}
-                      alt={card.title}
+                      src={getBlogImageUrl(whatSetsUsApartImageItems[index]?.image) || '/placeholder.svg'}
+                      alt={whatSetsUsApartImageItems[index]?.image_alt_text || ''}
                       fill
-                      className="object-cover"
+                      className="object-container"
                     />
                   </div>
 
                   {/* Content */}
                   <div className="flex flex-col text-center">
-                    <h3 className="text-[24px] font-bold mb-3 leading-[100%] font-roboto text-[#2B2B2B]">
-                      {card.title}
-                    </h3>
+                    <h2 className="text-[24px] font-bold mb-3 leading-[100%] font-roboto text-[#2B2B2B]">
+                      {item.title}
+                    </h2>
                     <p className="text-[16px] font-[400]  leading-[22px] tracking-[0%] font-roboto text-[#868282]">
-                      {card.description}
+                      {item.description}
                     </p>
                   </div>
                 </div>
@@ -427,22 +515,18 @@ const page = () => {
       <section className="max-w-7xl mx-auto py-12 mt-12 bg-white">
         <div className="w-full max-w-7xl mx-auto relative px-4">
           <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
-            🔒 We Build With Privacy & Compliance in Mind
+            🔒 {weBuildSection?.title}
           </h2>
           <p className="md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            We follow key compliance standards to protect data, privacy, and
-            user experience in educational platforms:
+            {weBuildSection?.description}
           </p>
           <div className="max-w-7xl mx-auto mt-12">
             {/* Grid Layout */}
-            <div className=" bg-[#8FD8184D] rounded-[16px] lg:h-[242px] h-auto py-6 flex items-center justify-start px-5">
+            <div className=" bg-[#8FD8184D] rounded-[16px] lg:h-fit h-auto py-6 flex items-center justify-start px-5">
               <ul className="flex flex-col lg:px-12 md:px-8 px-4 gap-[10px] list-disc list-inside pl-2 text-[#3C5612] font-[500] text-[22px] leading-[173%] tracking-[0%]">
-                <li>FERPA — Student education record protection</li>
-                <li>COPPA — Children's Online Privacy Protection</li>
-                <li>
-                  WCAG — Web Content Accessibility Guidelines (inclusive access)
-                </li>
-                <li>ISO/IEC 27001 — Information security management</li>
+                {weBuildSection?.sub_sections.map((item:{description:string}, index:number) => (
+                  <li key={index}>{item.description}</li>
+                ))}
               </ul>
             </div>
           </div>
@@ -460,74 +544,74 @@ const page = () => {
             View All
           </button>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1920px] mx-auto">
-          {featuredProjects.map((project, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
-            >
-              {/* Project Image */}
-              <div className="relative h-72 bg-gray-50">
-                <Image
-                  src={project.image}
-                  alt={`${project.title} mobile interface`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover"
-                  priority={index === 0}
-                />
-              </div>
 
-              {/* Content */}
-              <div className="p-6">
-                {/* Category Badge */}
-                <div className="mb-4">
-                  <span
-                    className={`${project.categoryColor} text-white px-3 py-1 rounded-full text-sm font-medium`}
-                  >
-                    {project.category}
-                  </span>
+        {/* cards grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projectsData &&
+            projectsData.slice(1, 7).map((project: any, index: number) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl overflow-hidden group"
+              >
+                {/* Project Image */}
+                <div className="relative aspect-[400/360] overflow-hidden rounded-b-2xl bg-gray-50">
+                  <Image
+                    src={getBlogImageUrl(project.image) || '/placeholder.svg'}
+                    alt={`${project.name} mobile interface`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
+                    priority={index === 0}
+                  />
                 </div>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-4 mb-4">
-                  {project.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className={`${tag.color} font-medium text-sm`}
-                    >
-                      {tag.name}
+                {/* Content */}
+                <div className="p-6 px-1">
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-4 mb-4">
+                    {project.tags.map(
+                      (tag: { id: number; name: string }, tagIndex: number) => (
+                        <span
+                          key={tagIndex}
+                          className={`${
+                            tagIndex % 2 === 0
+                              ? "text-[#6941C6]"
+                              : "text-[#1D76F1]"
+                          } font-medium text-sm`}
+                        >
+                          {tag.name}
+                        </span>
+                      )
+                    )}
+                  </div>
+
+                  {/* Date & Time */}
+                  <div className="text-sm text-gray-500 mb-4 font-roboto">
+                    <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                      {formatDate(project.created_at)}
+                    </span>{" "}
+                    <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                      {formatTime(project.created_at)}
                     </span>
-                  ))}
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                    {project.name}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-gray-600 leading-relaxed mb-6">
+                    {project.description}
+                  </p>
+
+                  {/* Read More Button */}
+                  <button className="hover:bg-gray-100 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                    Read More
+                  </button>
                 </div>
-
-                {/* Date & Time */}
-                <div className="text-sm text-gray-500 mb-4 font-roboto">
-                  <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
-                    {formatDate(project.date)}
-                  </span>{" "}
-                  <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
-                    {project.time}
-                  </span>
-                </div>
-
-                {/* Title */}
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                  {project.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-gray-600 leading-relaxed mb-6">
-                  {project.description}
-                </p>
-
-                {/* Read More Button */}
-                <button className="bg-gray-100 hover:bg-gray-200 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
-                  Read More
-                </button>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
 
@@ -588,9 +672,9 @@ const page = () => {
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
                       {post.title}
-                    </h3>
+                    </h2>
 
                     {/* Description */}
                     <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">

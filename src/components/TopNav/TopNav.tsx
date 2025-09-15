@@ -88,10 +88,10 @@ export default function TopNav() {
           <div className="hidden sm:flex items-center gap-3 text-slate-700">
             <Headphones className="h-6 w-6 text-[#2B2B2B]" aria-hidden="true" />
             <a
-              href="tel:+923346640201"
+              href="tel:+17373125488"
               className="text-[#2B2B2B] mt-1 font-roboto font-[500] text-[16px]"
             >
-              +92 3346640201
+              +1 7373125488
             </a>
           </div>
           <Button className="hidden sm:flex bg-[#20C5BA] rounded-[3px] min-w-[150px] p-3 hover:bg-teal-600 text-white">

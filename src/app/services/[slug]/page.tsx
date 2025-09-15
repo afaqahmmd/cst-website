@@ -38,6 +38,8 @@ import StayInLoop from "@/components/StayInLoop/StayInLoop";
 import Footer from "@/components/Footer/Footer";
 import { generateJsonLd } from "@/utils/structuredData";
 import { joinUrl } from "@/utils/joinUrl";
+import { useProjects } from "@/hooks/useProjects";
+import { getBlogImageUrl } from "@/utils/getBlobImageUrl";
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
@@ -47,6 +49,12 @@ const ServicePage = ({ params }: ServicePageProps) => {
   const { slug } = use(params);
   const { service, isLoading, error, notFound } = useServiceBySlug(slug);
   const [structuredData, setStructuredData] = useState<any>(null);
+  const {
+    data: projectsData,
+    isLoading: projectsLoading,
+    error: projectsError,
+  } = useProjects();
+
   // Update structured data when service data changes
   useEffect(() => {
     if (service) {
@@ -187,6 +195,21 @@ const ServicePage = ({ params }: ServicePageProps) => {
     },
   ];
 
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleDateString("en-US", { month: "long" });
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  };
+
   return (
     <>
       <script
@@ -201,10 +224,10 @@ const ServicePage = ({ params }: ServicePageProps) => {
               {/* Left Content */}
               <div className="space-y-8 mt-6 zoomed-out-textcenter">
                 <div className="space-y-6">
-                  <h1 className="font-[800] lg:text-[48px] text-[40px] leading-[55px] tracking-[-1.5%] text-[#33333] ">
+                  <h2 className="font-[800] lg:text-[48px] text-[40px] leading-[55px] tracking-[-1.5%] text-[#33333] ">
                     {service.sections?.hero_section?.title ||
                       `Transform Your Ideas Into Stunning Digital Experiences`}
-                  </h1>
+                  </h2>
 
                   <p className="font-[400] text-[24px] leading-[160%] text-[#666666]">
                     {service.sections?.hero_section?.description ||
@@ -243,10 +266,7 @@ const ServicePage = ({ params }: ServicePageProps) => {
               {/* Right Image */}
               <div className="relative overflow-hidden rounded-2xl">
                 <img
-                  src={
-                    service.images?.[0] ||
-                    "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=200&fit=crop"
-                  }
+                  src={service.sections?.hero_section?.image}
                   alt={service.title}
                   className="w-full h-full object-cover aspect-[4/3]"
                   onError={(e) => {
@@ -293,9 +313,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
                           fill
                         />
                       </div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                      <h2 className="text-xl font-semibold text-gray-900 mb-4">
                         {feature.title}
-                      </h3>
+                      </h2>
                       <p className="text-gray-600 leading-relaxed">
                         {feature.description}
                       </p>
@@ -351,9 +371,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
                             fill
                           />
                         </div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                        <h2 className="text-xl font-semibold text-gray-900 mb-4">
                           {feature.title}
-                        </h3>
+                        </h2>
                         <p className="text-gray-600 leading-relaxed">
                           {feature.description}
                         </p>
@@ -427,9 +447,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
                               fill
                             />
                           </div>
-                          <h3 className="text-xl flex items-center  font-semibold text-gray-900">
+                          <h2 className="text-xl flex items-center  font-semibold text-gray-900">
                             {serviceItem.title}
-                          </h3>
+                          </h2>
                         </div>
 
                         {/* Description */}
@@ -499,9 +519,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
                         </div>
 
                         <CardContent className="p-0 text-center">
-                          <h3 className="mt-0 text-lg font-semibold text-gray-900">
+                          <h2 className="mt-0 text-lg font-semibold text-gray-900">
                             {sub.title}
-                          </h3>
+                          </h2>
                           <p className="text-sm text-gray-500 mt-1">
                             {sub.description}
                           </p>
@@ -554,9 +574,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
 
                           {/* Content */}
                           <div className="text-start max-w-xs md:ml-3">
-                            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                            <h2 className="text-xl font-semibold text-gray-900 mb-4">
                               {step.title}
-                            </h3>
+                            </h2>
                             <p className="text-gray-600 leading-relaxed text-sm">
                               {step.description}
                             </p>
@@ -579,9 +599,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
                           <div className="bg-teal-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold mb-6 shadow-lg">
                             {String(index + 1).padStart(2, "0")}
                           </div>
-                          <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                          <h2 className="text-xl font-semibold text-gray-900 mb-4">
                             {step.title}
-                          </h3>
+                          </h2>
                           <p className="text-gray-600 leading-relaxed text-sm">
                             {step.description}
                           </p>
@@ -601,9 +621,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
                             {String(index + 1).padStart(2, "0")}
                           </div>
                           <div className="flex-1">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            <h2 className="text-lg font-semibold text-gray-900 mb-2">
                               {step.title}
-                            </h3>
+                            </h2>
                             <p className="text-gray-600 leading-relaxed text-sm">
                               {step.description}
                             </p>
@@ -650,9 +670,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
 
                   {/* Content */}
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                    <h2 className="text-xl font-semibold text-gray-900 mb-3">
                       Psychology-Informed Design
-                    </h3>
+                    </h2>
                     <p className="text-gray-600 leading-relaxed">
                       Our team includes certified UX researchers who apply
                       behavioral psychology principles to create more engaging
@@ -669,9 +689,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
 
                   {/* Content */}
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                    <h2 className="text-xl font-semibold text-gray-900 mb-3">
                       Technical Depth
-                    </h3>
+                    </h2>
                     <p className="text-gray-600 leading-relaxed">
                       Unlike many design agencies, our designers understand
                       development constraints and possibilities, leading to more
@@ -688,9 +708,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
 
                   {/* Content */}
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                    <h2 className="text-xl font-semibold text-gray-900 mb-3">
                       Data-Driven Decisions
-                    </h3>
+                    </h2>
                     <p className="text-gray-600 leading-relaxed">
                       Every design choice is backed by user data, analytics
                       insights, and measurable business impact metrics.
@@ -706,9 +726,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
 
                   {/* Content */}
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                    <h2 className="text-xl font-semibold text-gray-900 mb-3">
                       Continuous Learning
-                    </h3>
+                    </h2>
                     <p className="text-gray-600 leading-relaxed">
                       Our team stays current with the latest design trends,
                       accessibility standards, and emerging technologies.
@@ -731,7 +751,6 @@ const ServicePage = ({ params }: ServicePageProps) => {
           </div>
         </div>
 
-        {/* meet our design team */}
         {/* MEET OUR DESIGN TEAM SECTION */}
         {service.sections?.team_section && (
           <div className="bg-white py-16 lg:py-24">
@@ -772,10 +791,10 @@ const ServicePage = ({ params }: ServicePageProps) => {
                       </div>
 
                       {/* Member Info */}
-                      <div className="space-y-3">
-                        <h3 className="text-[28px] font-[700] text-[#2B2B2B]">
+                      <div className="space-y-3 px-5">
+                        <h2 className="text-[28px] font-[700] text-[#2B2B2B]">
                           {member.name}
-                        </h3>
+                        </h2>
 
                         <p className="text-[#868282] text-[18px] leading-[22px] font-[400]">
                           {member.designation}
@@ -783,9 +802,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
 
                         {/* Experience Badge */}
                         <div className="flex justify-center">
-                          <span className="bg-teal-500 text-white px-4 py-1 rounded-full text-[16px] font-[500]">
+                          <p className="bg-teal-500 text-white px-4 py-1 rounded-full text-[16px] font-[500]">
                             {member.experience}
-                          </span>
+                          </p>
                         </div>
 
                         {/* Summary */}
@@ -842,9 +861,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
                       >
                         <div className="flex flex-col gap-4 w-full">
                           {/* Category Title */}
-                          <h3 className="text-xl font-semibold text-gray-900">
+                          <h2 className="text-xl font-semibold text-gray-900">
                             {category.title}
-                          </h3>
+                          </h2>
 
                           {/* Tools List */}
                           <div className="space-y-3">
@@ -896,192 +915,74 @@ const ServicePage = ({ params }: ServicePageProps) => {
             </div>
             {/* Projects Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-white rounded-2xl transition-all duration-300 overflow-hidden group">
-                {/* Project Image */}
-                <div className="relative aspect-[400/360]">
-                  <Image
-                    src={Mob1}
-                    alt="FinTech Mobile App mobile interface"
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover"
-                    priority={true}
-                  />
-                </div>
+              {projectsData &&
+                projectsData.slice(1, 7).map((project: any, index: number) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-2xl overflow-hidden group"
+                  >
+                    {/* Project Image */}
+                    <div className="relative aspect-[400/360] overflow-hidden rounded-b-2xl bg-gray-50">
+                      <Image
+                        src={getBlogImageUrl(project.image)}
+                        alt={`${project.name} mobile interface`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover"
+                        priority={index === 0}
+                      />
+                    </div>
 
-                {/* Content */}
-                <div className="p-6 px-0">
-                  {/* Category Badge */}
-                  <div className="mb-4">
-                    <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                      Financial Services
-                    </span>
+                    {/* Content */}
+                    <div className="p-6 px-1">
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-4 mb-4">
+                        {project.tags.map(
+                          (
+                            tag: { id: number; name: string },
+                            tagIndex: number
+                          ) => (
+                            <span
+                              key={tagIndex}
+                              className={`${
+                                tagIndex % 2 === 0
+                                  ? "text-[#6941C6]"
+                                  : "text-[#1D76F1]"
+                              } font-medium text-sm`}
+                            >
+                              {tag.name}
+                            </span>
+                          )
+                        )}
+                      </div>
+
+                      {/* Date & Time */}
+                      <div className="text-sm text-gray-500 mb-4 font-roboto">
+                        <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                          {formatDate(project.created_at)}
+                        </span>{" "}
+                        <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                          {formatTime(project.created_at)}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                        {project.name}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-gray-600 leading-relaxed mb-6">
+                        {project.description}
+                      </p>
+
+                      {/* Read More Button */}
+                      <button className="hover:bg-gray-100 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                        Read More
+                      </button>
+                    </div>
                   </div>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-4 mb-4">
-                    <span className="text-blue-600 font-medium text-sm">
-                      Designing
-                    </span>
-                    <span className="text-purple-600 font-medium text-sm">
-                      Web Development
-                    </span>
-                    <span className="text-orange-600 font-medium text-sm">
-                      Testing
-                    </span>
-                  </div>
-
-                  {/* Date & Time */}
-                  <div className="text-sm text-gray-500 mb-4 font-roboto">
-                    <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
-                      {"13 March 2023"}
-                    </span>{" "}
-                    <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
-                      {"12:24 PM"}
-                    </span>
-                  </div>
-                  {/* Title */}
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                    FinTech Mobile App
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-gray-600 leading-relaxed mb-6">
-                    Complete redesign of a mobile banking app focusing on
-                    simplified navigation and enhanced security features.
-                  </p>
-
-                  {/* Read More Button */}
-                  <button className="bg-gray-100 hover:bg-gray-200 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
-                    Read More
-                  </button>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-2xl transition-all duration-300 overflow-hidden group">
-                {/* Project Image */}
-                <div className="relative aspect-[400/360]">
-                  <Image
-                    src={Mob2}
-                    alt="E-Commerce Platform mobile interface"
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover"
-                  />
-                </div>
-
-                {/* Content */}
-                <div className="p-6 px-0">
-                  {/* Category Badge */}
-                  <div className="mb-4">
-                    <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                      Retail
-                    </span>
-                  </div>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-4 mb-4">
-                    <span className="text-blue-600 font-medium text-sm">
-                      Designing
-                    </span>
-                    <span className="text-purple-600 font-medium text-sm">
-                      Web Development
-                    </span>
-                    <span className="text-orange-600 font-medium text-sm">
-                      Testing
-                    </span>
-                  </div>
-
-                  {/* Date & Time */}
-                  <div className="text-sm text-gray-500 mb-4 font-roboto">
-                    <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
-                      {"13 March 2023"}
-                    </span>{" "}
-                    <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
-                      {"12:24 PM"}
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                    E-Commerce Platform
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-gray-600 leading-relaxed mb-6">
-                    Redesigned checkout flow and product discovery for a major
-                    e-commerce platform serving millions of users.
-                  </p>
-
-                  {/* Read More Button */}
-                  <button className="bg-gray-100 hover:bg-gray-200 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
-                    Read More
-                  </button>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-2xl transition-all duration-300 overflow-hidden group">
-                {/* Project Image */}
-                <div className="relative aspect-[400/360]">
-                  <Image
-                    src={Mob3}
-                    alt="SaaS Dashboard mobile interface"
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover"
-                  />
-                </div>
-
-                {/* Content */}
-                <div className="p-6 px-0">
-                  {/* Category Badge */}
-                  <div className="mb-4">
-                    <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                      SaaS
-                    </span>
-                  </div>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-4 mb-4">
-                    <span className="text-blue-600 font-medium text-sm">
-                      Designing
-                    </span>
-                    <span className="text-purple-600 font-medium text-sm">
-                      Web Development
-                    </span>
-                    <span className="text-orange-600 font-medium text-sm">
-                      Testing
-                    </span>
-                  </div>
-
-                  {/* Date & Time */}
-                  <div className="text-sm text-gray-500 mb-4 font-roboto">
-                    <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
-                      {"13 March 2023"}
-                    </span>{" "}
-                    <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
-                      {"12:24 PM"}
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                    SaaS Dashboard
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-gray-600 leading-relaxed mb-6">
-                    Intuitive dashboard design for a complex project management
-                    tool, focusing on data visualization and workflow
-                    optimization.
-                  </p>
-
-                  {/* Read More Button */}
-                  <button className="bg-gray-100 hover:bg-gray-200 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
-                    Read More
-                  </button>
-                </div>
-              </div>
+                ))}
             </div>
           </div>
         </div>
@@ -1137,9 +1038,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
                       Design Thinking in Real Products: What Most Teams Miss
-                    </h3>
+                    </h2>
 
                     {/* Description */}
                     <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
@@ -1189,9 +1090,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
                       Design Thinking in Real Products: What Most Teams Miss
-                    </h3>
+                    </h2>
 
                     {/* Description */}
                     <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
@@ -1242,9 +1143,113 @@ const ServicePage = ({ params }: ServicePageProps) => {
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+                    <h2 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
                       Design Thinking in Real Products: What Most Teams Miss
-                    </h3>
+                    </h2>
+
+                    {/* Description */}
+                    <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                      Travelling in sea has many advantages. Some of the
+                      advantages of transporting goods by sea include: you can
+                      ship large volumes at costs
+                    </p>
+
+                    {/* Read More Link */}
+                    <button className="text-[#FFAB40] underline font-medium text-sm transition-colors duration-200">
+                      Read More...
+                    </button>
+                  </div>
+                </div>
+                <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group w-80 flex-shrink-0">
+                  {/* Post Image */}
+                  <div className="relative h-48 bg-gray-100">
+                    <Image
+                      src={RelatedPost}
+                      alt="Design Thinking in Real Products: What Most Teams Miss"
+                      fill
+                      sizes="320px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6">
+                    {/* Categories */}
+                    <div className="flex flex-wrap gap-3 mb-3">
+                      <span className="text-blue-600 font-medium text-sm">
+                        Design
+                      </span>
+                      <span className="text-purple-600 font-medium text-sm">
+                        UX Research
+                      </span>
+                    </div>
+
+                    {/* Date & Time */}
+                    <div className="text-sm text-gray-500 mb-4 font-roboto">
+                      <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                        {"13 March 2023"}
+                      </span>{" "}
+                      <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                        {"12:24 PM"}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h2 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+                      Design Thinking in Real Products: What Most Teams Miss
+                    </h2>
+
+                    {/* Description */}
+                    <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                      Travelling in sea has many advantages. Some of the
+                      advantages of transporting goods by sea include: you can
+                      ship large volumes at costs
+                    </p>
+
+                    {/* Read More Link */}
+                    <button className="text-[#FFAB40] underline font-medium text-sm transition-colors duration-200">
+                      Read More...
+                    </button>
+                  </div>
+                </div>
+                <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group w-80 flex-shrink-0">
+                  {/* Post Image */}
+                  <div className="relative h-48 bg-gray-100">
+                    <Image
+                      src={RelatedPost}
+                      alt="Design Thinking in Real Products: What Most Teams Miss"
+                      fill
+                      sizes="320px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6">
+                    {/* Categories */}
+                    <div className="flex flex-wrap gap-3 mb-3">
+                      <span className="text-blue-600 font-medium text-sm">
+                        Design
+                      </span>
+                      <span className="text-purple-600 font-medium text-sm">
+                        UX Research
+                      </span>
+                    </div>
+
+                    {/* Date & Time */}
+                    <div className="text-sm text-gray-500 mb-4 font-roboto">
+                      <span className="text-[#999999] text-[14px] font-[500] leading-[150%]">
+                        {"13 March 2023"}
+                      </span>{" "}
+                      <span className="text-[#333333] text-[14px] font-[700] leading-[150%] ml-3">
+                        {"12:24 PM"}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h2 className="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+                      Design Thinking in Real Products: What Most Teams Miss
+                    </h2>
 
                     {/* Description */}
                     <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
@@ -1341,9 +1346,9 @@ const ServicePage = ({ params }: ServicePageProps) => {
                         />
                       </div>
                       <div>
-                        <h3 className="font-[600] font-poppins mt-2 text-[#0F1125] text-[20px]">
+                        <h2 className="font-[600] font-poppins mt-2 text-[#0F1125] text-[20px]">
                           {testimonial.name}
-                        </h3>
+                        </h2>
                         <p className="text-gray-500 text-[18px] font-[500] leading-[150%]">
                           {testimonial.designation}
                         </p>

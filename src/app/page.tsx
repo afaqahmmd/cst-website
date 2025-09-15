@@ -76,7 +76,6 @@ import PillContainer from "@/assets/images/homepage/pill-container.svg";
 import PhoneNumberInput from "@/components/PhoneNumberInput/PhoneNumberInput";
 export default function Home() {
   const { data: servicesData, isLoading, error } = useServices();
-  const [isHomePageV2, setIsHomePageV2] = useState(false);
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -775,18 +774,24 @@ export default function Home() {
                 >
                   <div className="flex flex-col items-start gap-4 mb-4  border-b-1 border-[#D1D3D9] pb-4">
                     <div className="flex items-start gap-4 flex-shrink-0 p-0 bg-white rounded-lg">
-                      {getServiceIcon(service.title)}
-                      <h3 className="relative inline-block text-xl font-semibold text-gray-900 mb-2">
+                      {/* {getServiceIcon(service.title)} */}
+                      <Image
+                        src={service.images[0]}
+                        alt={"service icon"}
+                        width={40}
+                        height={40}
+                        className="w-10 h-10"
+                      />
+                      <h2 className="relative inline-block text-xl font-semibold text-gray-900 mb-2">
                         <span className="absolute left-0 h-4 w-4 rounded-full bg-[#20C5BA80] z-0"></span>
                         <span className="absolute left-1/2 -bottom-1 -translate-x-1/2 h-1 w-8 bg-[#20C5BA80] z-0"></span>
-
                         <span className="relative z-10">{service.title}</span>
-                      </h3>
+                      </h2>
                     </div>
 
                     <div className="flex-1 min-w-0">
                       <p className="text-[#868282] text-[16px] leading-[22px] font-[400]">
-                        {service.description}
+                        {service.description.slice(0, 100)}...
                       </p>
                     </div>
                   </div>
@@ -802,7 +807,7 @@ export default function Home() {
                             <Check className="w-4 h-4 text-white" size={16} />
                           </div>
                           <span className="text-sm text-gray-700">
-                            {feature}
+                            {feature.slice(0, 100)}...
                           </span>
                         </div>
                       )

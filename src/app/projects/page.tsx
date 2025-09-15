@@ -21,10 +21,22 @@ import { useProjects } from "@/hooks/useProjects";
 import { joinUrl } from "@/utils/joinUrl";
 import { getBlogImageUrl } from "@/utils/getBlobImageUrl";
 import Link from "next/link";
+import { useServices } from "@/hooks/useServices";
+import { Service } from "@/types/service";
 
 const page = () => {
   const { data: projectsData, isLoading, error } = useProjects();
   const firstProject = projectsData?.[0];
+  const {
+    data: servicesData,
+    isLoading: isServicesLoading,
+    error: servicesError,
+  } = useServices();
+  const allServices = servicesData?.data || [];
+  const activeServices = allServices.filter(
+    (service: Service) => service.is_active
+  );
+  const services = activeServices.length > 0 ? activeServices : allServices;
 
   const popularPosts = [
     {
@@ -279,9 +291,9 @@ const page = () => {
 
             {/* Read More Button */}
             <Link href={`/projects/${firstProject?.slug}`}>
-            <button className="bg-gray-100 max-w-[125px] hover:bg-gray-200 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
-              Read More
-            </button>
+              <button className="bg-gray-100 max-w-[125px] hover:bg-gray-200 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                Read More
+              </button>
             </Link>
           </div>
         </div>
@@ -346,9 +358,11 @@ const page = () => {
                   </p>
 
                   {/* Read More Button */}
-                  <button className="hover:bg-gray-100 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
-                    Read More
-                  </button>
+                  <Link href={`/projects/${firstProject?.slug}`}>
+                    <button className="hover:bg-gray-100 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                      Read More
+                    </button>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -428,9 +442,11 @@ const page = () => {
                   </p>
 
                   {/* Read More Button */}
-                  <button className="hover:bg-gray-100 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
-                    Read More
-                  </button>
+                  <Link href={`/projects/${firstProject?.slug}`}>
+                    <button className="hover:bg-gray-100 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                      Read More
+                    </button>
+                  </Link>
                 </div>
               </div>
             ))}
