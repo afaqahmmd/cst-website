@@ -21,6 +21,7 @@ import Footer from "@/components/Footer/Footer";
 import { useProjects } from "@/hooks/useProjects";
 import { getBlogImageUrl } from "@/utils/getBlobImageUrl";
 import { useIndustryBySlug } from "@/hooks/useIndustryBySlug";
+import { truncateSingleWord, truncateText } from "@/utils/truncateWord";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -131,66 +132,6 @@ const page = ({ params }: PageProps) => {
       title: "Testing Phase",
       value: "3",
       bgColor: "bg-[#FCCFCF]",
-    },
-  ];
-  const cards = [
-    {
-      id: 1,
-      title: "Learning Management Systems (LMS)",
-      description:
-        "Custom-built, real-time analytics, and modular content delivery.",
-      image: LMS,
-    },
-    {
-      id: 2,
-      title: "Student & Educator Portals",
-      description:
-        "Intuitive interfaces designed for engagement, accessibility, and performance tracking.",
-      image: studentPlanner2,
-    },
-    {
-      id: 3,
-      title: "Online Assessment Tools",
-      description:
-        "Secure, scalable platforms for tests, quizzes, and automated evaluations.",
-      image: W,
-    },
-    {
-      id: 4,
-      title: "Interactive Content Platforms",
-      description:
-        "Microlearning, gamification, video lessons, and collaborative learning tools.",
-      image: settingIllustration,
-    },
-    {
-      id: 5,
-      title: "Administrative Dashboards",
-      description:
-        "Real-time insights into course engagement, attendance, and student performance.",
-      image: dashboards,
-    },
-  ];
-  const cards2 = [
-    {
-      id: 1,
-      title: "Human-Centered, Scalable Design",
-      description:
-        "From wireframes to development, we ensure every feature serves a real educational need and adapts to growing user bases.",
-      image: work1,
-    },
-    {
-      id: 2,
-      title: "Compliance-First Architecture",
-      description:
-        "We help you stay compliant with FERPA, COPPA, and accessibility guidelines (WCAG) right from the start.",
-      image: work2,
-    },
-    {
-      id: 3,
-      title: "Data-Driven Product Thinking",
-      description:
-        "We don’t just build tools — we create platforms that offer insights and help schools, ed-tech startups, and institutions track learning outcomes effectively.",
-      image: work3,
     },
   ];
 
@@ -377,8 +318,8 @@ const page = ({ params }: PageProps) => {
 
         <div className="aspect-[308/225] mt-12 w-full max-w-7xl mx-auto relative">
           <Image
-            src={getBlogImageUrl(heroSection.image) || '/placeholder.svg'}
-            alt={heroSection.image_alt_text}
+            src={industry?.images[0] || "/placeholder.svg"}
+            alt={heroSection?.image_alt_text || "herosection-img"}
             fill
             className="object-cover"
             priority
@@ -430,9 +371,9 @@ const page = ({ params }: PageProps) => {
       <section className="max-w-7xl mx-auto py-12 mt-12 bg-[#FAFBFA]">
         <div className="w-full max-w-7xl mx-auto relative px-4">
           <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
-            🚀 {expertiseSection?.title}
+            🚀 {expertiseSection?.title }
           </h2>
-          <p className="md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
+          <p className="md:ml-12 break-words overflow-hidden text-ellipsis mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
             {expertiseSection?.description}
           </p>
           <div className="max-w-7xl mx-auto mt-12">

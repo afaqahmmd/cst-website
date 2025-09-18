@@ -822,7 +822,7 @@ const ServicePage = ({ params }: ServicePageProps) => {
 
         {/* TOOLS WE USE SECTION */}
         {service.sections?.tools_used_section && (
-          <div className="bg-[#FAFBFA] py-16 lg:py-24">
+          <div className="bg-[#FAFBFA] py-16 lg:py-18">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
               {/* Header */}
               <div className="text-center mb-16">

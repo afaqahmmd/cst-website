@@ -32,51 +32,7 @@ import { getBlogImageUrl } from "@/utils/getBlobImageUrl";
 import { useServices } from "@/hooks/useServices";
 import { Service } from "@/types/service";
 import { useIndustries } from "@/hooks/useIndustries";
-
-// Mock service data
-const services = [
-  {
-    id: 1,
-    title: "Web Development",
-    slug: "web-development",
-    icon: ServiceIcon1,
-    description:
-      "Empowering products with user-first design and modern aesthetics.",
-    features: [
-      "UX Research & Strategy",
-      "Wireframing & Information Architecture",
-      "Prototyping & User Testing",
-      "UX Audit & Heuristic Review",
-      "Microinteractions & Animation Design",
-    ],
-  },
-  {
-    id: 2,
-    title: "Mobile App Development",
-    slug: "mobile-app-development",
-    icon: ServiceIcon2,
-    description: "Designed to sell — stores that convert and scale.",
-    features: [
-      "Cross-Platform App Development (Flutter/React Native) ",
-      "Native iOS/Android Apps",
-      "App UI/UX Design",
-      "API Integration",
-      "App Store Optimization",
-    ],
-  },
-];
-
-// Helper function to get service icon
-const getServiceIcon = (title: string) => {
-  switch (title.toLowerCase()) {
-    case "web development":
-      return <ReactIcon className="w-8 h-8 text-blue-600" />;
-    case "mobile app development":
-      return <Smartphone className="w-8 h-8 text-green-600" />;
-    default:
-      return <ReactIcon className="w-8 h-8 text-gray-600" />;
-  }
-};
+import { useProjectBySlug } from "@/hooks/useProjectBySlug";
 
 // Helper function to generate features from description
 const generateFeatures = (description: string) => {
@@ -95,12 +51,14 @@ interface ProjectPageProps {
 
 const page = ({ params }: ProjectPageProps) => {
   const { slug } = use(params);
-  // const { project, isLoading, error, notFound } = useProjectBySlug(slug);
+  const { project, isLoading, error, notFound } = useProjectBySlug(slug);
+  console.log("single project fetched:", project);
   const {
     data: servicesData,
     isLoading: isServicesLoading,
     error: servicesError,
   } = useServices();
+
   const allServices = servicesData?.data || [];
   const activeServices = allServices.filter(
     (service: Service) => service.is_active
@@ -114,164 +72,190 @@ const page = ({ params }: ProjectPageProps) => {
 
   const industries = industriesList?.data || [];
 
-  const project = {
-    id: 4,
-    name: "Design Thinking in Real Products: What Most Teams Miss",
-    slug: "design-thinking-real-projects",
-    description:
-      "Travelling in sea has many advantages. Some of the advantages of transporting goods by sea include: you can ship large volumes at costs",
-    image:
-      "http://localhost:7000/media/projects/821fad0b-e91a-45c6-a692-06140069646d.png",
-    published: false,
-    created_at: "2025-09-10T07:14:38.748485Z",
-    updated_at: "2025-09-10T07:14:38.762960Z",
-    tags: [
-      {
-        id: 1,
-        name: "Python v2",
-      },
-      {
-        id: 5,
-        name: "Saas",
-      },
-    ],
-    author_email: "mh4353662@gmail.com",
-    sections: {
-      hero_section: {
-        title: "FleetTrackPro – Revolutionizing Logistics Visibility",
-        description:
-          "How skipping the empathy and iteration phase can silently kill your product experience.",
-        sub_sections: [
-          {
-            image:
-              "http://localhost:7000/media/projects/sections/512fd9ea-42b4-494b-be6a-eac86eb910bf.png",
-            image_alt_text: "Figma",
-          },
-        ],
-        hero_main_image:
-          "http://localhost:7000/media/projects/821fad0b-e91a-45c6-a692-06140069646d.png",
-      },
-      about_section: {
-        title: "The Challenge",
-        description:
-          "Fleet logistics companies often struggle with real-time visibility, inefficient manual processes, and lack of data-driven insights. Our client, a mid-sized logistics firm expanding regionally, needed a scalable digital platform that could streamline fleet tracking, reduce communication gaps, and provide actionable analytics — all while remaining user-friendly for on-ground staff and admin teams.",
-        sub_sections: [],
-      },
-      project_goals_section: {
-        title: "Project Goals",
-        description: "",
-        sub_sections: [
-          {
-            image:
-              "http://localhost:7000/media/projects/sections/8a2d40d6-9a2b-4de5-856b-44f8dd921f83.png",
-            title: "To create real time fleet visibility",
-          },
-          {
-            image:
-              "http://localhost:7000/media/projects/sections/e5293b16-bca4-4c77-8b7f-13617094421a.png",
-            title: "operational efficiency",
-          },
-          {
-            image:
-              "http://localhost:7000/media/projects/sections/33fa350a-cb3f-4ff5-b233-f0b160ac58a9.png",
-            title: "Actionable insights throug data",
-          },
-        ],
-        approaches: [
-          {
-            title: "🔍 Our Approach 01",
-            description:
-              "We kicked off with stakeholder interviews and on-site workflow audits to understand the bottlenecks. Our UX team mapped key journeys — from delivery planning to fleet performance reporting — and identified opportunities to automate and simplify.",
-            additional_info: [
-              "A responsive web app for admin teams to manage and monitor logistics operations.",
-              "A responsive web app for admin teams to manage and monitor logistics operations.",
-              "A responsive web app for admin teams to manage and monitor logistics operations.",
-            ],
-          },
-          {
-            title: "🎨 Design & User Experience 02",
-            description:
-              "The design focused on clarity, accessibility, and speed. We created a custom design system to ensure consistency across modules. Every component was tested for usability, especially for users in low-light or on-the-move environments. Key features included:",
-            additional_info: [
-              "Interactive fleet maps with real-time geolocation",
-              "Interactive fleet maps with real-time geolocation",
-              "Interactive fleet maps with real-time geolocation",
-              "Interactive fleet maps with real-time geolocation",
-            ],
-          },
-          {
-            title: "💻 Development Process 03",
-            description: "Our full-stack team built the platform using:",
-            additional_info: [
-              "React for a fast, modular frontend",
-              "Node.js + Express for scalable backend services",
-              "MongoDB for flexible and high-speed data storage",
-            ],
-          },
-          {
-            title: "📊 Results & Impact 04",
-            description: "Since launch, FleetTrackPro has:",
-            additional_info: [
-              "Reduced manual planning time by 70%",
-              "Reduced manual planning time by 70%",
-              "Reduced manual planning time by 70%",
-              "Reduced manual planning time by 70%",
-            ],
-          },
-          {
-            title: "🧭 Why This Project Stands Out 05",
-            description: "",
-            additional_info: [
-              "Solved a real operational problem at scale",
-              "Solved a real operational problem at scale",
-              "Solved a real operational problem at scale",
-            ],
-          },
-        ],
-      },
-      technologies_used_section: {
-        title: "🔧 Technologies & Tools Used",
-        description: "Since launch, FleetTrackPro has:",
-        sub_sections: [
-          {
-            title: "Design",
-            images: [
-              "http://localhost:7000/media/projects/sections/2284f90b-22e4-4037-9384-9fd4c5bec73d.png",
-              "http://localhost:7000/media/projects/sections/82bd8d8d-2654-4ec3-a838-0186d8be6b97.png",
-            ],
-            description: "",
-            image_alt_text: "Design",
-          },
-          {
-            title: "Backend",
-            images: [
-              "http://localhost:7000/media/projects/sections/9cb1d454-9f2e-43b5-827c-30bf50d8e784.png",
-              "http://localhost:7000/media/projects/sections/77380ffb-2bd8-4241-956f-6821c2921ddf.png",
-            ],
-            description: "",
-            image_alt_text: "Backend",
-          },
-        ],
-      },
-      services_provided_section: {
-        title: "Services provided",
-        description: "Looking to build something similar?",
-        sub_sections: [
-          {
-            title: "UI/UX Design",
-            description:
-              "Empowering products with user-first design and modern aesthetics.",
-            additional_info: [
-              "UX Research & Strategy",
-              "UX Research & Strategy",
-              "UX Research & Strategy",
-              "UX Research & Strategy",
-            ],
-          },
-        ],
-      },
-    },
-  };
+  // Handle loading state
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-teal-500"></div>
+      </div>
+    );
+  }
+
+  // Handle error state
+  if (error) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">
+            Error Loading Industry
+          </h2>
+          <p className="text-gray-600">Please try again later.</p>
+          <p className="text-sm text-gray-500 mt-2">
+            {industriesError?.message}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // const project = {
+  //   id: 4,
+  //   name: "Design Thinking in Real Products: What Most Teams Miss",
+  //   slug: "design-thinking-real-projects",
+  //   description:
+  //     "Travelling in sea has many advantages. Some of the advantages of transporting goods by sea include: you can ship large volumes at costs",
+  //   image:
+  //     "http://localhost:7000/media/projects/821fad0b-e91a-45c6-a692-06140069646d.png",
+  //   published: false,
+  //   created_at: "2025-09-10T07:14:38.748485Z",
+  //   updated_at: "2025-09-10T07:14:38.762960Z",
+  //   tags: [
+  //     {
+  //       id: 1,
+  //       name: "Python v2",
+  //     },
+  //     {
+  //       id: 5,
+  //       name: "Saas",
+  //     },
+  //   ],
+  //   author_email: "mh4353662@gmail.com",
+  //   sections: {
+  //     hero_section: {
+  //       title: "FleetTrackPro – Revolutionizing Logistics Visibility",
+  //       description:
+  //         "How skipping the empathy and iteration phase can silently kill your product experience.",
+  //       sub_sections: [
+  //         {
+  //           image:
+  //             "http://localhost:7000/media/projects/sections/512fd9ea-42b4-494b-be6a-eac86eb910bf.png",
+  //           image_alt_text: "Figma",
+  //         },
+  //       ],
+  //       hero_main_image:
+  //         "http://localhost:7000/media/projects/821fad0b-e91a-45c6-a692-06140069646d.png",
+  //     },
+  //     about_section: {
+  //       title: "The Challenge",
+  //       description:
+  //         "Fleet logistics companies often struggle with real-time visibility, inefficient manual processes, and lack of data-driven insights. Our client, a mid-sized logistics firm expanding regionally, needed a scalable digital platform that could streamline fleet tracking, reduce communication gaps, and provide actionable analytics — all while remaining user-friendly for on-ground staff and admin teams.",
+  //       sub_sections: [],
+  //     },
+  //     project_goals_section: {
+  //       title: "Project Goals",
+  //       description: "",
+  //       sub_sections: [
+  //         {
+  //           image:
+  //             "http://localhost:7000/media/projects/sections/8a2d40d6-9a2b-4de5-856b-44f8dd921f83.png",
+  //           title: "To create real time fleet visibility",
+  //         },
+  //         {
+  //           image:
+  //             "http://localhost:7000/media/projects/sections/e5293b16-bca4-4c77-8b7f-13617094421a.png",
+  //           title: "operational efficiency",
+  //         },
+  //         {
+  //           image:
+  //             "http://localhost:7000/media/projects/sections/33fa350a-cb3f-4ff5-b233-f0b160ac58a9.png",
+  //           title: "Actionable insights throug data",
+  //         },
+  //       ],
+  //       approaches: [
+  //         {
+  //           title: "🔍 Our Approach 01",
+  //           description:
+  //             "We kicked off with stakeholder interviews and on-site workflow audits to understand the bottlenecks. Our UX team mapped key journeys — from delivery planning to fleet performance reporting — and identified opportunities to automate and simplify.",
+  //           additional_info: [
+  //             "A responsive web app for admin teams to manage and monitor logistics operations.",
+  //             "A responsive web app for admin teams to manage and monitor logistics operations.",
+  //             "A responsive web app for admin teams to manage and monitor logistics operations.",
+  //           ],
+  //         },
+  //         {
+  //           title: "🎨 Design & User Experience 02",
+  //           description:
+  //             "The design focused on clarity, accessibility, and speed. We created a custom design system to ensure consistency across modules. Every component was tested for usability, especially for users in low-light or on-the-move environments. Key features included:",
+  //           additional_info: [
+  //             "Interactive fleet maps with real-time geolocation",
+  //             "Interactive fleet maps with real-time geolocation",
+  //             "Interactive fleet maps with real-time geolocation",
+  //             "Interactive fleet maps with real-time geolocation",
+  //           ],
+  //         },
+  //         {
+  //           title: "💻 Development Process 03",
+  //           description: "Our full-stack team built the platform using:",
+  //           additional_info: [
+  //             "React for a fast, modular frontend",
+  //             "Node.js + Express for scalable backend services",
+  //             "MongoDB for flexible and high-speed data storage",
+  //           ],
+  //         },
+  //         {
+  //           title: "📊 Results & Impact 04",
+  //           description: "Since launch, FleetTrackPro has:",
+  //           additional_info: [
+  //             "Reduced manual planning time by 70%",
+  //             "Reduced manual planning time by 70%",
+  //             "Reduced manual planning time by 70%",
+  //             "Reduced manual planning time by 70%",
+  //           ],
+  //         },
+  //         {
+  //           title: "🧭 Why This Project Stands Out 05",
+  //           description: "",
+  //           additional_info: [
+  //             "Solved a real operational problem at scale",
+  //             "Solved a real operational problem at scale",
+  //             "Solved a real operational problem at scale",
+  //           ],
+  //         },
+  //       ],
+  //     },
+  //     technologies_used_section: {
+  //       title: "🔧 Technologies & Tools Used",
+  //       description: "Since launch, FleetTrackPro has:",
+  //       sub_sections: [
+  //         {
+  //           title: "Design",
+  //           images: [
+  //             "http://localhost:7000/media/projects/sections/2284f90b-22e4-4037-9384-9fd4c5bec73d.png",
+  //             "http://localhost:7000/media/projects/sections/82bd8d8d-2654-4ec3-a838-0186d8be6b97.png",
+  //           ],
+  //           description: "",
+  //           image_alt_text: "Design",
+  //         },
+  //         {
+  //           title: "Backend",
+  //           images: [
+  //             "http://localhost:7000/media/projects/sections/9cb1d454-9f2e-43b5-827c-30bf50d8e784.png",
+  //             "http://localhost:7000/media/projects/sections/77380ffb-2bd8-4241-956f-6821c2921ddf.png",
+  //           ],
+  //           description: "",
+  //           image_alt_text: "Backend",
+  //         },
+  //       ],
+  //     },
+  //     services_provided_section: {
+  //       title: "Services provided",
+  //       description: "Looking to build something similar?",
+  //       sub_sections: [
+  //         {
+  //           title: "UI/UX Design",
+  //           description:
+  //             "Empowering products with user-first design and modern aesthetics.",
+  //           additional_info: [
+  //             "UX Research & Strategy",
+  //             "UX Research & Strategy",
+  //             "UX Research & Strategy",
+  //             "UX Research & Strategy",
+  //           ],
+  //         },
+  //       ],
+  //     },
+  //   },
+  // };
 
   const industryChallenges = [
     "Lack of engagement in online learning environments",
@@ -512,11 +496,11 @@ const page = ({ params }: ProjectPageProps) => {
           </p>
           <div className="flex flex-wrap gap-4 items-center">
             {project?.sections?.hero_section?.sub_sections.map(
-              (subSection, index) => (
+              (subSection: any, index: number) => (
                 <div key={index}>
                   <Image
                     src={getBlogImageUrl(subSection.image)}
-                    alt={subSection.image_alt_text}
+                    alt={subSection.image_alt_text || ""}
                     width={47}
                     height={47}
                   />
@@ -580,7 +564,7 @@ const page = ({ params }: ProjectPageProps) => {
           </h2>
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 lg:mt-12 mt-8">
             {project?.sections?.project_goals_section?.sub_sections.map(
-              (subSection, index) => (
+              (subSection: any, index: number) => (
                 <div
                   key={index}
                   className="flex flex-col items-center lg:gap-5 gap-4"
@@ -617,7 +601,7 @@ const page = ({ params }: ProjectPageProps) => {
           <div className="font-roboto mb-6 md:ml-16 mx-auto border-l-[5px] pl-12 mt-12 border-[#FFAB40]">
             <ul className="list-disc">
               {project?.sections?.project_goals_section?.approaches[0]?.additional_info.map(
-                (info, index) => (
+                (info: any, index: number) => (
                   <li key={index}>
                     <p className="font-[400] text-[24px] leading-[40px] text-[#666666]">
                       {info}
@@ -647,7 +631,7 @@ const page = ({ params }: ProjectPageProps) => {
             <div className="font-roboto mb-6 md:ml-16 mx-auto border-l-[5px] pl-12 mt-12 border-[#FFAB40]">
               <ul className="list-disc">
                 {project?.sections?.project_goals_section?.approaches[1]?.additional_info.map(
-                  (info, index) => (
+                  (info: any, index: number) => (
                     <li key={index}>
                       <p className="font-[400] text-[24px] leading-[40px] text-[#666666]">
                         {info}
@@ -666,68 +650,72 @@ const page = ({ params }: ProjectPageProps) => {
       )}
 
       {/* 💻 Development Process */}
-      <section className="w-full bg-white px-12">
-        <div className="lg:max-w-[70%] relative p-12 mt-12  mx-auto flex flex-col  text-start lg:px-16 md:px-12 px-4">
-          <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
-            {project?.sections?.project_goals_section?.approaches[2]?.title}
-          </h2>
-          <p className="lg:my-8 my-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            {
-              project?.sections?.project_goals_section?.approaches[2]
-                ?.description
-            }
-          </p>
+      {project?.sections?.project_goals_section?.approaches[2] && (
+        <section className="w-full bg-white px-12">
+          <div className="lg:max-w-[70%] relative p-12 mt-12  mx-auto flex flex-col  text-start lg:px-16 md:px-12 px-4">
+            <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
+              {project?.sections?.project_goals_section?.approaches[2]?.title}
+            </h2>
+            <p className="lg:my-8 my-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
+              {
+                project?.sections?.project_goals_section?.approaches[2]
+                  ?.description
+              }
+            </p>
 
-          {project?.sections?.project_goals_section?.approaches[2]?.additional_info.map(
-            (challenge, index) => (
-              <div
-                key={index}
-                className="flex md:items-center items-start gap-4 mb-4"
-              >
-                <MoveRight
-                  size={32}
-                  color="#FFAB40"
-                  className="shrink-0 md:mt-0 mt-2"
-                />
-                <p className="font-roboto text-[24px] font-[500] leading-[183%] tracking-[0%] text-[#666666]">
-                  {challenge}
-                </p>
-              </div>
-            )
-          )}
-        </div>
-      </section>
+            {project?.sections?.project_goals_section?.approaches[2]?.additional_info.map(
+              (challenge: any, index: number) => (
+                <div
+                  key={index}
+                  className="flex md:items-center items-start gap-4 mb-4"
+                >
+                  <MoveRight
+                    size={32}
+                    color="#FFAB40"
+                    className="shrink-0 md:mt-0 mt-2"
+                  />
+                  <p className="font-roboto text-[24px] font-[500] leading-[183%] tracking-[0%] text-[#666666]">
+                    {challenge}
+                  </p>
+                </div>
+              )
+            )}
+          </div>
+        </section>
+      )}
 
       {/* 💻 Results and Impacts */}
-      <section className="w-full bg-white px-12">
-        <div className="lg:max-w-[70%] relative p-12 mt-12  mx-auto flex flex-col  text-start lg:px-16 md:px-12 px-4">
-          <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
-            {project?.sections?.project_goals_section?.approaches[3]?.title}
-          </h2>
-          <p className="lg:my-8 my-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            {
-              project?.sections?.project_goals_section?.approaches[3]
-                ?.description
-            }
-          </p>
+      {project?.secitons?.project_goals_section?.approaches[3] && (
+        <section className="w-full bg-white px-12">
+          <div className="lg:max-w-[70%] relative p-12 mt-12  mx-auto flex flex-col  text-start lg:px-16 md:px-12 px-4">
+            <h2 className="font-roboto mb-6 md:ml-12 mx-auto font-semibold text-[32px] leading-[100%] tracking-[-3%] text-[#333333]">
+              {project?.sections?.project_goals_section?.approaches[3]?.title}
+            </h2>
+            <p className="lg:my-8 my-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
+              {
+                project?.sections?.project_goals_section?.approaches[3]
+                  ?.description
+              }
+            </p>
 
-          <div className="md:ml-12 mx-auto w-full ">
-            {/* Grid Layout */}
-            <div className=" bg-[#8FD8184D] rounded-xl p-8">
-              <ul className="flex flex-col md:px-8 px-4 gap-[10px] list-disc text-[#3C5612] font-[500] text-[22px] leading-[173%] tracking-[0%]">
-                {project?.sections?.project_goals_section?.approaches[3]?.additional_info.map(
-                  (info, index) => (
-                    <li key={index}>{info}</li>
-                  )
-                )}
-              </ul>
+            <div className="md:ml-12 mx-auto w-full ">
+              {/* Grid Layout */}
+              <div className=" bg-[#8FD8184D] rounded-xl p-8">
+                <ul className="flex flex-col md:px-8 px-4 gap-[10px] list-disc text-[#3C5612] font-[500] text-[22px] leading-[173%] tracking-[0%]">
+                  {project?.sections?.project_goals_section?.approaches[3]?.additional_info.map(
+                    (info: any, index: number) => (
+                      <li key={index}>{info}</li>
+                    )
+                  )}
+                </ul>
+              </div>
             </div>
+            <p className="lg:my-8 my-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
+              {project?.sections?.hero_section?.description}
+            </p>
           </div>
-          <p className="lg:my-8 my-4 md:ml-12 mx-auto font-roboto font-[400] text-[16px] text-[#666666] leading-[150%] tracking-[0%]">
-            {project?.sections?.hero_section?.description}
-          </p>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* why this project stands out */}
       <section className="w-full bg-white px-12">
@@ -775,7 +763,7 @@ const page = ({ params }: ProjectPageProps) => {
           </p>
           <div className="grid md:grid-cols-2 grid-cols-1 gap-12 w-full md:ml-12 mx-auto lg:mt-12 mt-8 mb-6">
             {project?.sections?.technologies_used_section?.sub_sections.map(
-              (tool, index) => (
+              (tool: any, index: number) => (
                 <div className="flex flex-col gap-8" key={index}>
                   <h2 className="font-poppins text-[#282D46] font-[600] md:text-[32px] text-[24px] leading-[100%] tracking-[-3%]">
                     {tool.title}
@@ -785,11 +773,11 @@ const page = ({ params }: ProjectPageProps) => {
                     className={`${technologiesAndToolsUsed[index].bgColor} flex flex-col items-center rounded-xl`}
                   >
                     <div className="flex flex-wrap gap-5 items-center justify-center p-12">
-                      {tool.images?.map((image, index) => (
+                      {tool.images?.map((image: any, index: number) => (
                         <Image
                           key={index}
                           src={getBlogImageUrl(image)}
-                          alt={tool.image_alt_text}
+                          alt={tool.image_alt_text || ""}
                           width={100}
                           height={100}
                           className="object-contain"
@@ -930,7 +918,7 @@ const page = ({ params }: ProjectPageProps) => {
                   <div className="relative bg-gray-100 rounded-2xl overflow-hidden aspect-[400/360]">
                     <Image
                       src={post.image}
-                      alt={post.title}
+                      alt={post.title || ""}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />

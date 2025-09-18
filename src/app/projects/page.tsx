@@ -358,7 +358,7 @@ const page = () => {
                   </p>
 
                   {/* Read More Button */}
-                  <Link href={`/projects/${firstProject?.slug}`}>
+                  <Link href={`/projects/${project?.slug}`}>
                     <button className="hover:bg-gray-100 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
                       Read More
                     </button>
@@ -442,7 +442,7 @@ const page = () => {
                   </p>
 
                   {/* Read More Button */}
-                  <Link href={`/projects/${firstProject?.slug}`}>
+                  <Link href={`/projects/${project?.slug}`}>
                     <button className="hover:bg-gray-100 border border-[#20C5BA] text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200">
                       Read More
                     </button>

@@ -1,16 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import ButtonComponent from "@/components/Button/Button";
 import HeroImgLeft from "@/components/svgs/hero/heroLeftBottom";
 import HeroIcons from "@/components/svgs/hero/heroIcons";
 import { useServices } from "@/hooks/useServices";
-import { useEffect } from "react";
-import LeftTestimonials from "@/assets/images/homepage/left-testimonials.svg";
-import RightTestimonials from "@/assets/images/homepage/right-testimonials.svg";
+
+import { faqs } from "@/data/mockFaqs";
+// import LeftTestimonials from "@/assets/images/homepage/left-testimonials.svg";
+// import RightTestimonials from "@/assets/images/homepage/right-testimonials.svg";
 import {
   Dialog,
   DialogContent,
@@ -52,6 +53,10 @@ import {
   Mail,
   Cloud,
   Check,
+  Star,
+  Heart,
+  User,
+  Minus,
 } from "lucide-react";
 import PeakPixels from "@/assets/images/homepage/peak-pixels.svg";
 import DecisionMakers from "@/assets/images/homepage/decision-makers.png";
@@ -74,15 +79,36 @@ import LegalIcon from "@/components/svgs/icons/LegalIcon";
 import HerosectionImg from "@/assets/images/homepage/herosection-cropped.svg";
 import PillContainer from "@/assets/images/homepage/pill-container.svg";
 import PhoneNumberInput from "@/components/PhoneNumberInput/PhoneNumberInput";
+import TestimonialAvatar from "@/assets/images/homepage/testimonial-avatar.png";
+interface Testimonial {
+  id: number;
+  name: string;
+  role: string;
+  company: string;
+  content: string;
+  rating: number;
+  avatar: StaticImageData;
+}
+
 export default function Home() {
   const { data: servicesData, isLoading, error } = useServices();
   const [open, setOpen] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [hoveredCard2, setHoveredCard2] = useState<number | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     message: "",
   });
+  const [screenWidth, setScreenWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Function to get icon based on service title
   const getServiceIcon = (title: string) => {
@@ -115,9 +141,7 @@ export default function Home() {
     return sentences.slice(0, 4).map((sentence) => sentence.trim());
   };
 
-  // Use API data if available, otherwise use fallback
   // Show all services if no active ones, or if all are inactive
-
   const allServices = servicesData?.data || [];
   const activeServices = allServices.filter(
     (service: Service) => service.is_active
@@ -191,235 +215,83 @@ export default function Home() {
     },
   ];
 
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const faqs = [
+  const testimonials: Testimonial[] = [
     {
-      question: "What industries do you work with?",
-      answer:
-        "We work with startups, SaaS platforms, eCommerce brands, healthcare, education, fintech, and more. If it needs great UX and results — we're in.",
+      id: 1,
+      name: "Ahsan R. - CEO, TechLift",
+      role: "Product Manager",
+      company: "TechCorp",
+      content:
+        "This product has completely transformed how our team collaborates. The intuitive interface and powerful features make it indispensable for our daily workflow.",
+      rating: 5,
+      avatar: TestimonialAvatar,
     },
     {
-      question: "How long does a typical project take?",
-      answer:
-        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
+      id: 2,
+      name: "Michael Chen",
+      role: "CEO",
+      company: "StartupXYZ",
+      content:
+        "Outstanding service and support! The team went above and beyond to ensure our implementation was smooth and successful. Highly recommend to any growing business.",
+      rating: 5,
+      avatar: TestimonialAvatar,
     },
     {
-      question: "Can I hire your team for just design or development only?",
-      answer:
-        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
+      id: 3,
+      name: "Rodriguez",
+      role: "Designer",
+      company: "Creative Studio",
+      content:
+        "The design system is incredibly well thought out. It's rare to find a tool that balances functionality with such beautiful aesthetics. Our productivity has increased significantly.",
+      rating: 5,
+      avatar: TestimonialAvatar,
     },
     {
-      question: "Do you offer SEO or digital marketing after launch?",
-      answer:
-        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
-    },
-    {
-      question: "Will I own the final design/code?",
-      answer:
-        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
-    },
-    {
-      question: "How long does a typical project take?",
-      answer:
-        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
-    },
-    {
-      question: "Can I hire your team for just design or development only?",
-      answer:
-        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
-    },
-    {
-      question: "Do you offer SEO or digital marketing after launch?",
-      answer:
-        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
-    },
-    {
-      question: "Will I own the final design/code?",
-      answer:
-        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
-    },
-    {
-      question: "How long does a typical project take?",
-      answer:
-        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
-    },
-    {
-      question: "Can I hire your team for just design or development only?",
-      answer:
-        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
-    },
-    {
-      question: "Do you offer SEO or digital marketing after launch?",
-      answer:
-        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
-    },
-    {
-      question: "Will I own the final design/code?",
-      answer:
-        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
-    },
-    {
-      question: "How long does a typical project take?",
-      answer:
-        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
-    },
-    {
-      question: "Can I hire your team for just design or development only?",
-      answer:
-        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
-    },
-    {
-      question: "Do you offer SEO or digital marketing after launch?",
-      answer:
-        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
-    },
-    {
-      question: "Will I own the final design/code?",
-      answer:
-        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
-    },
-    {
-      question: "How long does a typical project take?",
-      answer:
-        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
-    },
-    {
-      question: "Can I hire your team for just design or development only?",
-      answer:
-        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
-    },
-    {
-      question: "Do you offer SEO or digital marketing after launch?",
-      answer:
-        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
-    },
-    {
-      question: "Will I own the final design/code?",
-      answer:
-        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
-    },
-    {
-      question: "How long does a typical project take?",
-      answer:
-        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
-    },
-    {
-      question: "Can I hire your team for just design or development only?",
-      answer:
-        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
-    },
-    {
-      question: "Do you offer SEO or digital marketing after launch?",
-      answer:
-        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
-    },
-    {
-      question: "Will I own the final design/code?",
-      answer:
-        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
-    },
-    {
-      question: "How long does a typical project take?",
-      answer:
-        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
-    },
-    {
-      question: "Can I hire your team for just design or development only?",
-      answer:
-        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
-    },
-    {
-      question: "Do you offer SEO or digital marketing after launch?",
-      answer:
-        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
-    },
-    {
-      question: "Will I own the final design/code?",
-      answer:
-        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
-    },
-    {
-      question: "How long does a typical project take?",
-      answer:
-        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
-    },
-    {
-      question: "Can I hire your team for just design or development only?",
-      answer:
-        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
-    },
-    {
-      question: "Do you offer SEO or digital marketing after launch?",
-      answer:
-        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
-    },
-    {
-      question: "Will I own the final design/code?",
-      answer:
-        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
-    },
-    {
-      question: "How long does a typical project take?",
-      answer:
-        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
-    },
-    {
-      question: "Can I hire your team for just design or development only?",
-      answer:
-        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
-    },
-    {
-      question: "Do you offer SEO or digital marketing after launch?",
-      answer:
-        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
-    },
-    {
-      question: "Will I own the final design/code?",
-      answer:
-        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
-    },
-    {
-      question: "How long does a typical project take?",
-      answer:
-        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
-    },
-    {
-      question: "Can I hire your team for just design or development only?",
-      answer:
-        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
-    },
-    {
-      question: "Do you offer SEO or digital marketing after launch?",
-      answer:
-        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
-    },
-    {
-      question: "Will I own the final design/code?",
-      answer:
-        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
-    },
-    {
-      question: "How long does a typical project take?",
-      answer:
-        "Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, while a full web application can take 8-12 weeks. We'll provide a detailed timeline during our initial consultation.",
-    },
-    {
-      question: "Can I hire your team for just design or development only?",
-      answer:
-        "Absolutely! We offer flexible engagement models. You can hire us for design-only, development-only, or full-service projects. We adapt to your specific needs and budget.",
-    },
-    {
-      question: "Do you offer SEO or digital marketing after launch?",
-      answer:
-        "Yes, we provide ongoing SEO optimization and digital marketing services. Our team can help with content strategy, technical SEO, and performance marketing to ensure your project continues to grow.",
-    },
-    {
-      question: "Will I own the final design/code?",
-      answer:
-        "Yes, you will own all the final deliverables including designs, code, and assets. We provide full ownership transfer upon project completion and payment.",
+      id: 4,
+      name: "David Thompson",
+      role: "CTO",
+      company: "InnovateLab",
+      content:
+        "From a technical perspective, this platform is solid. Great API documentation, reliable uptime, and excellent developer experience. It scales beautifully with our needs.",
+      rating: 5,
+      avatar: TestimonialAvatar,
     },
   ];
+
+  const testimonials2: Testimonial[] = [
+    {
+      id: 11,
+      name: "Ahsan R. - CEO, TechLift",
+      role: "Product Manager",
+      company: "TechCorp",
+      content:
+        "This product has completely transformed how our team collaborates. The intuitive interface and powerful features make it indispensable for our daily workflow.",
+      rating: 5,
+      avatar: TestimonialAvatar,
+    },
+    {
+      id: 12,
+      name: "Michael Chen",
+      role: "CEO",
+      company: "StartupXYZ",
+      content:
+        "Outstanding service and support! The team went above and beyond to ensure our implementation was smooth and successful. Highly recommend to any growing business.",
+      rating: 5,
+      avatar: TestimonialAvatar,
+    },
+    {
+      id: 13,
+      name: "Rodriguez",
+      role: "Designer",
+      company: "Creative Studio",
+      content:
+        "The design system is incredibly well thought out. It's rare to find a tool that balances functionality with such beautiful aesthetics. Our productivity has increased significantly.",
+      rating: 5,
+      avatar: TestimonialAvatar,
+    },
+  ];
+
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const toggleFAQ = (index: number) => {
     setActiveIndex(activeIndex === index ? -1 : index);
@@ -671,7 +543,7 @@ export default function Home() {
           {/* RIGHT CONTENT */}
           <div className="relative  flex w-full justify-center items-center px-2">
             <div className="relative w-full flex justify-center items-center">
-              <Image src={HerosectionImg} alt="Logo"/>
+              <Image src={HerosectionImg} alt="Logo" />
             </div>
           </div>
         </div>
@@ -1120,9 +992,9 @@ export default function Home() {
       {/* happy clients section */}
       <section
         id="clients-section"
-        className="bg-[#2B2B2B] py-16 px-6 w-full max-w-[1920px] mx-auto"
+        className="relative bg-[#2B2B2B] py-16 px-6 w-full max-w-[1920px] mx-auto"
       >
-        <div className="max-w-6xl mx-auto text-center">
+        <div className="relative mx-auto text-center">
           {/* Header */}
           <div className="mb-16">
             <p className="text-[#FFAB40] text-[20px] font-[500] capitalize tracking-wide mb-4">
@@ -1137,24 +1009,279 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Testimonials Image */}
-          <div className="relative w-full flex items-center justify-center lg:flex-row flex-col max-w-7xl mx-auto">
-            <Image
-              src={LeftTestimonials}
-              alt="Client testimonials chat interface"
-              width={1000}
-              height={1000}
-              className="w-full h-auto"
-              priority
-            />
-            <Image
-              src={RightTestimonials}
-              alt="Client testimonials chat interface"
-              width={1000}
-              height={1000}
-              className="w-full h-auto"
-              priority
-            />
+          <div className="relative flex xl:flex-row flex-col w-full justify-evenly gap-12">
+            {/* 1st column (left) */}
+            <div className="relative flex justify-center items-center h-[500px]">
+              {testimonials.map((testimonial, index) => {
+                const isHovered = hoveredCard === testimonial.id;
+                const isAnyHovered = hoveredCard !== null;
+
+                // ✅ Responsive scaling
+                let translateFactor = 1;
+                let rotationFactor = 1;
+                if (screenWidth < 640) {
+                  translateFactor = 0.5; // Mobile
+                  rotationFactor = 0.3; // Less tilt on mobile
+                } else if (screenWidth < 1024) {
+                  translateFactor = 0.75; // Tablet
+                  rotationFactor = 0.8; // Medium tilt
+                }
+
+                // Base rotation values
+                let baseRotation = 0;
+                switch (index) {
+                  case 0:
+                    baseRotation = 12;
+                    break;
+                  case 1:
+                    baseRotation = 2;
+                    break;
+                  case 2:
+                    baseRotation = -8;
+                    break;
+                  case 3:
+                    baseRotation = -17;
+                    break;
+                  default:
+                    baseRotation = 0;
+                    break;
+                }
+
+                // Apply scaling factors
+                const adjustedRotation = baseRotation * rotationFactor;
+                const baseTranslateX = (index - testimonials.length / 2) * -4 * translateFactor;
+                const baseTranslateY = screenWidth<540 && index===0 ? 22: index * -30 * translateFactor;
+
+                let zIndex = testimonials.length - index;
+                if (isHovered) zIndex = 1000;
+
+                return (
+                  <div
+                    key={`left-${testimonial.id}`}
+                    className={`absolute lg:w-[500px] md:w-[400px] w-[300px] font-roboto text-start lg:h-[221px] h-fit bg-white rounded-[24px] rounded-bl-none shadow-lg border transition-all duration-500 ease-out cursor-pointer ${
+                      isHovered
+                        ? "shadow-2xl scale-105"
+                        : isAnyHovered
+                        ? "scale-95 opacity-80"
+                        : "hover:shadow-xl"
+                    }`}
+                    style={{
+                      transform: isHovered
+                        ? "translateX(0px) translateY(0px) rotate(0deg)"
+                        : `translateX(${baseTranslateX}px) translateY(${baseTranslateY}px) rotate(${adjustedRotation}deg)`,
+                      transformOrigin: "bottom left",
+                      zIndex,
+                    }}
+                    onMouseEnter={() => setHoveredCard(testimonial.id)}
+                    onMouseLeave={() => setHoveredCard(null)}
+                  >
+                    {/* Bubble triangle */}
+                    <div
+                      className="absolute -bottom-[49px] -left-[1px] w-0 h-0 
+               border-r-[90px] border-t-[50px] 
+              border-l-transparent border-r-transparent border-t-white"
+                    ></div>
+
+                    <div className="p-6">
+                      {/* Header */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                            {testimonial.avatar ? (
+                              <Image
+                                src={testimonial.avatar.src}
+                                alt={testimonial.name}
+                                className="w-full h-full object-cover"
+                                width={60}
+                                height={60}
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <User className="w-6 h-6 text-gray-400" />
+                              </div>
+                            )}
+                          </div>
+                          <div>
+                            <h3 className="font-[600] font-roboto text-[20px] text-[#000000]">
+                              {testimonial.name}
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              {testimonial.role}, {testimonial.company}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div
+                          className={`flex gap-2 py-3 p-2 rounded-[14px] bg-black transition-all duration-200`}
+                        >
+                          <Heart
+                            color="white"
+                            className="w-4 h-4 transition-all duration-200"
+                          />
+                          <Minus
+                            color="white"
+                            className="w-4 h-4 transition-all duration-200"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="mb-4">
+                        <p className="text-[#475569] font-roboto font-[400] text-[16px] leading-[150%] tracking-[-1.5%]">
+                          "{testimonial.content}"
+                        </p>
+                      </div>
+
+                      {/* Timestamp */}
+                      <div className="flex justify-between items-center font-[500] text-[#475569] leading-[150%] tracking-[-1.5%]">
+                        <p className="font-[400]">
+                          🧠 Auto-tagged: UX Brilliance
+                        </p>
+                        <p>13 May, 2025 | 2:11 PM</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* 2nd column (right) */}
+            <div className="relative flex justify-center items-center h-[500px]">
+              {testimonials2.map((testimonial, index) => {
+                const isHovered = hoveredCard2 === testimonial.id;
+                const isAnyHovered = hoveredCard2 !== null;
+
+                // Right column base rotations (opposite of left)
+                let baseRotation = 0;
+                switch (index) {
+                  case 0:
+                    baseRotation = screenWidth < 540 ? -6 : -10;
+                    break;
+                  case 1:
+                    baseRotation = -2;
+                    break;
+                  case 2:
+                    baseRotation = screenWidth < 540 ? 3 : 6;
+                    break;
+                  case 3:
+                    baseRotation = 13;
+                    break;
+                  default:
+                    baseRotation = 0;
+                    break;
+                }
+
+                // Scale translateX based on screen width
+                let translateFactor = 1;
+                if (screenWidth < 640) translateFactor = 0; // small screens
+                else if (screenWidth < 1024) translateFactor = 0.7; // tablets
+                else translateFactor = 1; // desktops
+
+                let baseTranslateX = 0;
+                switch (index) {
+                  case 0:
+                    baseTranslateX = 100 * translateFactor;
+                    break;
+                  case 1:
+                    baseTranslateX = 90 * translateFactor;
+                    break;
+                  case 2:
+                    baseTranslateX = 70 * translateFactor;
+                    break;
+                  default:
+                    break;
+                }
+
+                const baseTranslateY = screenWidth < 640  && index===2 ? -70 : index * -50;
+
+                let zIndex = testimonials2.length - index;
+                if (isHovered) zIndex = 1000;
+
+                return (
+                  <div
+                    key={`right-${testimonial.id}`}
+                    className={`absolute lg:w-[500px] md:w-[400px] w-[300px] font-roboto text-start lg:h-[221px] h-fit bg-white rounded-[24px] rounded-bl-none shadow-lg border transition-all duration-500 ease-out cursor-pointer ${
+                      isHovered
+                        ? "shadow-2xl scale-105"
+                        : isAnyHovered
+                        ? "scale-95 opacity-80"
+                        : "hover:shadow-xl"
+                    }`}
+                    style={{
+                      transform: isHovered
+                        ? "translateX(0px) translateY(0px) rotate(0deg)"
+                        : `translateX(${baseTranslateX}px)  translateY(${baseTranslateY}px) rotate(${baseRotation}deg)`,
+                      transformOrigin: "bottom right",
+                      zIndex,
+                    }}
+                    onMouseEnter={() => setHoveredCard2(testimonial.id)}
+                    onMouseLeave={() => setHoveredCard2(null)}
+                  >
+                    {/* Bubble triangle */}
+                    <div className="absolute -bottom-[49px] -left-[1px] w-0 h-0 border-r-[90px] border-t-[50px] border-l-transparent border-r-transparent border-t-white"></div>
+
+                    <div className="p-6">
+                      {/* Header */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                            {testimonial.avatar ? (
+                              <Image
+                                src={testimonial.avatar.src}
+                                alt={testimonial.name}
+                                className="w-full h-full object-cover"
+                                width={60}
+                                height={60}
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <User className="w-6 h-6 text-gray-400" />
+                              </div>
+                            )}
+                          </div>
+                          <div>
+                            <h3 className="font-[600] font-roboto text-[20px] text-[#000000]">
+                              {testimonial.name}
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              {testimonial.role}, {testimonial.company}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div
+                          className={`flex gap-2 py-3 p-2 rounded-[14px] bg-black transition-all duration-200`}
+                        >
+                          <Heart
+                            color="white"
+                            className="w-4 h-4 transition-all duration-200"
+                          />
+                          <Minus
+                            color="white"
+                            className="w-4 h-4 transition-all duration-200"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="mb-4">
+                        <p className="text-[#475569] font-roboto font-[400] text-[16px] leading-[150%] tracking-[-1.5%]">
+                          "{testimonial.content}"
+                        </p>
+                      </div>
+
+                      {/* Timestamp */}
+                      <div className="flex justify-between items-center font-[500] text-[#475569] leading-[150%] tracking-[-1.5%]">
+                        <p className="font-[400]">
+                          🧠 Auto-tagged: UX Brilliance
+                        </p>
+                        <p>13 May, 2025 | 2:11 PM</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
