@@ -10,8 +10,8 @@ import HeroIcons from "@/components/svgs/hero/heroIcons";
 import { useServices } from "@/hooks/useServices";
 
 import { faqs } from "@/data/mockFaqs";
-// import LeftTestimonials from "@/assets/images/homepage/left-testimonials.svg";
-// import RightTestimonials from "@/assets/images/homepage/right-testimonials.svg";
+import LeftTestimonials from "@/assets/images/homepage/left-testimonials.svg";
+import RightTestimonials from "@/assets/images/homepage/right-testimonials.svg";
 import {
   Dialog,
   DialogContent,
@@ -323,36 +323,6 @@ export default function Home() {
       rating: 5,
       avatar: TestimonialAvatar,
     },
-    {
-      id: 4,
-      name: "David Thompson",
-      role: "CTO",
-      company: "InnovateLab",
-      content:
-        "From a technical perspective, this platform is solid. Great API documentation, reliable uptime, and excellent developer experience. It scales beautifully with our needs.",
-      rating: 5,
-      avatar: TestimonialAvatar,
-    },
-    {
-      id: 4,
-      name: "David Thompson",
-      role: "CTO",
-      company: "InnovateLab",
-      content:
-        "From a technical perspective, this platform is solid. Great API documentation, reliable uptime, and excellent developer experience. It scales beautifully with our needs.",
-      rating: 5,
-      avatar: TestimonialAvatar,
-    },
-    {
-      id: 4,
-      name: "David Thompson",
-      role: "CTO",
-      company: "InnovateLab",
-      content:
-        "From a technical perspective, this platform is solid. Great API documentation, reliable uptime, and excellent developer experience. It scales beautifully with our needs.",
-      rating: 5,
-      avatar: TestimonialAvatar,
-    },
   ];
 
   const testimonials2: Testimonial[] = [
@@ -378,46 +348,6 @@ export default function Home() {
     },
     {
       id: 13,
-      name: "Rodriguez",
-      role: "Designer",
-      company: "Creative Studio",
-      content:
-        "The design system is incredibly well thought out. It's rare to find a tool that balances functionality with such beautiful aesthetics. Our productivity has increased significantly.",
-      rating: 5,
-      avatar: TestimonialAvatar,
-    },
-    {
-      id: 14,
-      name: "Rodriguez",
-      role: "Designer",
-      company: "Creative Studio",
-      content:
-        "The design system is incredibly well thought out. It's rare to find a tool that balances functionality with such beautiful aesthetics. Our productivity has increased significantly.",
-      rating: 5,
-      avatar: TestimonialAvatar,
-    },
-    {
-      id: 15,
-      name: "Rodriguez",
-      role: "Designer",
-      company: "Creative Studio",
-      content:
-        "The design system is incredibly well thought out. It's rare to find a tool that balances functionality with such beautiful aesthetics. Our productivity has increased significantly.",
-      rating: 5,
-      avatar: TestimonialAvatar,
-    },
-    {
-      id: 16,
-      name: "Rodriguez",
-      role: "Designer",
-      company: "Creative Studio",
-      content:
-        "The design system is incredibly well thought out. It's rare to find a tool that balances functionality with such beautiful aesthetics. Our productivity has increased significantly.",
-      rating: 5,
-      avatar: TestimonialAvatar,
-    },
-    {
-      id: 17,
       name: "Rodriguez",
       role: "Designer",
       company: "Creative Studio",
@@ -1227,11 +1157,11 @@ export default function Home() {
       {/* happy clients section */}
       <section
         id="clients-section"
-        className="relative bg-[#2B2B2B] py-16 w-full max-w-[1920px] mx-auto"
+        className="relative bg-[#2B2B2B] py-16 px-6 w-full max-w-[1920px] mx-auto"
       >
         <div className="relative mx-auto text-center">
           {/* Header */}
-          <div className="mb-16 px-6">
+          <div className="mb-16">
             <p className="text-[#FFAB40] text-[20px] font-[500] capitalize tracking-wide mb-4">
               Happy Clients
             </p>
@@ -1244,98 +1174,342 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="relative flex flex-col w-full px-1 justify-evenly gap-3">
-            {/* 1st row */}
-            <MarqueeRow speed={30} reverse={false}>
-              {testimonials.map((t, i) => (
-                <Card
-                  key={i}
-                  className="py-0 w-[400px] h-full bg-white rounded-[20px]"
-                >
-                  <CardContent className="p-4 space-y-4">
-                    {/* Full card content */}
-                    <p className="text-[#191A2A] text-start text-[16px] leading-[32px]">
-                      {t.content}
-                    </p>
+          <div className="relative flex xl:flex-row flex-col w-full justify-evenly gap-12">
+            {/* 1st column (left) */}
+            <div className="relative flex justify-center items-center h-[700px]">
+              {testimonials.map((testimonial, index) => {
+                const isHovered = hoveredCard === testimonial.id;
+                const isAnyHovered = hoveredCard !== null;
 
-                    <div className="border-t border-gray-200"></div>
+                // ✅ Responsive scaling
+                let translateFactor = 1;
+                let rotationFactor = 1;
+                if (screenWidth < 640) {
+                  translateFactor = 0.5; // Mobile
+                  rotationFactor = 0.3; // Less tilt on mobile
+                } else if (screenWidth < 1024) {
+                  translateFactor = 0.75; // Tablet
+                  rotationFactor = 0.8; // Medium tilt
+                }
 
-                    <div className="flex gap-1">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className={`w-6 h-6 ${
-                            star <= 3
-                              ? "fill-[#FFA300] text-[#FFA300]"
-                              : "fill-gray-300 text-gray-300"
-                          }`}
-                        />
-                      ))}
-                    </div>
+                // Base rotation values
+                let baseRotation = 0;
+                switch (index) {
+                  case 0:
+                    baseRotation = 12;
+                    break;
+                  case 1:
+                    baseRotation = 2;
+                    break;
+                  case 2:
+                    baseRotation = -8;
+                    break;
+                  case 3:
+                    baseRotation = -17;
+                    break;
+                  default:
+                    baseRotation = 0;
+                    break;
+                }
 
-                    <div className="flex items-center gap-4">
-                      <Image
-                        src={t.avatar}
-                        alt={t.name}
-                        className="w-16 h-16 rounded-full object-cover"
-                      />
-                      <div>
-                        <h3 className="text-[20px] font-bold">{t.name}</h3>
-                        <p className="text-[#505050] text-[18px]">
-                          {t.role}, {t.company}
+                // Apply scaling factors
+                const adjustedRotation = baseRotation * rotationFactor;
+                const baseTranslateX =
+                  (index - testimonials.length / 2) * -4 * translateFactor;
+                const baseTranslateY =
+                  screenWidth < 540 && index === 0
+                    ? 22
+                    : index * -30 * translateFactor;
+
+                let zIndex = testimonials.length - index;
+                if (isHovered) zIndex = 1000;
+
+                return (
+                  <div
+                    key={`left-${testimonial.id}`}
+                    className={`absolute lg:w-[500px] md:w-[400px] w-[300px] font-roboto text-start lg:h-[221px] h-fit bg-white rounded-[24px] rounded-bl-none shadow-lg border transition-all duration-500 ease-out cursor-pointer ${
+                      isHovered
+                        ? "shadow-2xl scale-105"
+                        : isAnyHovered
+                        ? "scale-95 opacity-80"
+                        : "hover:shadow-xl"
+                    }`}
+                    style={{
+                      transform: isHovered
+                        ? "translateX(0px) translateY(0px) rotate(0deg)"
+                        : `translateX(${baseTranslateX}px) translateY(${baseTranslateY}px) rotate(${adjustedRotation}deg)`,
+                      transformOrigin: "bottom left",
+                      zIndex,
+                      pointerEvents:
+                        hoverLock.active &&
+                        !(
+                          hoverLock.column === 1 &&
+                          hoverLock.id === testimonial.id
+                        )
+                          ? "none"
+                          : "auto",
+                    }}
+                    onMouseEnter={() => {
+                      if (hoverLock.active) {
+                        if (
+                          hoverLock.column === 1 &&
+                          hoverLock.id === testimonial.id
+                        ) {
+                          setHoveredCard(testimonial.id);
+                        }
+                        return;
+                      }
+                      setHoveredCard(testimonial.id);
+                      startHoverLock(testimonial.id, 1);
+                    }}
+                    onMouseLeave={() => {
+                      if (
+                        hoverLock.active &&
+                        hoverLock.column === 1 &&
+                        hoverLock.id === testimonial.id
+                      ) {
+                        return;
+                      }
+                      setHoveredCard(null);
+                    }}
+                  >
+                    {/* Bubble triangle */}
+                    <div
+                      className="absolute -bottom-[49px] -left-[1px] w-0 h-0 
+               border-r-[90px] border-t-[50px] 
+              border-l-transparent border-r-transparent border-t-white"
+                    ></div>
+
+                    <div className="p-6">
+                      {/* Header */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                            {testimonial.avatar ? (
+                              <Image
+                                src={testimonial.avatar.src}
+                                alt={testimonial.name}
+                                className="w-full h-full object-cover"
+                                width={60}
+                                height={60}
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <User className="w-6 h-6 text-gray-400" />
+                              </div>
+                            )}
+                          </div>
+                          <div>
+                            <h3 className="font-[600] font-roboto text-[20px] text-[#000000]">
+                              {testimonial.name}
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              {testimonial.role}, {testimonial.company}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div
+                          className={`flex gap-2 py-3 p-2 rounded-[14px] bg-black transition-all duration-200`}
+                        >
+                          <Heart
+                            color="white"
+                            className="w-4 h-4 transition-all duration-200"
+                          />
+                          <Minus
+                            color="white"
+                            className="w-4 h-4 transition-all duration-200"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="mb-4">
+                        <p className="text-[#475569] font-roboto font-[400] text-[16px] leading-[150%] tracking-[-1.5%]">
+                          "{testimonial.content}"
                         </p>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </MarqueeRow>
 
-            {/* 2st row */}
-            <MarqueeRow speed={30} reverse={true}>
-              {testimonials.map((t, i) => (
-                <Card
-                  key={i}
-                  className="py-0 w-[400px] h-full bg-white rounded-[20px]"
-                >
-                  <CardContent className="p-4 space-y-4">
-                    {/* Full card content */}
-                    <p className="text-[#191A2A] text-start text-[16px] leading-[32px]">
-                      {t.content}
-                    </p>
-
-                    <div className="border-t border-gray-200"></div>
-
-                    <div className="flex gap-1">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className={`w-6 h-6 ${
-                            star <= 3
-                              ? "fill-[#FFA300] text-[#FFA300]"
-                              : "fill-gray-300 text-gray-300"
-                          }`}
-                        />
-                      ))}
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                      <Image
-                        src={t.avatar}
-                        alt={t.name}
-                        className="w-16 h-16 rounded-full object-cover"
-                      />
-                      <div>
-                        <h3 className="text-[20px] font-bold">{t.name}</h3>
-                        <p className="text-[#505050] text-[18px]">
-                          {t.role}, {t.company}
+                      {/* Timestamp */}
+                      <div className="flex justify-between items-center font-[500] text-[#475569] leading-[150%] tracking-[-1.5%]">
+                        <p className="font-[400]">
+                          🧠 Auto-tagged: UX Brilliance
                         </p>
+                        <p>13 May, 2025 | 2:11 PM</p>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </MarqueeRow>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* 2nd column (right) */}
+            <div className="relative flex justify-center items-center h-[600px]">
+              {testimonials2.map((testimonial, index) => {
+                const isHovered = hoveredCard2 === testimonial.id;
+                const isAnyHovered = hoveredCard2 !== null;
+
+                // Right column base rotations (opposite of left)
+                let baseRotation = 0;
+                switch (index) {
+                  case 0:
+                    baseRotation = screenWidth < 540 ? -6 : -10;
+                    break;
+                  case 1:
+                    baseRotation = -2;
+                    break;
+                  case 2:
+                    baseRotation = screenWidth < 540 ? 3 : 6;
+                    break;
+                  case 3:
+                    baseRotation = 13;
+                    break;
+                  default:
+                    baseRotation = 0;
+                    break;
+                }
+
+                // Scale translateX based on screen width
+                let translateFactor = 1;
+                if (screenWidth < 640) translateFactor = 0; // small screens
+                else if (screenWidth < 1024) translateFactor = 0.7; // tablets
+                else translateFactor = 1; // desktops
+
+                let baseTranslateX = 0;
+                switch (index) {
+                  case 0:
+                    baseTranslateX = 100 * translateFactor;
+                    break;
+                  case 1:
+                    baseTranslateX = 90 * translateFactor;
+                    break;
+                  case 2:
+                    baseTranslateX = 70 * translateFactor;
+                    break;
+                  default:
+                    break;
+                }
+
+                const baseTranslateY =
+                  screenWidth < 640 && index === 2 ? -70 : index * -50;
+
+                let zIndex = testimonials2.length - index;
+                if (isHovered) zIndex = 1000;
+
+                return (
+                  <div
+                    key={`right-${testimonial.id}`}
+                    className={`absolute lg:w-[500px] md:w-[400px] w-[300px] font-roboto text-start lg:h-[221px] h-fit bg-white rounded-[24px] rounded-bl-none shadow-lg border transition-all duration-500 ease-out cursor-pointer ${
+                      isHovered
+                        ? "shadow-2xl scale-105"
+                        : isAnyHovered
+                        ? "scale-95 opacity-80"
+                        : "hover:shadow-xl"
+                    }`}
+                    style={{
+                      transform: isHovered
+                        ? "translateX(0px) translateY(0px) rotate(0deg)"
+                        : `translateX(${baseTranslateX}px)  translateY(${baseTranslateY}px) rotate(${baseRotation}deg)`,
+                      transformOrigin: "bottom right",
+                      zIndex,
+                      pointerEvents:
+                        hoverLock.active &&
+                        !(
+                          hoverLock.column === 2 &&
+                          hoverLock.id === testimonial.id
+                        )
+                          ? "none"
+                          : "auto",
+                    }}
+                    onMouseEnter={() => {
+                      if (hoverLock.active) {
+                        if (
+                          hoverLock.column === 2 &&
+                          hoverLock.id === testimonial.id
+                        ) {
+                          setHoveredCard2(testimonial.id);
+                        }
+                        return;
+                      }
+                      setHoveredCard2(testimonial.id);
+                      startHoverLock(testimonial.id, 2);
+                    }}
+                    onMouseLeave={() => {
+                      if (
+                        hoverLock.active &&
+                        hoverLock.column === 2 &&
+                        hoverLock.id === testimonial.id
+                      ) {
+                        return;
+                      }
+                      setHoveredCard2(null);
+                    }}
+                  >
+                    {/* Bubble triangle */}
+                    <div className="absolute -bottom-[49px] -left-[1px] w-0 h-0 border-r-[90px] border-t-[50px] border-l-transparent border-r-transparent border-t-white"></div>
+
+                    <div className="p-6">
+                      {/* Header */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 flex-shrink-0">
+                            {testimonial.avatar ? (
+                              <Image
+                                src={testimonial.avatar.src}
+                                alt={testimonial.name}
+                                className="w-full h-full object-cover"
+                                width={60}
+                                height={60}
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <User className="w-6 h-6 text-gray-400" />
+                              </div>
+                            )}
+                          </div>
+                          <div>
+                            <h3 className="font-[600] font-roboto text-[20px] text-[#000000]">
+                              {testimonial.name}
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              {testimonial.role}, {testimonial.company}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div
+                          className={`flex gap-2 py-3 p-2 rounded-[14px] bg-black transition-all duration-200`}
+                        >
+                          <Heart
+                            color="white"
+                            className="w-4 h-4 transition-all duration-200"
+                          />
+                          <Minus
+                            color="white"
+                            className="w-4 h-4 transition-all duration-200"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="mb-4">
+                        <p className="text-[#475569] font-roboto font-[400] text-[16px] leading-[150%] tracking-[-1.5%]">
+                          "{testimonial.content}"
+                        </p>
+                      </div>
+
+                      {/* Timestamp */}
+                      <div className="flex justify-between items-center font-[500] text-[#475569] leading-[150%] tracking-[-1.5%]">
+                        <p className="font-[400]">
+                          🧠 Auto-tagged: UX Brilliance
+                        </p>
+                        <p>13 May, 2025 | 2:11 PM</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>

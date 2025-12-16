@@ -185,7 +185,7 @@ const Footer = () => {
 					<p className="text-sm text-center md:text-left text-[#D3DBE8]">
 						Subscribe to our newsletter for the latest updates and insights.
 					</p>
-					<div className="flex gap-4">
+					<div className="flex lg:flex-row md:items-start items-center flex-col gap-4">
 						<p className="text-[#19E675]">
 							© 2025 CortechSols. All rights reserved.
 						</p>

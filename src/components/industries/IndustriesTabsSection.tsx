@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import TabsPic from "@/assets/images/industries/tabs-pic.png";
+import { fetchIndustryById } from "@/lib/api";
 import Building from "@/components/svgs/icons/Building";
 import Bank from "@/components/svgs/icons/Bank";
 import Store from "@/components/svgs/icons/Store";
@@ -12,6 +13,7 @@ import Truck from "@/components/svgs/icons/Truck";
 import Laptop from "@/components/svgs/icons/Laptop";
 
 interface Industry {
+  id: number;
   slug: string;
   title: string;
   name?: string; // Legacy field
@@ -88,17 +90,35 @@ const IndustriesTabsSection: React.FC<IndustriesTabsSectionProps> = ({ industrie
   // Find current industry from API data
   const currentIndustry = industriesData.find((industry) => industry.slug === activeTab);
 
+  // State for single industry details
+  const [singleIndustry, setSingleIndustry] = useState<any>(null);
+  const [singleIndustryLoading, setSingleIndustryLoading] = useState(false);
+
+  // Fetch single industry details when activeTab changes
+  useEffect(() => {
+    if (!activeTab || !currentIndustry?.id) return;
+    
+    setSingleIndustryLoading(true);
+    fetchIndustryById(currentIndustry.id)
+      .then((data) => {
+        console.log("Fetched single industry data:", data);
+        setSingleIndustry(data?.data || data?.result || data);
+      })
+      .catch((err) => {
+        console.error("Error fetching single industry:", err);
+        setSingleIndustry(null);
+      })
+      .finally(() => setSingleIndustryLoading(false));
+  }, [activeTab, currentIndustry]);
+
   console.log("current industry in tab:", currentIndustry);
+  console.log("single industry with stats:", singleIndustry);
+  
   // Fallback data structure for the current industry
   const currentData = currentIndustry
     ? {
       title: currentIndustry.title || currentIndustry.name,
       description: currentIndustry.description,
-      stats: {
-        projects: currentIndustry.projects_count ? `${currentIndustry.projects_count}+` : "0+",
-        reviews: currentIndustry.reviews_count ? `${currentIndustry.reviews_count}+` : "0+",
-        industries: currentIndustry.industries_count ? `${currentIndustry.industries_count}+` : "0+",
-      },
       image: currentIndustry.hero_image?.image || currentIndustry.images?.[0] || TabsPic.src,
     }
     : null;
@@ -176,20 +196,23 @@ const IndustriesTabsSection: React.FC<IndustriesTabsSectionProps> = ({ industrie
               <div>
                 {/* Stats */}
                 <div className='flex flex-wrap sm:flex-nowrap items-center gap-4 sm:gap-6 mb-6 sm:mb-8'>
-                  <div className='flex gap-2 items-center text-base sm:text-xl md:text-2xl font-normal text-white'>
-                    {currentData.stats.projects}
-                    <p>Projects</p>
-                  </div>
-                  <div className='hidden sm:block border-l h-5 border-white' />
-                  <div className='flex gap-2 items-center text-base sm:text-xl md:text-2xl font-normal text-white'>
-                    {currentData.stats.reviews}
-                    <p>Reviews</p>
-                  </div>
-                  <div className='hidden sm:block border-l h-5 border-white' />
-                  <div className='flex gap-2 items-center text-base sm:text-xl md:text-2xl font-normal text-white'>
-                    {currentData.stats.industries}
-                    <p>Industries</p>
-                  </div>
+                  {singleIndustry && Array.isArray(singleIndustry.projects_stats_section) && singleIndustry.projects_stats_section.length > 0 ? (
+                    singleIndustry.projects_stats_section.slice(0, 3).map((stat: any, idx: number) => (
+                      <div className="flex gap-3 items-center" key={idx}>
+                        <div className='flex gap-3 items-center text-base sm:text-xl md:text-2xl font-normal text-white'>
+                          <p>{stat.name}</p>
+                          {stat.count}
+                        </div>
+                        {idx < Math.min(2, singleIndustry.projects_stats_section.slice(0, 3).length - 1) && (
+                          <div className='hidden sm:block border-l h-5 border-white' />
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <div className='flex gap-2 items-center text-base sm:text-xl md:text-2xl font-normal text-white'>
+                      {singleIndustryLoading ? 'Loading stats...' : 'No stats available'}
+                    </div>
+                  )}
                 </div>
 
                 {/* CTA Button */}
